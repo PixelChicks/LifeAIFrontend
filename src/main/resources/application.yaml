@@ -1,0 +1,29 @@
+server:
+  port: 8081
+spring:
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+  mvc:
+    view:
+      prefix: /templates/
+      suffix: .html
+  web:
+    resources:
+      static-locations: classpath:/static/
+backend:
+  base-url: http://localhost:8080/api/v1
+  # src/main/resources/application.yml
+frontend:
+  login-url: "/login"
+  redirect-url: "/process-oauth2"
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8080
