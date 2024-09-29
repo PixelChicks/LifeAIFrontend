@@ -15,4 +15,14 @@ public class MenuController {
     public String info() {
         return "menu/info";
     }
+
+    @GetMapping("/limfedem")
+    public String limfedem() {
+        return "menu/limfedem";
+    }
+
+    @GetMapping("/alternativeMedicine")
+    public String alternativeMedicine() {
+        return "menu/alternativeMedicine";
+    }
 }
