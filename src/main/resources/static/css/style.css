@@ -30,13 +30,13 @@
 
 /*** Button Start ***/
 .btn {
-    font-weight: 600;
+    font-weight: 500;
     transition: .5s;
 }
 
 .btn-square {
     width: 32px;
-    height: 32px;
+    height:32 px;
 }
 
 .btn-sm-square {
@@ -67,15 +67,18 @@
 }
 
 .btn.btn-primary {
-    background: var(--bs-primary) !important;
-    color: var(--bs-white) !important;
-    font-weight: 400;
+  /* background: var(--bs-primary) !important;*/
+  background-color: #ffbad1 !important; /*може ли да е така?*/
+  color: var(--bs-dark) !important; /*za teksta*/
+    font-weight: 500;
     transition: 0.5s;
 }
 
 .btn.btn-primary:hover {
     background: var(--bs-white) !important;
-    color: var(--bs-primary) !important;
+   /* color: var(--bs-primary) !important;*/
+    color: #ffbad1 !important; /*не се чете */
+    border-width: medium;
 }
 
 .btn.btn-light {
@@ -90,6 +93,17 @@
     color: var(--bs-light) !important;
 }
 
+.btn.btn-search{
+    background-color: #ffbad1 !important;
+    border-width: 1.5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn.btn-search:hover {
+    background: var(--bs-white) !important;
+    border-width: 4px;
+    border-color: #ffbad1 !important;
+}
 
 .RotateMoveLeft {
     position: relative;
@@ -112,6 +126,7 @@
     50%   {right: 40px;}
     100%  {right: 0px;}
 }
+
 
 
 /*** Navbar ***/
