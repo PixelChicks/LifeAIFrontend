@@ -68,7 +68,7 @@
 
 .btn.btn-primary {
   /* background: var(--bs-primary) !important;*/
-  background-color: #ffbad1 !important; /*може ли да е така?*/
+  background-color: #ffa7c55c !important;
   color: var(--bs-dark) !important; /*za teksta*/
     font-weight: 500;
     transition: 0.5s;
@@ -77,8 +77,8 @@
 .btn.btn-primary:hover {
     background: var(--bs-white) !important;
    /* color: var(--bs-primary) !important;*/
-    color: #ffbad1 !important; /*не се чете */
-    border-width: medium;
+    color: var(--bs-dark) !important;
+    border-width: thin;
 }
 
 .btn.btn-light {
@@ -90,7 +90,7 @@
 
 .btn.btn-light:hover {
     background: var(--bs-primary) !important;
-    color: var(--bs-light) !important;
+    color: var(--bs-dark) !important;
 }
 
 .btn.btn-search{

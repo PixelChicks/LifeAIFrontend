@@ -8,6 +8,40 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .search-box input[type="text"] {
+            border-radius: 50px 0 0 50px;
+            padding-left: 20px;
+            border-right: none;
+        }
+
+        .search-box button {
+            border-radius: 0 50px 50px 0;
+        }
+
+        .search-box .input-group {
+            flex-grow: 1;
+        }
+
+        .search-box .btn {
+            background-color: #007bff;
+            color: white;
+        }
+                .btn-danger {
+    width: 100%;
+    max-width: 500px;  /* Adjust as per your layout */
+    padding: 15px 20px;
+    font-size: 18px;  /* Adjust font size if needed */
+    text-align: center;
+    border-radius: 50px;
+ }
+    </style>
 </head>
 
 <body>
@@ -25,6 +59,7 @@
                         <img src="https://life.bbca.bg/img/rose-lady.svg" class="img-fluid w-100" alt="">
                     </div>
                 </div>
+                <br>
                 <h5 class="mb-4">Искаме да направим приложението по-полезно за вас.<br><br>
                     Затова ни трябва да тестваме и полуваме обратна връзка. <br>
                     Благодарим за участието!<br>
@@ -33,10 +68,12 @@
                     съдържание
                     или функционалност, ще бъде комуникирано.
                 </h5>
+                <br>
                 <center>
-                    <a href="/home" class="btn btn-primary rounded-pill py-3 px-5">Към потребителския тест</a>
+                    <a href="/home" class="btn btn-danger rounded-pill py-3 px-5">Към потребителския тест</a>
                 </center>
             </div>
+            <br><br><br>
         </div>
     </center>
 </div>

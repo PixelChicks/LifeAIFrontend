@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="" xmlns:border-width="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="">
 
 <head>
     <meta charset="utf-8">
@@ -33,6 +33,25 @@
             background-color: #007bff;
             color: white;
         }
+
+        .btn-primary {
+    width: 90%;
+    max-width: 500px;  /* Adjust as per your layout */
+    padding: 15px 20px;
+    font-size: 18px;  /* Adjust font size if needed */
+    text-align: center;
+    border-radius: 50px;
+}
+                .btn-danger {
+    width: 100%;
+    max-width: 500px;  /* Adjust as per your layout */
+    padding: 15px 20px;
+    font-size: 18px;  /* Adjust font size if needed */
+    text-align: center;
+    border-radius: 50px;
+}
+
+
     </style>
 </head>
 
@@ -40,7 +59,7 @@
 <th:block th:insert="~{fragments/header}"></th:block>
 
 <!-- Contact Start -->
-<div class="container py-1">
+<div class="container py-5">
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="d-flex align-items-center mb-4">
             <img width="50" height="50" src="https://img.icons8.com/ios/50/info--v1.png" alt="info--v1"
@@ -50,36 +69,39 @@
     </div>
     <div class="row g-5 align-items-center">
         <div class="wow fadeInLeft" data-wow-delay="0.1s">
-            <div class="row g-3">
-                <div class="col-12">
-                    <a href="/limfedem" target="_blank">
-                        <button class=" btn btn-secondary w-100 py-3" >Лимфедем</button>
-                    </a>
+            <center>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <a href="/limfedem" target="_blank">
+                            <button class="btn btn-primary w-100 py-3">Лимфедем</button>
+                        </a>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100 py-3">Органосъхраняваща информация</button>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100 py-3">Лекарства</button>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100 py-3">Предизвикана менопауза</button>
+                    </div>
+                    <div class="col-12">
+                        <a href="https://life.bbca.bg/patients/diary" target="_blank">
+                            <button class="btn btn-primary w-100 py-3">Рецепти и упражнения</button>
+                        </a>
+                    </div>
+                    <div class="col-12">
+                        <a href="/alternativeMedicine" target="_blank">
+                            <button class="btn btn-primary w-100 py-3">Доказани алтернативни терапии
+                            </button>
+                        </a>
+                    </div>
                 </div>
-                <div class="col-12">
-                    <button class="btn btn-secondary w-100 py-3">Органосъхраняваща информация</button>
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-secondary w-100 py-3">Лекарства</button>
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-secondary w-100 py-3">Предизвикана менопауза</button>
-                </div>
-                <div class="col-12">
-                    <a href="https://life.bbca.bg/patients/diary" target="_blank">
-                        <button class="btn btn-secondary w-100 py-3">Рецепти и упражнения</button>
-                    </a>
-                </div>
-                <div class="col-12">
-                    <a href="/alternativeMedicine" target="_blank">
-                        <button class="btn btn-secondary w-100 py-3">Доказани алтернативни терапии</button>
-                    </a>
-                </div>
-            </div>
+            </center>
         </div>
     </div>
 </div>
-<div class="container mt-5">
+<div class="container mt-3">
     <form th:action="@{/chat}" method="post" class="search-box">
         <div class="input-group">
             <input type="text" class="form-control" id="message" name="message"
@@ -96,7 +118,6 @@
         <p th:text="${response}">AI Response will appear here...</p>
     </div>
 </div>
-
 <div class="container py-5">
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="d-flex align-items-center mb-4">
@@ -110,19 +131,19 @@
             <center>
                 <div class="row g-3">
                     <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3">Препоръчителни изследвания</button>
+                        <button class="btn btn-danger w-100 py-3">Препоръчителни изследвания</button>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3">Разбиране на диагнозата</button>
+                        <button class="btn btn-danger w-100 py-3">Разбиране на диагнозата</button>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3">Вече направена операция</button>
+                        <button class="btn btn-danger w-100 py-3">Вече направена операция</button>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3">Предписано лечение</button>
+                        <button class="btn btn-danger w-100 py-3">Предписано лечение</button>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3">Справяне със странични ефекти</button>
+                        <button class="btn btn-danger w-100 py-3">Справяне със странични ефекти</button>
                     </div>
                 </div>
             </center>
