@@ -8,39 +8,82 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .search-box input[type="text"] {
+            border-radius: 50px 0 0 50px;
+            padding-left: 20px;
+            border-right: none;
+        }
+
+        .search-box button {
+            border-radius: 0 50px 50px 0;
+        }
+
+        .search-box .input-group {
+            flex-grow: 1;
+        }
+
+        .search-box .btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary {
+    width: 90%;
+    max-width: 500px;  /* Adjust as per your layout */
+    padding: 15px 20px;
+    font-size: 18px;  /* Adjust font size if needed */
+    text-align: center;
+    border-radius: 50px;
+}
+                .btn-danger {
+    width: 100%;
+    max-width: 500px;  /* Adjust as per your layout */
+    padding: 15px 20px;
+    font-size: 18px;  /* Adjust font size if needed */
+    text-align: center;
+    border-radius: 50px;
+}
+
+
+    </style>
 </head>
 
 <body>
 <th:block th:insert="~{fragments/header}"></th:block>
 <!-- About Start -->
-<center>
-    <div class="container-fluid overflow-hidden py-1 mt-1">
-        <center>
-            <div class="container py-1">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <center>
-                        <h1 class="display-5 mb-4">Интегративна медицина</h1>
-                    </center>
-                    <h5 class="mb-4">Допълнителната и инегративна медицина представлява
-                        употребата на допълнително лечение заедно C конвенционалните подходи И прилагането на
-                        съответните терапии традиционната медицина. OT
-                        5-тото издание на общите препоръки за лечение на рака на гърдата на Европейското училище
-                        по онкология и Европейската асоциация по медицинска онкология съдържа специална секция
-                        препоръки за прилагането на интегративна медицина. Те включват доказателства в позла или
-                        за вреда на съответното допълнително лечение.
-                        Алтернативни терапии или терапии прилагани ВМЕСТО научно-доказаните лекарства не се
-                        препоръчват в нито една фаза от лечението на рака. С това са се съгласили 100% от
-                        експертити съставили препоръките.
-                    </h5>
-                    <center>
-                        <a href="https://life.bbca.bg/single-post/55"
-                           class="btn btn-primary rounded-pill py-3 px-5">Прочети повече по темата</a>
-                    </center>
-                </div>
-            </div>
-        </center>
+<div class="container-fluid overflow-hidden py-1 mt-1">
+    <div class="container py-1">
+        <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+            <center>
+                <h1 class="display-5 mb-4">Интегративна медицина</h1>
+            </center>
+            <h5 class="mb-4">Допълнителната и инегративна медицина представлява
+                употребата на допълнително лечение заедно C конвенционалните подходи И прилагането на
+                съответните терапии традиционната медицина. <br><br> OT
+                5-тото издание на общите препоръки за лечение на рака на гърдата на Европейското училище
+                по онкология и Европейската асоциация по медицинска онкология съдържа специална секция
+                препоръки за прилагането на интегративна медицина. Те включват доказателства в позла или
+                за вреда на съответното допълнително лечение.<br><br>
+                Алтернативни терапии или терапии прилагани ВМЕСТО научно-доказаните лекарства не се
+                препоръчват в нито една фаза от лечението на рака. С това са се съгласили 100% от
+                експертити съставили препоръките.
+            </h5>
+            <br>
+            <center>
+                <a href="https://life.bbca.bg/single-post/55"
+                   class="btn btn-danger rounded-pill py-3 px-5">Прочети повече</a>
+            </center>
+        </div>
+        <br> <br> <br>
     </div>
-</center>
+</div>
 
 <!-- About End -->
 <th:block th:insert="~{fragments/footer}"></th:block>

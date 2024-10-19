@@ -8,6 +8,40 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .search-box input[type="text"] {
+            border-radius: 50px 0 0 50px;
+            padding-left: 20px;
+            border-right: none;
+        }
+
+        .search-box button {
+            border-radius: 0 50px 50px 0;
+        }
+
+        .search-box .input-group {
+            flex-grow: 1;
+        }
+
+        .search-box .btn {
+            background-color: #007bff;
+            color: white;
+        }
+                .btn-danger {
+    width: 100%;
+    max-width: 500px;  /* Adjust as per your layout */
+    padding: 15px 20px;
+    font-size: 18px;  /* Adjust font size if needed */
+    text-align: center;
+    border-radius: 50px;
+ }
+    </style>
 </head>
 
 <body>
@@ -26,9 +60,10 @@
                 <p th:text="${response}">Отговорът на вашето търсене ще се появи тук...</p>
             </div>
             <center>
-                <a href="/home" class="btn btn-primary rounded-pill py-3 px-5">Към началната страница</a>
+                <a href="/home" class="btn btn-danger rounded-pill py-3 px-5">Към началната страница</a>
             </center>
         </div>
+        <br> <br> <br>
     </div>
 </div>
 <!-- Contact End -->

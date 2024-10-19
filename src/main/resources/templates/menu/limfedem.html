@@ -8,47 +8,91 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .search-box input[type="text"] {
+            border-radius: 50px 0 0 50px;
+            padding-left: 20px;
+            border-right: none;
+        }
+
+        .search-box button {
+            border-radius: 0 50px 50px 0;
+        }
+
+        .search-box .input-group {
+            flex-grow: 1;
+        }
+
+        .search-box .btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary {
+    width: 90%;
+    max-width: 500px;  /* Adjust as per your layout */
+    padding: 15px 20px;
+    font-size: 18px;  /* Adjust font size if needed */
+    text-align: center;
+    border-radius: 50px;
+}
+                .btn-danger {
+    width: 100%;
+    max-width: 500px;  /* Adjust as per your layout */
+    padding: 15px 20px;
+    font-size: 18px;  /* Adjust font size if needed */
+    text-align: center;
+    border-radius: 50px;
+}
+
+
+    </style>
 </head>
 
 <body>
 <th:block th:insert="~{fragments/header}"></th:block>
 <!-- About Start -->
-<center>
-    <div class="container-fluid overflow-hidden py-1 mt-1">
-        <center>
-            <div class="container py-1">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <center>
-                        <h1 class="display-5 mb-4">Какво представлява лимфедемът?</h1>
-                    </center>
-                    <h5 class="mb-4">Лимфната
-                        система отговаря за баласна на течностите в тъканите. Тя се разделя на
-                        повърхностни и дълбоки слоеве, свързани с перфориращи съдове.&nbsp; Повърхностните лимфни
-                        съдове
-                        се разполагат в
-                        подкожната тъкан и дренират кръвоностните съдове. При нормални обстроятелства
-                        течностите попадат в междуклетъчното пространство от артериоларния край на
-                        капилярите и се филтрират обратно през венозния край. 90% от течността
-                        филтрирана в междуклетъчното пространство се реабсорбира през венозните капиляри. Останалите
-                        10% течност и протеини се премахват от пространствата между клетките през малки еднопосочни
-                        лимфни съдове.&nbsp;
-                        <br>
-                        Нормално оттичането на течностите малко надвишава вливането в
-                        междуклетъчното пространство и това създава постоянно налягане. При
-                        струпването на по-големи молекули, както се случва при обструкцията на лимфните
-                        пътища при опертивното третиране на аксилата (подмишницата) при пациенти с&nbsp; рак на
-                        гърдата,
-                        се натрупва богата на протеини течност, което се проявява като лимфедем.
-                    </h5>
-                    <center>
-                        <a href="https://life.bbca.bg/single-post/69"
-                           class="btn btn-primary rounded-pill py-3 px-5">Прочети повече за лимфедема</a>
-                    </center>
-                </div>
-            </div>
-        </center>
+<div class="container-fluid overflow-hidden py-1 mt-1">
+    <div class="container py-1">
+        <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+            <center>
+                <h1 class="display-5 mb-4">Какво представлява лимфедемът?</h1>
+            </center>
+            <h5 class="mb-4">Лимфната
+                система отговаря за баласна на течностите в тъканите. Тя се разделя на
+                повърхностни и дълбоки слоеве, свързани с перфориращи съдове.&nbsp; Повърхностните лимфни
+                съдове
+                се разполагат в
+                подкожната тъкан и дренират кръвоностните съдове. <br> <br> При нормални обстроятелства
+                течностите попадат в междуклетъчното пространство от артериоларния край на
+                капилярите и се филтрират обратно през венозния край. 90% от течността
+                филтрирана в междуклетъчното пространство се реабсорбира през венозните капиляри. Останалите
+                10% течност и протеини се премахват от пространствата между клетките през малки еднопосочни
+                лимфни съдове.&nbsp;
+                <br> <br>
+                Нормално оттичането на течностите малко надвишава вливането в
+                междуклетъчното пространство и това създава постоянно налягане. При
+                струпването на по-големи молекули, както се случва при обструкцията на лимфните
+                пътища при опертивното третиране на аксилата (подмишницата) при пациенти с&nbsp; рак на
+                гърдата,
+                се натрупва богата на протеини течност, което се проявява като лимфедем.
+            </h5>
+            <br>
+            <center>
+                <a href="https://life.bbca.bg/single-post/69"
+                   class="btn btn-danger rounded-pill py-3 px-5">Прочети повече</a>
+            </center>
+        </div>
+        <br> <br> <br>
     </div>
-</center>
+</div>
+
 
 <!-- About End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
