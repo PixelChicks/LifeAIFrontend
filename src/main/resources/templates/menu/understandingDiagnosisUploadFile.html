@@ -65,6 +65,13 @@
             font-size: 18px;
             color: #333;
         }
+
+        .upload-message {
+            display: none;
+            color: green;
+            margin-top: 10px;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -72,30 +79,36 @@
 <th:block th:insert="~{fragments/header}"></th:block>
 
 <div class="container">
-    <h2>Разбиране на диагнозата</h2>
-    <p class="instruction">
-        Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
-    </p>
-
-    <form th:action="@{/understandingDiagnosis}" method="post" enctype="multipart/form-data">
-        <div class="upload-section">
-            <label for="file" class="btn btn-secondary">
-                <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="Camera Icon" style="width:24px;">
-                Снимай
-            </label>
-            <input type="file" id="file" class="file-input" name="file" accept="image/*">
-
-            <label for="file" class="btn btn-secondary">
-                <img src="https://img.icons8.com/ios/50/000000/upload.png" alt="Upload Icon" style="width:24px;">
-                Качи снимка
-            </label>
+    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+        <div class="d-flex align-items-center mb-4">
+            <img width="58" height="58" src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
+                 alt="person-male--v2"/>
+            <h1 class="display-7 mb-1">Разбиране на диагнозата</h1>
         </div>
+        <p class="instruction">
+            Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
+        </p>
 
-        <div class="search-box mt-4">
-            <input type="text" class="form-control" id="message" name="message" placeholder="Задайте въпрос..." required>
-            <button type="submit" class="btn btn-primary">Изпрати</button>
-        </div>
-    </form>
+        <form th:action="@{/understandingDiagnosis}" method="post" enctype="multipart/form-data">
+            <div class="upload-section">
+                <label for="file" class="btn btn-secondary">
+                    <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="Camera Icon" style="width:24px;">
+                    Качи снимка
+                </label>
+                <input type="file" id="file" class="file-input" name="file" accept="image/*" style="display: none;">
+                <!-- Success message placeholder -->
+                <span id="upload-message" class="upload-message"></span>
+            </div>
+
+            <div class="mt-3">
+                <textarea class="form-control wide-textarea" id="message" name="message"
+                          placeholder="Моля да обясниш значението на медицинските термини в документа на разбираем език..."
+                          rows="5"></textarea>
+                <br>
+                <button type="submit" class="btn btn-primary">Изпрати</button>
+            </div>
+        </form>
+    </div>
 
     <!-- Display the response if available -->
     <div class="response-section" th:if="${response}">
@@ -105,5 +118,19 @@
 </div>
 
 <th:block th:insert="~{fragments/footer}"></th:block>
+<script>
+    document.getElementById("file").addEventListener("change", function() {
+    const uploadMessage = document.getElementById("upload-message");
+
+    // Check if a file was selected
+    if (this.files && this.files.length > 0) {
+        uploadMessage.textContent = "Файлът е качен успешно!"; // Success message in Bulgarian
+        uploadMessage.style.display = "inline"; // Show the message
+    } else {
+        uploadMessage.style.display = "none"; // Hide the message if no file is selected
+    }
+});
+
+</script>
 </body>
 </html>

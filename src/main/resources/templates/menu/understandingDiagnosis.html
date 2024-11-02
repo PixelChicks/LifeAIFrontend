@@ -56,8 +56,10 @@
         </center>
         <div class="container mt-5">
             <div class="mt-5">
-                <h4 class="text-primary" th:text="${message}"></h4>
-                <p th:text="${response}">Отговорът на вашето търсене ще се появи тук...</p>
+                <div class="alert alert-primary" role="alert">
+                    Диагнозата е разчетена!
+                </div>
+                <p th:utext="${response}">Отговорът на вашето търсене ще се появи тук...</p>
             </div>
             <br>
             <center>
