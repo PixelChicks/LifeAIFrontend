@@ -25,4 +25,9 @@ public class MenuController {
     public String alternativeMedicine() {
         return "menu/alternativeMedicine";
     }
+
+    @GetMapping("/diagnosisUploadFile")
+    public String understandingDiagnosisUploadFile() {
+        return "menu/understandingDiagnosisUploadFile";
+    }
 }

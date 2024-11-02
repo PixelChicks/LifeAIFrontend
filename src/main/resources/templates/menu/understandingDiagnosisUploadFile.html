@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Разбиране на диагнозата</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .instruction {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .upload-section {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .upload-section button {
+            background-color: #6c757d;
+            color: white;
+            border-radius: 50px;
+            padding: 15px 20px;
+            font-size: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upload-section button:hover {
+            background-color: #5a6268;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn-primary {
+            width: 90%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 50px;
+        }
+
+        .response-section {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+<th:block th:insert="~{fragments/header}"></th:block>
+
+<div class="container">
+    <h2>Разбиране на диагнозата</h2>
+    <p class="instruction">
+        Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
+    </p>
+
+    <form th:action="@{/understandingDiagnosis}" method="post" enctype="multipart/form-data">
+        <div class="upload-section">
+            <label for="file" class="btn btn-secondary">
+                <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="Camera Icon" style="width:24px;">
+                Снимай
+            </label>
+            <input type="file" id="file" class="file-input" name="file" accept="image/*">
+
+            <label for="file" class="btn btn-secondary">
+                <img src="https://img.icons8.com/ios/50/000000/upload.png" alt="Upload Icon" style="width:24px;">
+                Качи снимка
+            </label>
+        </div>
+
+        <div class="search-box mt-4">
+            <input type="text" class="form-control" id="message" name="message" placeholder="Задайте въпрос..." required>
+            <button type="submit" class="btn btn-primary">Изпрати</button>
+        </div>
+    </form>
+
+    <!-- Display the response if available -->
+    <div class="response-section" th:if="${response}">
+        <h4>Резултат:</h4>
+        <p th:text="${response}">Тук ще се появи отговорът на ИИ...</p>
+    </div>
+</div>
+
+<th:block th:insert="~{fragments/footer}"></th:block>
+</body>
+</html>

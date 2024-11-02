@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="">
+
+<head>
+    <meta charset="utf-8">
+    <title>Разбиране на диагнозата</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .search-box input[type="text"] {
+            border-radius: 50px 0 0 50px;
+            padding-left: 20px;
+            border-right: none;
+        }
+
+        .search-box button {
+            border-radius: 0 50px 50px 0;
+        }
+
+        .search-box .input-group {
+            flex-grow: 1;
+        }
+
+        .search-box .btn {
+            background-color: #007bff;
+            color: white;
+        }
+                .btn-danger {
+    width: 100%;
+    max-width: 500px;  /* Adjust as per your layout */
+    padding: 15px 20px;
+    font-size: 18px;  /* Adjust font size if needed */
+    text-align: center;
+    border-radius: 50px;
+ }
+    </style>
+</head>
+
+<body>
+<th:block th:insert="~{fragments/header}"></th:block>
+
+<!-- Contact Start -->
+
+<div class="container py-1">
+    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+        <center>
+            <h1 class="display-5 mb-4">Разбиране на диагнозата</h1>
+        </center>
+        <div class="container mt-5">
+            <div class="mt-5">
+                <h4 class="text-primary" th:text="${message}"></h4>
+                <p th:text="${response}">Отговорът на вашето търсене ще се появи тук...</p>
+            </div>
+            <br>
+            <center>
+                <a href="/home" class="btn btn-danger rounded-pill py-3 px-5">Към началната страница</a>
+            </center>
+        </div>
+        <br> <br> <br>
+    </div>
+</div>
+<!-- Contact End -->
+<th:block th:insert="~{fragments/footer}"></th:block>
+</body>
+
+</html>
