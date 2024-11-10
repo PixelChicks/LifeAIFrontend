@@ -84,7 +84,7 @@
         <div class="d-flex align-items-center mb-4">
             <img width="58" height="58" src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
                  alt="person-male--v2"/>
-            <h1 class="display-7 mb-1">Разбиране на диагнозата</h1>
+            <h2 class="display-7 mb-1" style="text-align: left;">Разбиране на диагнозата</h2>
         </div>
         <p class="instruction">
             Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
@@ -93,18 +93,25 @@
         <form th:action="@{/understandingDiagnosis}" method="post" enctype="multipart/form-data">
             <div class="upload-section">
                 <label for="file" class="btn btn-secondary">
-                    <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="Camera Icon" style="width:24px;">
+                    <img src="https://img.icons8.com/ios/50/000000/upload--v1.png" alt="Camera Icon" style="width:24px;">
                     Качи снимка
                 </label>
                 <input type="file" id="file" class="file-input" name="file" accept="image/*" style="display: none;">
-                <!-- Success message placeholder -->
+
+                <!-- New button for capturing photo with back camera -->
+                <label for="camera-input" class="btn btn-secondary">
+                    <img src="https://img.icons8.com/ios/50/000000/camera--v1.png" alt="Camera Icon" style="width:24px;">
+                    Направи снимка
+                </label>
+                <input type="file" id="camera-input" class="file-input" name="camera-file" accept="image/*" capture="environment" style="display: none;">
+
                 <span id="upload-message" class="upload-message"></span>
             </div>
 
             <div class="mt-3">
-                <textarea class="form-control wide-textarea" id="message" name="message"
-                          placeholder="Моля да обясниш значението на медицинските термини в документа на разбираем език..."
-                          rows="5"></textarea>
+        <textarea class="form-control wide-textarea" id="message" name="message"
+                  placeholder="Моля да обясниш значението на медицинските термини в документа на разбираем език..."
+                  rows="5"></textarea>
                 <br>
                 <button type="submit" class="btn btn-primary">Изпрати</button>
             </div>
