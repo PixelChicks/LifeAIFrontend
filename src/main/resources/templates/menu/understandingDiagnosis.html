@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Life AI</title>
+    <title>Разбиране на диагнозата</title>
     <link rel="icon" href="https://life.bbca.bg/img/Group-1629.svg">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
@@ -53,12 +53,14 @@
 <div class="container py-1">
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <center>
-            <h1 class="display-5 mb-4">Резултат от търсенето</h1>
+            <h1 class="display-5 mb-4">Разбиране на диагнозата</h1>
         </center>
         <div class="container mt-5">
             <div class="mt-5">
-                <h4 class="text-primary" th:text="${message}"></h4>
-                <p th:text="${response}">Отговорът на вашето търсене ще се появи тук...</p>
+                <div class="alert alert-primary" role="alert">
+                    Диагнозата е разчетена!
+                </div>
+                <p th:utext="${response}">Отговорът на вашето търсене ще се появи тук...</p>
             </div>
             <br>
             <center>
