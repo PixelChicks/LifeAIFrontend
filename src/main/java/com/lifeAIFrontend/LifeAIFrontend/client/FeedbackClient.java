@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "life-ai", url = "${backend.base-url}/feedbacks", configuration = FeignClientConfiguration.class)
+@FeignClient(name = "life-ai-feedback", url = "${backend.base-url}/feedbacks", configuration = FeignClientConfiguration.class)
 public interface FeedbackClient {
     @GetMapping("/all")
     List<Feedback> getAllFeedbacks();
