@@ -58,9 +58,12 @@
 
 <body>
 <th:block th:insert="~{fragments/header}"></th:block>
-
 <!-- Contact Start -->
-<div class="container py-5" >
+<div class="container py-5">
+    <div th:if="${successMessage}" class="alert alert-success" role="alert">
+        <span th:text="${successMessage}"></span>
+    </div>
+
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="d-flex align-items-center mb-4">
             <img width="50" height="50" src="https://img.icons8.com/ios/50/info--v1.png" alt="info--v1"

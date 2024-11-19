@@ -123,6 +123,8 @@
         <h4>Резултат:</h4>
         <p th:text="${response}">Тук ще се появи отговорът на ИИ...</p>
     </div>
+    <th:block th:insert="~{fragments/feedback}"></th:block>
+    <br> <br>
 </div>
 
 <th:block th:insert="~{fragments/footer}"></th:block>
