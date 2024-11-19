@@ -1,4 +1,4 @@
-package com.lifeAIFrontend.LifeAIFrontend.controller;
+package com.lifeAIFrontend.LifeAIFrontend.config;
 
 import com.lifeAIFrontend.LifeAIFrontend.model.Feedback;
 import jakarta.servlet.http.HttpServletRequest;
