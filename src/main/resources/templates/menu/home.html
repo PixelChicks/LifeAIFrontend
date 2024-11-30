@@ -60,6 +60,57 @@
 <th:block th:insert="~{fragments/header}"></th:block>
 <!-- Contact Start -->
 <div class="container py-5">
+    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+        <div class="d-flex align-items-center mb-4">
+            <img width="64" height="64" src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
+                 alt="person-male--v2"/>
+            <h2 class="display-6 mb-1" style="text-align: left;">Персонализирана информация</h2>
+        </div>
+    </div>
+    <div class="row g-5 align-items-center">
+        <div class="wow fadeInLeft" data-wow-delay="0.1s">
+            <center>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <button class="btn btn-danger w-100 py-3">Препоръчителни изследвания</button>
+                    </div>
+                    <div class="col-12">
+                        <a href="/diagnosisUploadFile">
+                            <button class="btn btn-danger w-100 py-3">Разбиране на диагнозата</button>
+                        </a>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-danger w-100 py-3">Вече направена операция</button>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-danger w-100 py-3">Предписано лечение</button>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-danger w-100 py-3">Справяне със странични ефекти</button>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+</div>
+<div class="container mt-3">
+    <form th:action="@{/chat}" method="post" class="search-box">
+        <div class="input-group">
+            <input type="text" class="form-control" id="message" name="message"
+                   placeholder="Задайте въпрос, търсете информация..." required>
+        </div>
+        <button type="submit" class="btn btn-search">
+            <img src="https://img.icons8.com/ios-glyphs/30/0000/search.png" alt="Search">
+        </button>
+    </form>
+
+    <!-- The response section that will appear on the new page -->
+    <div class="mt-5" th:if="${response}">
+        <h4>Response:</h4>
+        <p th:text="${response}">AI Response will appear here...</p>
+    </div>
+</div>
+<div class="container py-5">
     <div th:if="${successMessage}" class="alert alert-success" role="alert">
         <span th:text="${successMessage}"></span>
     </div>
@@ -99,57 +150,6 @@
                             <button class="btn btn-primary w-100 py-3">Доказани алтернативни терапии
                             </button>
                         </a>
-                    </div>
-                </div>
-            </center>
-        </div>
-    </div>
-</div>
-<div class="container mt-3">
-    <form th:action="@{/chat}" method="post" class="search-box">
-        <div class="input-group">
-            <input type="text" class="form-control" id="message" name="message"
-                   placeholder="Задайте въпрос, търсете информация..." required>
-        </div>
-        <button type="submit" class="btn btn-search">
-            <img src="https://img.icons8.com/ios-glyphs/30/0000/search.png" alt="Search">
-        </button>
-    </form>
-
-    <!-- The response section that will appear on the new page -->
-    <div class="mt-5" th:if="${response}">
-        <h4>Response:</h4>
-        <p th:text="${response}">AI Response will appear here...</p>
-    </div>
-</div>
-<div class="container py-5">
-    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
-        <div class="d-flex align-items-center mb-4">
-            <img width="64" height="64" src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
-                 alt="person-male--v2"/>
-            <h2 class="display-6 mb-1" style="text-align: left;">Персонализирана информация</h2>
-        </div>
-    </div>
-    <div class="row g-5 align-items-center">
-        <div class="wow fadeInLeft" data-wow-delay="0.1s">
-            <center>
-                <div class="row g-3">
-                    <div class="col-12">
-                        <button class="btn btn-danger w-100 py-3">Препоръчителни изследвания</button>
-                    </div>
-                    <div class="col-12">
-                        <a href="/diagnosisUploadFile">
-                            <button class="btn btn-danger w-100 py-3">Разбиране на диагнозата</button>
-                        </a>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-danger w-100 py-3">Вече направена операция</button>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-danger w-100 py-3">Предписано лечение</button>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-danger w-100 py-3">Справяне със странични ефекти</button>
                     </div>
                 </div>
             </center>

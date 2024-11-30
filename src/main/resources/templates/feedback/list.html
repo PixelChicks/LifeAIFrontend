@@ -67,6 +67,7 @@
                  class="me-3"/>
             <h2 class="display-6 mb-1" style="text-align: left;">Обратни връзки</h2>
         </div>
+        <button id="exportExcel" class="btn btn-primary btn-small">Export to Excel</button>
     </div>
     <table class="table table-bordered table-striped">
         <thead class="table-danger">
@@ -93,8 +94,55 @@
         </tbody>
     </table>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <!-- Contact End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
 </body>
+<script>
+    document.getElementById('exportExcel').addEventListener('click', function () {
+        // Select the table
+        const table = document.querySelector('.table');
+        const rows = table.querySelectorAll('tr');
 
+        // Initialize data array
+        const data = [];
+
+        // Iterate through rows
+        rows.forEach(row => {
+            const rowData = [];
+
+            // Iterate through cells
+            row.querySelectorAll('th, td').forEach(cell => {
+                // Check if the cell contains an image
+                const img = cell.querySelector('img');
+                if (img) {
+                    // Use the alt text if an image exists
+                    rowData.push(img.alt.trim());
+                } else {
+                    // Otherwise, use the text content of the cell
+                    rowData.push(cell.textContent.trim());
+                }
+            });
+
+            // Add the row's data to the main data array
+            data.push(rowData);
+        });
+
+        // Create a worksheet from the data array
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+        // Create a new workbook and append the worksheet
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Feedbacks');
+
+        // Export the workbook to an Excel file
+        XLSX.writeFile(workbook, 'feedbacks.xlsx');
+    });
+</script>
+<style>
+    .btn-small {
+      font-size: 12px;
+      padding: 6px 8px;
+    }
+</style>
 </html>
