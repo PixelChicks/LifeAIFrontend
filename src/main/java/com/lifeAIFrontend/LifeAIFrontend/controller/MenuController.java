@@ -1,6 +1,8 @@
 package com.lifeAIFrontend.LifeAIFrontend.controller;
 
+import com.lifeAIFrontend.LifeAIFrontend.model.Answer;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -29,5 +31,11 @@ public class MenuController {
     @GetMapping("/diagnosisUploadFile")
     public String understandingDiagnosisUploadFile() {
         return "menu/understandingDiagnosisUploadFile";
+    }
+
+    @GetMapping("/recommendedStudies")
+    public String showQuestions(Model model) {
+        model.addAttribute("answer", new Answer());
+        return "recommendedStudies/questions";
     }
 }

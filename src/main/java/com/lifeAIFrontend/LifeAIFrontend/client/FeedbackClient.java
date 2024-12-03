@@ -21,5 +21,5 @@ public interface FeedbackClient {
     Feedback getFeedbackById(@PathVariable(name = "id") Long id);
 
     @PostMapping("/create")
-    Feedback createFeedback(@Valid @RequestBody Feedback feedbackDTO);
+    void createFeedback(@Valid @RequestBody Feedback feedbackDTO);
 }

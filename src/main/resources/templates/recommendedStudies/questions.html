@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Препоръчителни изследвания</title>
+    <link rel="icon" href="https://life.bbca.bg/img/Group-1629.svg">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .search-box input[type="text"] {
+            border-radius: 50px 0 0 50px;
+            padding-left: 20px;
+            border-right: none;
+        }
+
+        .search-box button {
+            border-radius: 0 50px 50px 0;
+        }
+
+        .search-box .input-group {
+            flex-grow: 1;
+        }
+
+        .search-box .btn {
+            background-color: #007bff;
+            color: white;
+        }
+                .btn-danger {
+    width: 100%;
+    max-width: 500px;  /* Adjust as per your layout */
+    padding: 15px 20px;
+    font-size: 18px;  /* Adjust font size if needed */
+    text-align: center;
+    border-radius: 50px;
+ }
+    </style>
+</head>
+
+<body>
+<div id="spinner"
+     class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<!-- Spinner End -->
+
+
+<!-- Navbar & Hero Start -->
+
+<div class="container-fluid p-0">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0">
+        <a href="javascript:history.back()" class="back-icon" id="backButton">
+            <!-- Back Icon SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left"
+                 viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+            </svg>
+        </a>
+        <a href="/home" class="navbar-brand p-0">
+            <!-- Centered Logo -->
+            <img src="https://life.bbca.bg/img/Group-1629.svg" alt="Life AI Logo">
+        </a>
+    </nav>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Check if the current URL path includes "info"
+    if (window.location.pathname.includes('info')) {
+        // Hide the back button if "info" is part of the URL path
+        document.getElementById('backButton').style.display = 'none';
+    }
+</script>
+<!-- Navbar & Hero End -->
+<style>
+    .navbar {
+        justify-content: center; /* Center the navbar content */
+        position: relative; /* Allows absolute positioning for the back icon */
+    }
+    .navbar-brand {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .back-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+</style>
+
+<!-- Header Start -->
+<div class="container-fluid bg-breadcrumb">
+    <ul class="breadcrumb-animation">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div class="container text-center py-5" style="max-width: 900px;">
+        <h1 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Препоръчителни изследвания</h1>
+    </div>
+</div>
+
+<!-- Contact Start -->
+
+<div class="container py-6">
+    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+        <div class="mt-5">
+
+            <form th:action="@{/1}" method="post">
+                <div class="alert alert-primary" role="alert">
+                    Имате ли поставена ДИАГНОЗА ,,рак на гърдата" с хистология?
+                </div>
+                <button type="submit" class="btn btn-danger">НЕ</button>
+            </form>
+            <div id="answerText">
+                <p th:if="${answer != null}" th:text="${answer.text}"></p>
+            </div>
+
+            <button id="yesBtn" class="btn btn-danger">ДА</button>
+
+            <div id="secondQuestion" style="display:none;">
+                <div class="alert alert-primary" role="alert">Оперирана ли сте?</div>
+                <button id="yesSecondBtn" class="btn btn-danger">ДА</button>
+                <button id="noSecondBtn" class="btn btn-danger">НЕ</button>
+            </div>
+        </div>
+        <br> <br> <br>
+    </div>
+    <th:block th:insert="~{fragments/feedback}"></th:block>
+    <br> <br>
+</div>
+<!-- Contact End -->
+<th:block th:insert="~{fragments/footer}"></th:block>
+<script>
+    // When the "ДА" button is clicked, show the second question
+    document.getElementById("yesBtn").addEventListener("click", function() {
+        // Hide the current question and show the second question
+        document.getElementById("secondQuestion").style.display = "block";
+    });
+</script>
+</body>
+
+</html>
