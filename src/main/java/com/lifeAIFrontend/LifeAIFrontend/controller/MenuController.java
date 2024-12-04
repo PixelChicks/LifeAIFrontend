@@ -32,10 +32,4 @@ public class MenuController {
     public String understandingDiagnosisUploadFile() {
         return "menu/understandingDiagnosisUploadFile";
     }
-
-    @GetMapping("/recommendedStudies")
-    public String showQuestions(Model model) {
-        model.addAttribute("answer", new Answer());
-        return "recommendedStudies/questions";
-    }
 }

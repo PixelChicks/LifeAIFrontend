@@ -5,6 +5,7 @@ import com.lifeAIFrontend.LifeAIFrontend.model.Answer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -19,5 +20,12 @@ public class AnswerController {
         Answer answer = answerClient.getAnswerById(id); // Get the answer from the client
         model.addAttribute("answer", answer); // Add the answer to the model to be used in the view
         return "recommendedStudies/questions"; // Return the same view to show the answer
+    }
+
+    @GetMapping("/recommendedStudies")
+    public String showQuestions(Model model) {
+        model.addAttribute("answer", new Answer());
+        model.addAttribute("answers", answerClient.getAllAnswers());
+        return "recommendedStudies/questions";
     }
 }
