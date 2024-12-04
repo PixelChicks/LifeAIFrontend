@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -35,12 +35,12 @@
             color: white;
         }
                 .btn-danger {
-    width: 100%;
-    max-width: 500px;  /* Adjust as per your layout */
-    padding: 15px 20px;
+    width: 250%;
+    max-width: 150px;  /* Adjust as per your layout */
+    padding: 25px 60px;
     font-size: 18px;  /* Adjust font size if needed */
     text-align: center;
-    border-radius: 50px;
+    border-radius: 20px;
  }
     </style>
 </head>
@@ -125,25 +125,28 @@
 
 <div class="container py-6">
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
-        <div class="mt-5">
-
+        <!-- FIRST QUESTION-->
+        <h5 style="font-weight: bold;">
+            Имате ли поставена ДИАГНОЗА ,,рак на гърдата" с хистология?
+        </h5>
+        <br>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
+            <button id="yesBtn" class="btn btn-danger">ДА</button>
             <form th:action="@{/1}" method="post">
-                <div class="alert alert-primary" role="alert">
-                    Имате ли поставена ДИАГНОЗА ,,рак на гърдата" с хистология?
-                </div>
                 <button type="submit" class="btn btn-danger">НЕ</button>
             </form>
-            <div id="answerText">
-                <p th:if="${answer != null}" th:text="${answer.text}"></p>
-            </div>
+        </div>
+        <div id="answerText">
+            <p th:if="${answer != null}" th:text="${answer.text}"></p>
+        </div><br>
 
-            <button id="yesBtn" class="btn btn-danger">ДА</button>
-
-            <div id="secondQuestion" style="display:none;">
-                <div class="alert alert-primary" role="alert">Оперирана ли сте?</div>
-                <button id="yesSecondBtn" class="btn btn-danger">ДА</button>
-                <button id="noSecondBtn" class="btn btn-danger">НЕ</button>
-            </div>
+        <!-- SECOND QUESTION-->
+        <div id="secondQuestion" style="display:none;">
+            <h5 style="font-weight: bold;">
+                Оперирана ли сте?
+            </h5>
+            <button id="yesSecondBtn" class="btn btn-danger">ДА</button>
+            <button id="noSecondBtn" class="btn btn-danger">НЕ</button>
         </div>
         <br> <br> <br>
     </div>
