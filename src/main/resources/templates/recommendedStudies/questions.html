@@ -156,6 +156,9 @@
                 <button id="yesThirdBtn" class="btn btn-danger">ДА</button>
                 <button id="noThirdBtn" class="btn btn-danger">НЕ</button>
             </div>
+            <br>
+            <p id="secondAnswer" style="display: none; margin-top: 20px;" th:text="${answers[1].text}"></p>
+            <br>
         </div>
         <!-- FORTH QUESTION-->
         <div id="forthQuestion" style="display:none;">
@@ -176,6 +179,7 @@
                 <button id="yesFifthBtn" class="btn btn-danger">ДА</button>
                 <button id="noFifthBtn" class="btn btn-danger">НЕ</button>
             </div>
+            <p id="thirdAnswer" style="display: none; margin-top: 20px;" th:text="${answers[2].text}"></p>
         </div><br>
         <br> <br> <br>
     </div>
@@ -185,42 +189,25 @@
 <!-- Contact End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
 <script>
-    const noButton = document.getElementById('noBtn1');
-    const firstAnswerParagraph = document.getElementById('firstAnswer');
-
-    noButton.addEventListener('click', () => {
-        firstAnswerParagraph.style.display = 'block';
+    document.getElementById('noBtn1').addEventListener('click', () => {
+        document.getElementById('firstAnswer').style.display = 'block';
     });
 
-    const yesButton = document.getElementById('yesBtn1');
-    const secondQuestion = document.getElementById('secondQuestion');
-
-    yesButton.addEventListener('click', () => {
-        secondQuestion.style.display = 'block';
+    document.getElementById('yesBtn1').addEventListener('click', () => {
+        document.getElementById('secondQuestion').style.display = 'block';
     });
 
-    const yesSecondBtn = document.getElementById('yesSecondBtn');
-    const thirdQuestion = document.getElementById('thirdQuestion');
-
-    yesSecondBtn.addEventListener('click', () => {
-        thirdQuestion.style.display = 'block';
+    document.getElementById('yesSecondBtn').addEventListener('click', () => {
+        document.getElementById('thirdQuestion').style.display = 'block';
     });
 
-    const noSecondBtn = document.getElementById('noSecondBtn');
-    const forthQuestion = document.getElementById('forthQuestion');
-
-    noSecondBtn.addEventListener('click', () => {
-        forthQuestion.style.display = 'block';
+    document.getElementById('noSecondBtn').addEventListener('click', () => {
+        document.getElementById('forthQuestion').style.display = 'block';
     });
 
-    const noForthBtn = document.getElementById('noForthBtn');
-    const fifthQuestion = document.getElementById('fifthQuestion');
-
-    noForthBtn.addEventListener('click', () => {
-        fifthQuestion.style.display = 'block';
+    document.getElementById('noForthBtn').addEventListener('click', () => {
+        document.getElementById('fifthQuestion').style.display = 'block';
     });
-
-
 
 
     // Utility function to hide all subsequent questions
@@ -232,18 +219,6 @@ function hideSubsequentQuestions(questionIds) {
         }
     });
 }
-// Define all necessary elements
-const noButtonCheck = document.getElementById('noBtn1');
-const yesButtonCheck = document.getElementById('yesBtn1');
-const firstAnswerParagraphCheck = document.getElementById('firstAnswer');
-const secondQuestionCheck = document.getElementById('secondQuestion');
-const yesSecondBtnCheck = document.getElementById('yesSecondBtn');
-const noSecondBtnCheck = document.getElementById('noSecondBtn');
-const thirdQuestionCheck = document.getElementById('thirdQuestion');
-const forthQuestionCheck = document.getElementById('forthQuestion');
-const noForthBtnCheck = document.getElementById('noForthBtn');
-const yesForthBtnCheck = document.getElementById('yesForthBtn');
-const fifthQuestionCheck = document.getElementById('fifthQuestion');
 
 // Utility function to hide all subsequent questions
 function hideSubsequentQuestions(questionIds) {
@@ -255,44 +230,56 @@ function hideSubsequentQuestions(questionIds) {
     });
 }
 
+document.getElementById('yesFifthBtn').addEventListener('click', function() {
+    // Display the answer paragraph
+    const thirdAnswer = document.getElementById('thirdAnswer');
+    thirdAnswer.style.display = 'block';
+});
+
 // First Question: Handle "NO" button
-noButtonCheck.addEventListener('click', () => {
+document.getElementById('noBtn1').addEventListener('click', () => {
     // Hide subsequent questions and answers
     hideSubsequentQuestions(['secondQuestion', 'thirdQuestion', 'forthQuestion', 'fifthQuestion']);
-    firstAnswerParagraphCheck.style.display = 'block';
+    document.getElementById('firstAnswer').style.display = 'block';
 });
 
 // First Question: Handle "YES" button
-yesButtonCheck.addEventListener('click', () => {
+document.getElementById('yesBtn1').addEventListener('click', () => {
     // Hide subsequent questions and answers
     hideSubsequentQuestions(['thirdQuestion', 'forthQuestion', 'fifthQuestion']);
-    firstAnswerParagraphCheck.style.display = 'none';
-    secondQuestionCheck.style.display = 'block';
+    document.getElementById('firstAnswer').style.display = 'none';
+    document.getElementById('secondQuestion').style.display = 'block';
+});
+
+// Add a click event listener to the "ДА" button
+document.getElementById('noThirdBtn').addEventListener("click", () => {
+    // Show the answer paragraph
+    document.getElementById('secondAnswer').style.display = "block";
 });
 
 // Second Question: Handle "YES" button
-yesSecondBtnCheck.addEventListener('click', () => {
+document.getElementById('yesSecondBtn').addEventListener('click', () => {
     // Hide subsequent questions
     hideSubsequentQuestions(['forthQuestion', 'fifthQuestion']);
-    thirdQuestionCheck.style.display = 'block';
+    document.getElementById('thirdQuestion').style.display = 'block';
 });
 
 // Second Question: Handle "NO" button
-noSecondBtnCheck.addEventListener('click', () => {
+document.getElementById('noSecondBtn').addEventListener('click', () => {
     // Hide subsequent questions
     hideSubsequentQuestions(['thirdQuestion', 'fifthQuestion']);
-    forthQuestionCheck.style.display = 'block';
+    document.getElementById('forthQuestion').style.display = 'block';
 });
 
 // Fourth Question: Handle "NO" button
-noForthBtnCheck.addEventListener('click', () => {
+document.getElementById('noForthBtn').addEventListener('click', () => {
     // Hide subsequent questions
     hideSubsequentQuestions(['fifthQuestion']);
-    fifthQuestionCheck.style.display = 'block';
+    document.getElementById('fifthQuestion').style.display = 'block';
 });
 
 // Fourth Question: Handle "YES" button
-yesForthBtnCheck.addEventListener('click', () => {
+document.getElementById('yesForthBtn').addEventListener('click', () => {
     // Hide subsequent questions
     hideSubsequentQuestions(['fifthQuestion']);
 });
