@@ -36,12 +36,40 @@
         }
         .btn-danger {
             width: 250%;
-            max-width: 150px;  /* Adjust as per your layout */
+            max-width: 150px;
             padding: 20px 60px;
-            font-size: 18px;  /* Adjust font size if needed */
+            font-size: 18px;
             text-align: center;
             border-radius: 20px;
         }
+
+        .btn-secondary {
+    width: 350px;
+    height: 62px;
+    font-size: 18px;
+    line-height: 50px;
+    text-align: center;
+    margin: 5px 0;
+    border-radius: 6px;
+    background-color: #d9c6ff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+   width: 350px;
+    height: 62px;
+    font-size: 18px;
+    line-height: 50px;
+    text-align: center;
+    margin: 5px 0;
+    border-radius: 6px;
+    background-color: #d9c6ff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+}
     </style>
 </head>
 
@@ -146,7 +174,8 @@
                 <button id="yesSecondBtn" class="btn btn-danger">ДА</button>
                 <button id="noSecondBtn" class="btn btn-danger">НЕ</button>
             </div>
-        </div><br><br>
+        </div>
+        <br><br>
         <!-- THIRD QUESTION-->
         <div id="thirdQuestion" style="display:none;">
             <h5 style="font-weight: bold;">
@@ -169,7 +198,35 @@
                 <button id="yesForthBtn" class="btn btn-danger">ДА</button>
                 <button id="noForthBtn" class="btn btn-danger">НЕ</button>
             </div>
-        </div><br><br>
+            <br>
+            <center>
+                <p id="therapyInfo" style="display: none;">
+                    Препоръчителните изследвания зависят от терапията, която провеждате
+                </p>
+                <br>
+                <button id="twelfthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ХИМИОТЕРАПИЯ
+                </button>
+                <p id="thirteenthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[12].text}"></p>
+                <button id="thirteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ТАРГЕТНА ТЕРАПИЯ
+                </button>
+                <p id="fourteenthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[13].text}"></p>
+                <button id="fourteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ЕНДОКРИННА ТЕРАПИЯ
+                </button>
+                <p id="fifteenthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[14].text}"></p>
+                <button id="fifteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ИМУНОТЕРАПИЯ
+                </button>
+                <p id="sixteenthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[15].text}"></p>
+            </center>
+        </div>
+        <br>
         <!-- FIFTH QUESTION-->
         <div id="fifthQuestion" style="display:none;">
             <h5 style="font-weight: bold;">
@@ -179,9 +236,52 @@
                 <button id="yesFifthBtn" class="btn btn-danger">ДА</button>
                 <button id="noFifthBtn" class="btn btn-danger">НЕ</button>
             </div>
-            <p id="thirdAnswer" style="display: none; margin-top: 20px;" th:text="${answers[2].text}"></p>
-        </div><br>
-        <br> <br> <br>
+            <p id="sixthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[5].text}"></p>
+            <p id="seventhAnswer" style="display: none; margin-top: 20px;" th:text="${answers[6].text}"></p>
+            <br>
+            <center>
+                <button id="seventhQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    Размер на тумора: ПОД 2см
+                </button>
+                <p id="eighthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[7].text}"></p>
+                <button id="eighthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    Размер на тумора: НАД 2см
+                </button>
+                <p id="ninthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[8].text}"></p>
+                <button id="ninthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ВЪЗРАСТ ПОД 40г.
+                </button>
+                <p id="tenthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[9].text}"></p>
+                <button id="tenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ВЪЗРАСТ 40-50г.
+                </button>
+                <p id="eleventhAnswer" style="display: none; margin-top: 20px;" th:text="${answers[10].text}"></p>
+                <button id="eleventhQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ВЪЗРАСТ НАД 50г.
+                </button>
+                <p id="twelfthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[11].text}"></p>
+            </center>
+        </div>
+        <!-- SIXTH QUESTION-->
+        <div id="sixthQuestion" style="display:none;">
+            <h5 style="font-weight: bold;">
+                ПРОВЕЖДАТЕ ЛИ ТЕРАПИЯ СЛЕД операцията
+            </h5>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
+                <button id="yesSixthBtn" class="btn btn-danger">ДА</button>
+                <button id="noSixthBtn" class="btn btn-danger">НЕ</button>
+            </div>
+            <p id="forthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[3].text}"></p>
+            <p id="fifthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[4].text}"></p>
+        </div>
+        <br>
+        <br>
+        <br> <br>
     </div>
     <th:block th:insert="~{fragments/feedback}"></th:block>
     <br> <br>
@@ -209,79 +309,212 @@
         document.getElementById('fifthQuestion').style.display = 'block';
     });
 
+    document.getElementById('yesThirdBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer',
+        'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion']);
+        document.getElementById('sixthQuestion').style.display = 'block';
+    });
 
-    // Utility function to hide all subsequent questions
-function hideSubsequentQuestions(questionIds) {
+    document.getElementById('yesFifthBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'seventhAnswer', 'seventhQuestion',
+        'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion']);
+        document.getElementById('sixthAnswer').style.display = 'block';
+    });
+
+    document.getElementById('noFifthBtn').addEventListener('click', () => {
+    hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer']);
+
+    const elementsToShow = [
+        'seventhAnswer',
+        'seventhQuestion',
+        'eighthQuestion',
+        'ninthQuestion',
+        'tenthQuestion',
+        'eleventhQuestion'
+    ];
+
+    elementsToShow.forEach(id => {
+        document.getElementById(id).style.display = 'block';
+    });
+});
+
+    document.getElementById('yesSixthBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer']);
+        document.getElementById('forthAnswer').style.display = 'block';
+    });
+
+     document.getElementById('noSixthBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'seventhAnswer']);
+        document.getElementById('fifthAnswer').style.display = 'block';
+    });
+
+    document.getElementById('seventhQuestion').addEventListener('click', () => {
+    const eighthAnswer = document.getElementById('eighthAnswer');
+
+    if (eighthAnswer.style.display === 'block') {
+        eighthAnswer.style.display = 'none';
+    } else {
+        eighthAnswer.style.display = 'block';
+    }
+    });
+
+    document.getElementById('eighthQuestion').addEventListener('click', () => {
+    const ninthAnswer = document.getElementById('ninthAnswer');
+
+    if (ninthAnswer.style.display === 'block') {
+        ninthAnswer.style.display = 'none';
+    } else {
+        ninthAnswer.style.display = 'block';
+    }
+    });
+
+    document.getElementById('ninthQuestion').addEventListener('click', () => {
+    const tenthAnswer = document.getElementById('tenthAnswer');
+
+    if (tenthAnswer.style.display === 'block') {
+        tenthAnswer.style.display = 'none';
+    } else {
+        tenthAnswer.style.display = 'block';
+    }
+    });
+
+    document.getElementById('tenthQuestion').addEventListener('click', () => {
+    const eleventhAnswer = document.getElementById('eleventhAnswer');
+
+    if (eleventhAnswer.style.display === 'block') {
+        eleventhAnswer.style.display = 'none';
+    } else {
+        eleventhAnswer.style.display = 'block';
+    }
+    });
+
+    document.getElementById('eleventhQuestion').addEventListener('click', () => {
+    const twelfthAnswer = document.getElementById('twelfthAnswer');
+
+    if (twelfthAnswer.style.display === 'block') {
+        twelfthAnswer.style.display = 'none';
+    } else {
+        twelfthAnswer.style.display = 'block';
+    }
+    });
+
+    document.getElementById('twelfthQuestion').addEventListener('click', () => {
+    const thirteenthAnswer = document.getElementById('thirteenthAnswer');
+
+    if (thirteenthAnswer.style.display === 'block') {
+        thirteenthAnswer.style.display = 'none';
+    } else {
+        thirteenthAnswer.style.display = 'block';
+    }
+    });
+
+    document.getElementById('thirteenthQuestion').addEventListener('click', () => {
+    const fourteenthAnswer = document.getElementById('fourteenthAnswer');
+
+    if (fourteenthAnswer.style.display === 'block') {
+        fourteenthAnswer.style.display = 'none';
+    } else {
+        fourteenthAnswer.style.display = 'block';
+    }
+    });
+
+    document.getElementById('fourteenthQuestion').addEventListener('click', () => {
+    const fifteenthAnswer = document.getElementById('fifteenthAnswer');
+
+    if (fifteenthAnswer.style.display === 'block') {
+        fifteenthAnswer.style.display = 'none';
+    } else {
+        fifteenthAnswer.style.display = 'block';
+    }
+    });
+
+    document.getElementById('fifteenthQuestion').addEventListener('click', () => {
+    const sixteenthAnswer = document.getElementById('sixteenthAnswer');
+
+    if (sixteenthAnswer.style.display === 'block') {
+        sixteenthAnswer.style.display = 'none';
+    } else {
+        sixteenthAnswer.style.display = 'block';
+    }
+    });
+
+    function hideSubsequentQuestions(questionIds) {
     questionIds.forEach(id => {
         const element = document.getElementById(id);
         if (element) {
             element.style.display = 'none';
         }
     });
-}
+    }
 
-// Utility function to hide all subsequent questions
-function hideSubsequentQuestions(questionIds) {
+    if (document.getElementById('yesFifthBtn') && document.getElementById('forthAnswer')) {
+    document.getElementById('yesFifthBtn').addEventListener('click', () => {
+        // Show the 'forthAnswer' paragraph
+        document.getElementById('forthAnswer').style.display = 'block';
+    });
+    }
+
+    function hideSubsequentQuestions(questionIds) {
     questionIds.forEach(id => {
         const element = document.getElementById(id);
         if (element) {
             element.style.display = 'none';
         }
     });
-}
+    }
 
 document.getElementById('yesFifthBtn').addEventListener('click', function() {
-    // Display the answer paragraph
     const thirdAnswer = document.getElementById('thirdAnswer');
     thirdAnswer.style.display = 'block';
 });
 
-// First Question: Handle "NO" button
 document.getElementById('noBtn1').addEventListener('click', () => {
-    // Hide subsequent questions and answers
-    hideSubsequentQuestions(['secondQuestion', 'thirdQuestion', 'forthQuestion', 'fifthQuestion']);
+    hideSubsequentQuestions(['secondQuestion', 'thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
     document.getElementById('firstAnswer').style.display = 'block';
 });
 
-// First Question: Handle "YES" button
 document.getElementById('yesBtn1').addEventListener('click', () => {
-    // Hide subsequent questions and answers
-    hideSubsequentQuestions(['thirdQuestion', 'forthQuestion', 'fifthQuestion']);
+    hideSubsequentQuestions(['thirdQuestion', 'forthQuestion', 'fifthQuestion','sixthQuestion']);
     document.getElementById('firstAnswer').style.display = 'none';
     document.getElementById('secondQuestion').style.display = 'block';
 });
 
-// Add a click event listener to the "ДА" button
 document.getElementById('noThirdBtn').addEventListener("click", () => {
-    // Show the answer paragraph
+    hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
     document.getElementById('secondAnswer').style.display = "block";
 });
 
-// Second Question: Handle "YES" button
 document.getElementById('yesSecondBtn').addEventListener('click', () => {
-    // Hide subsequent questions
-    hideSubsequentQuestions(['forthQuestion', 'fifthQuestion']);
+    hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
     document.getElementById('thirdQuestion').style.display = 'block';
 });
 
-// Second Question: Handle "NO" button
 document.getElementById('noSecondBtn').addEventListener('click', () => {
-    // Hide subsequent questions
-    hideSubsequentQuestions(['thirdQuestion', 'fifthQuestion']);
+    hideSubsequentQuestions(['thirdQuestion', 'fifthQuestion', 'sixthQuestion']);
     document.getElementById('forthQuestion').style.display = 'block';
 });
 
-// Fourth Question: Handle "NO" button
 document.getElementById('noForthBtn').addEventListener('click', () => {
-    // Hide subsequent questions
-    hideSubsequentQuestions(['fifthQuestion']);
+    hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion', 'secondAnswer', 'forthAnswer', 'sixthAnswer',
+    'seventhAnswer', 'fifthAnswer', 'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
+    'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo']);
     document.getElementById('fifthQuestion').style.display = 'block';
 });
 
-// Fourth Question: Handle "YES" button
 document.getElementById('yesForthBtn').addEventListener('click', () => {
-    // Hide subsequent questions
-    hideSubsequentQuestions(['fifthQuestion']);
+    hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion']);
+
+    const elementsToShow = [
+        'twelfthQuestion',
+        'thirteenthQuestion',
+        'fourteenthQuestion',
+        'fifteenthQuestion',
+        'therapyInfo'
+    ];
+
+    elementsToShow.forEach(id => {
+        document.getElementById(id).style.display = 'block';
+    });
 });
 
 </script>
