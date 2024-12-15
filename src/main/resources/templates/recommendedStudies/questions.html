@@ -174,9 +174,9 @@
 <!-- Contact Start -->
 
 <div class="container py-6">
-    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+    <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 350px;">
         <!-- FIRST QUESTION-->
-        <h5 style="font-weight: bold;">
+        <h5 style="font-weight: bold; text-align: center;">
             Имате ли поставена ДИАГНОЗА ,,рак на гърдата" с хистология?
         </h5>
         <br>
@@ -185,11 +185,11 @@
             <button id="noBtn1" type="button" class="btn btn-danger">НЕ</button>
         </div>
         <br>
-        <p id="firstAnswer" style="display: none; margin-top: 20px;" th:text="${answers[0].text}"></p>
+        <div id="firstAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[0].text}"></div>
         <br>
         <!-- SECOND QUESTION-->
         <div id="secondQuestion" style="display:none;">
-            <h5 style="font-weight: bold;">
+            <h5 style="font-weight: bold; text-align: center;">
                 ОПЕРИРАНА ЛИ СТЕ?
             </h5>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
@@ -200,7 +200,7 @@
         <br><br>
         <!-- THIRD QUESTION-->
         <div id="thirdQuestion" style="display:none;">
-            <h5 style="font-weight: bold;">
+            <h5 style="font-weight: bold; text-align: center;">
                 ПРОВЕЖДАЛИ ЛИ СТЕ ТЕРАПИЯ ПРЕДИ операцията?
             </h5>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
@@ -208,12 +208,12 @@
                 <button id="noThirdBtn" class="btn btn-danger">НЕ</button>
             </div>
             <br>
-            <p id="secondAnswer" style="display: none; margin-top: 20px;" th:text="${answers[1].text}"></p>
+            <div id="secondAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[1].text}"></div>
             <br>
         </div>
         <!-- FORTH QUESTION-->
         <div id="forthQuestion" style="display:none;">
-            <h5 style="font-weight: bold;">
+            <h5 style="font-weight: bold; text-align: center;">
                 ПРОВЕЖДАТЕ ЛИ лекарствена, неоадювантна ТЕРАПИЯ?
             </h5>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
@@ -230,76 +230,76 @@
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ХИМИОТЕРАПИЯ
                 </button>
-                <p id="thirteenthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[12].text}"></p>
+                <div id="thirteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[12].text}"></div>
                 <button id="thirteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ТАРГЕТНА ТЕРАПИЯ
                 </button>
-                <p id="fourteenthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[13].text}"></p>
+                <div id="fourteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[13].text}"></div>
                 <button id="fourteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ЕНДОКРИННА ТЕРАПИЯ
                 </button>
-                <p id="fifteenthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[14].text}"></p>
+                <div id="fifteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[14].text}"></div>
                 <button id="fifteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ИМУНОТЕРАПИЯ
                 </button>
-                <p id="sixteenthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[15].text}"></p>
+                <div id="sixteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[15].text}"></div>
             </center>
         </div>
         <br>
         <!-- FIFTH QUESTION-->
         <div id="fifthQuestion" style="display:none;">
-            <h5 style="font-weight: bold;">
+            <h5 style="font-weight: bold; text-align: center;">
                 ОПРЕДЕЛЕН ЛИ Е СТАДИЯТ на заболяването?
             </h5>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
                 <button id="yesFifthBtn" class="btn btn-danger">ДА</button>
                 <button id="noFifthBtn" class="btn btn-danger">НЕ</button>
             </div>
-            <p id="sixthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[5].text}"></p>
-            <p id="seventhAnswer" style="display: none; margin-top: 20px;" th:text="${answers[6].text}"></p>
+            <div id="sixthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[5].text}"></div>
+            <div id="seventhAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[6].text}"></div>
             <br>
             <center>
                 <button id="seventhQuestion" class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     Размер на тумора: ПОД 2см
                 </button>
-                <p id="eighthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[7].text}"></p>
+                <div id="eighthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[7].text}"></div>
                 <button id="eighthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     Размер на тумора: НАД 2см
                 </button>
-                <p id="ninthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[8].text}"></p>
+                <div id="ninthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[8].text}"></div>
                 <button id="ninthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ВЪЗРАСТ ПОД 40г.
                 </button>
-                <p id="tenthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[9].text}"></p>
+                <div id="tenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[9].text}"></div>
                 <button id="tenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ВЪЗРАСТ 40-50г.
                 </button>
-                <p id="eleventhAnswer" style="display: none; margin-top: 20px;" th:text="${answers[10].text}"></p>
+                <div id="eleventhAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[10].text}"></div>
                 <button id="eleventhQuestion" class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ВЪЗРАСТ НАД 50г.
                 </button>
-                <p id="twelfthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[11].text}"></p>
+                <div id="twelfthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[11].text}"></div>
             </center>
         </div>
         <!-- SIXTH QUESTION-->
         <div id="sixthQuestion" style="display:none;">
-            <h5 style="font-weight: bold;">
-                ПРОВЕЖДАТЕ ЛИ ТЕРАПИЯ СЛЕД операцията
+            <h5 style="font-weight: bold; text-align: center;">
+                ПРОВЕЖДАТЕ ЛИ ТЕРАПИЯ СЛЕД операцията?
             </h5>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
                 <button id="yesSixthBtn" class="btn btn-danger">ДА</button>
                 <button id="noSixthBtn" class="btn btn-danger">НЕ</button>
             </div>
-            <p id="forthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[3].text}"></p>
-            <p id="fifthAnswer" style="display: none; margin-top: 20px;" th:text="${answers[4].text}"></p>
+            <div id="forthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[3].text}"></div>
+            <div id="fifthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[4].text}"></div>
         </div>
         <br>
         <br>
@@ -368,7 +368,8 @@ handleYesNoButtons('yesSixthBtn', 'noSixthBtn');    // Sixth Question
 
     document.getElementById('yesFifthBtn').addEventListener('click', () => {
         hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'seventhAnswer', 'seventhQuestion',
-        'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion']);
+        'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
+        'eighthAnswer', 'ninthAnswer', 'tenthAnswer', 'eleventhAnswer', 'twelfthAnswer']);
         document.getElementById('sixthAnswer').style.display = 'block';
     });
 
@@ -549,7 +550,8 @@ document.getElementById('noSecondBtn').addEventListener('click', () => {
 document.getElementById('noForthBtn').addEventListener('click', () => {
     hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion', 'secondAnswer', 'forthAnswer', 'sixthAnswer',
     'seventhAnswer', 'fifthAnswer', 'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
-    'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo']);
+    'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo',
+    'thirteenthAnswer', 'fourteenthAnswer', 'fifteenthAnswer', 'sixteenthAnswer']);
     document.getElementById('fifthQuestion').style.display = 'block';
 });
 
