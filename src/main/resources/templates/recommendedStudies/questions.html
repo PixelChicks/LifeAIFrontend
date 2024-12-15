@@ -34,14 +34,36 @@
             background-color: #007bff;
             color: white;
         }
-        .btn-danger {
-            width: 250%;
-            max-width: 150px;
-            padding: 20px 60px;
-            font-size: 18px;
-            text-align: center;
-            border-radius: 20px;
-        }
+         .btn-danger {
+        width: 300%;
+        max-width: 160px;
+        padding: 20px 60px;
+        font-size: 18px;
+        text-align: center;
+        border-radius: 15px;
+        background-color: #9fb2a9;
+        outline: 2px solid #9fb2a9;
+        color: black;
+        border: none;
+    }
+
+    button:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .btn-danger:focus {
+    color: var(--bs-dark);
+    background-color: #fff;
+    border-color: #15844e;
+    box-shadow: 0 0 0 .25rem rgba(159, 178, 169, 0.5);
+    }
+
+    .btn-danger.clicked {
+        background-color: #15844e;
+        outline: 2px solid #15844e;
+        color: white;
+    }
 
         .btn-secondary {
     width: 350px;
@@ -51,7 +73,7 @@
     text-align: center;
     margin: 5px 0;
     border-radius: 6px;
-    background-color: #d9c6ff;
+    background-color: #9fb2a9;
     color: #000;
     border: none;
     cursor: pointer;
@@ -65,7 +87,7 @@
     text-align: center;
     margin: 5px 0;
     border-radius: 6px;
-    background-color: #d9c6ff;
+    background-color: #9fb2a9;
     color: #000;
     border: none;
     cursor: pointer;
@@ -289,6 +311,35 @@
 <!-- Contact End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
 <script>
+    function handleYesNoButtons(yesBtnId, noBtnId) {
+    // Get the Yes and No buttons by their IDs
+    const yesBtn = document.getElementById(yesBtnId);
+    const noBtn = document.getElementById(noBtnId);
+
+    function buttonClickHandler(event) {
+        // Remove 'clicked' class from both buttons
+        yesBtn.classList.remove('clicked');
+        noBtn.classList.remove('clicked');
+
+        // Add 'clicked' class to the button that was clicked
+        event.target.classList.add('clicked');
+    }
+
+    // Attach event listeners for both buttons
+    yesBtn.addEventListener('click', buttonClickHandler);
+    noBtn.addEventListener('click', buttonClickHandler);
+}
+
+// Initialize button handling for all question pairs
+handleYesNoButtons('yesSecondBtn', 'noSecondBtn');  // Second Question
+handleYesNoButtons('yesBtn1', 'noBtn1');            // First Question
+handleYesNoButtons('yesThirdBtn', 'noThirdBtn');    // Third Question
+handleYesNoButtons('yesForthBtn', 'noForthBtn');    // Fourth Question
+handleYesNoButtons('yesFifthBtn', 'noFifthBtn');    // Fifth Question
+handleYesNoButtons('yesSixthBtn', 'noSixthBtn');    // Sixth Question
+
+
+
     document.getElementById('noBtn1').addEventListener('click', () => {
         document.getElementById('firstAnswer').style.display = 'block';
     });
