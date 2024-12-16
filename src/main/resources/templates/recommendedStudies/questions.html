@@ -92,16 +92,17 @@
           border: none;
           cursor: pointer;
         }
+
         #popupModal {
           display: none;
           position: fixed;
-          bottom: 20px;
+          bottom: 50px;
           left: 50%;
           transform: translateX(-50%);
           width: 90%;
           max-width: 800px;
           background-color: rgba(0, 0, 0, 0.6);
-          z-index: 1;
+          z-index: 1000;
           border-radius: 10px;
           overflow: hidden;
         }
@@ -128,6 +129,17 @@
           color: black;
           text-decoration: none;
         }
+
+        #overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    display: none; /* Hidden by default */
+    z-index: 999; /* Ensure it appears above all other content */
+}
     </style>
 </head>
 
@@ -212,6 +224,7 @@
 <div class="container py-6">
     <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 350px;">
         <!-- Modal (popup) -->
+        <div id="overlay"></div>
         <div id="popupModal">
             <div id="modalContent">
                 <span class="close-btn">&times;</span>
@@ -356,303 +369,310 @@
 <th:block th:insert="~{fragments/footer}"></th:block>
 <script>
     var modal = document.getElementById('popupModal');
+    var overlay = document.getElementById('overlay');
     var closeBtn = document.getElementsByClassName('close-btn')[0];
     var popupText = document.getElementById('popupText');
     var modalHeader = document.getElementById('modalHeader');
 
     var wordDefinitions = {
-        "дебелоиглена биопсия": "Със специално устройство, наподобяващо по-дебела игла се прониква в участъка съмнителен за рак и се взема тънка ивица тъкан. В някои случаи се налага това да стане под контрола на ехограф или мамограф.Взетата тъкан се изследва за наличие на тумор тя се обработва и оцветява в специализирани лаборатории, след което лекар специалист (хистолог) я изследва под микроскоп.",
-        "ехомамография": "Ехомамография е метод за изследване на млечните жлези чрез използване на ултразвук.",
-        "мамография": "Мамографията е рентгеново изследване на млечните жлези, което се използва за откриване на тумори или други аномалии.",
-        "ядерно-магнитен резонанс": "Ядерно-магнитен резонанс (ЯМР) е метод за образна диагностика, който използва магнитни полета и радиовълни за създаване на подробни изображения на вътрешни органи."
+        "дебелоиглена биопсия": "Със специално устройство, наподобяващо по-дебела игла се прониква в участъка съмнителен за рак и се взема тънка ивица тъкан. В някои случаи се налага това да стане под контрола на ехограф или мамограф.Взетата тъкан се изследва за наличие на тумор тя се обработва и оцветява в специализирани лаборатории, след което лекар специалист (хистолог) я изследва под микроскоп."
+        , "ехомамография": "Ехомамография е метод за изследване на млечните жлези чрез използване на ултразвук."
+        , "мамография": "Мамографията е рентгеново изследване на млечните жлези, което се използва за откриване на тумори или други аномалии."
+        , "ядерно-магнитен резонанс": "Ядерно-магнитен резонанс (ЯМР) е метод за образна диагностика, който използва магнитни полета и радиовълни за създаване на подробни изображения на вътрешни органи."
     };
 
-    document.querySelectorAll('strong').forEach(function(element) {
-        element.addEventListener('click', function() {
-            var clickedWord = this.innerHTML;
+    document.querySelectorAll('strong')
+        .forEach(function (element) {
+            element.addEventListener('click', function () {
+                var clickedWord = this.innerHTML.toLowerCase();
 
-            modalHeader.innerHTML = clickedWord;
+                var definitionKey = Object.keys(wordDefinitions)
+                    .find(key => key.toLowerCase() === clickedWord.toLowerCase());
 
-            var definition = wordDefinitions[clickedWord];
+                modalHeader.innerHTML = this.innerHTML;
 
-            if (definition) {
-                popupText.innerHTML = definition;
-            } else {
-                popupText.innerHTML = 'Sorry, no definition available for this word.';
-            }
+                if (definitionKey) {
+                    popupText.innerHTML = wordDefinitions[definitionKey];
+                } else {
+                    popupText.innerHTML = 'Sorry, no definition available for this word.';
+                }
 
-            modal.style.display = 'block';
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+            });
         });
-    });
 
-    closeBtn.onclick = function() {
+
+    closeBtn.onclick = function () {
         modal.style.display = 'none';
-    }
+        overlay.style.display = 'none';
+    };
 
-    window.onclick = function(event) {
-        if (event.target == modal) {
+    window.onclick = function (event) {
+        if (event.target == modal || event.target == overlay) {
             modal.style.display = 'none';
+            overlay.style.display = 'none';
         }
-    }
+    };
 
 
-    function handleYesNoButtons(yesBtnId, noBtnId) {
-        const yesBtn = document.getElementById(yesBtnId);
-        const noBtn = document.getElementById(noBtnId);
+        function handleYesNoButtons(yesBtnId, noBtnId) {
+            const yesBtn = document.getElementById(yesBtnId);
+            const noBtn = document.getElementById(noBtnId);
 
-        function buttonClickHandler(event) {
-            yesBtn.classList.remove('clicked');
-            noBtn.classList.remove('clicked');
+            function buttonClickHandler(event) {
+                yesBtn.classList.remove('clicked');
+                noBtn.classList.remove('clicked');
 
-            event.target.classList.add('clicked');
-        }
-
-        yesBtn.addEventListener('click', buttonClickHandler);
-        noBtn.addEventListener('click', buttonClickHandler);
-    }
-
-    handleYesNoButtons('yesSecondBtn', 'noSecondBtn');
-    handleYesNoButtons('yesBtn1', 'noBtn1');
-    handleYesNoButtons('yesThirdBtn', 'noThirdBtn');
-    handleYesNoButtons('yesForthBtn', 'noForthBtn');
-    handleYesNoButtons('yesFifthBtn', 'noFifthBtn');
-    handleYesNoButtons('yesSixthBtn', 'noSixthBtn');
-
-
-    document.getElementById('noBtn1').addEventListener('click', () => {
-        document.getElementById('firstAnswer').style.display = 'block';
-    });
-
-    document.getElementById('yesBtn1').addEventListener('click', () => {
-        document.getElementById('secondQuestion').style.display = 'block';
-    });
-
-    document.getElementById('yesSecondBtn').addEventListener('click', () => {
-        document.getElementById('thirdQuestion').style.display = 'block';
-    });
-
-    document.getElementById('noSecondBtn').addEventListener('click', () => {
-        document.getElementById('forthQuestion').style.display = 'block';
-    });
-
-    document.getElementById('noForthBtn').addEventListener('click', () => {
-        document.getElementById('fifthQuestion').style.display = 'block';
-    });
-
-    document.getElementById('yesThirdBtn').addEventListener('click', () => {
-        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer',
-            'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion'
-        ]);
-        document.getElementById('sixthQuestion').style.display = 'block';
-    });
-
-    document.getElementById('yesFifthBtn').addEventListener('click', () => {
-        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'seventhAnswer', 'seventhQuestion',
-            'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
-            'eighthAnswer', 'ninthAnswer', 'tenthAnswer', 'eleventhAnswer', 'twelfthAnswer'
-        ]);
-        document.getElementById('sixthAnswer').style.display = 'block';
-    });
-
-    document.getElementById('noFifthBtn').addEventListener('click', () => {
-        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer']);
-
-        const elementsToShow = [
-            'seventhAnswer',
-            'seventhQuestion',
-            'eighthQuestion',
-            'ninthQuestion',
-            'tenthQuestion',
-            'eleventhQuestion'
-        ];
-
-        elementsToShow.forEach(id => {
-            document.getElementById(id).style.display = 'block';
-        });
-    });
-
-    document.getElementById('yesSixthBtn').addEventListener('click', () => {
-        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer']);
-        document.getElementById('forthAnswer').style.display = 'block';
-    });
-
-    document.getElementById('noSixthBtn').addEventListener('click', () => {
-        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'seventhAnswer']);
-        document.getElementById('fifthAnswer').style.display = 'block';
-    });
-
-    document.getElementById('seventhQuestion').addEventListener('click', () => {
-        const eighthAnswer = document.getElementById('eighthAnswer');
-
-        if (eighthAnswer.style.display === 'block') {
-            eighthAnswer.style.display = 'none';
-        } else {
-            eighthAnswer.style.display = 'block';
-        }
-    });
-
-    document.getElementById('eighthQuestion').addEventListener('click', () => {
-        const ninthAnswer = document.getElementById('ninthAnswer');
-
-        if (ninthAnswer.style.display === 'block') {
-            ninthAnswer.style.display = 'none';
-        } else {
-            ninthAnswer.style.display = 'block';
-        }
-    });
-
-    document.getElementById('ninthQuestion').addEventListener('click', () => {
-        const tenthAnswer = document.getElementById('tenthAnswer');
-
-        if (tenthAnswer.style.display === 'block') {
-            tenthAnswer.style.display = 'none';
-        } else {
-            tenthAnswer.style.display = 'block';
-        }
-    });
-
-    document.getElementById('tenthQuestion').addEventListener('click', () => {
-        const eleventhAnswer = document.getElementById('eleventhAnswer');
-
-        if (eleventhAnswer.style.display === 'block') {
-            eleventhAnswer.style.display = 'none';
-        } else {
-            eleventhAnswer.style.display = 'block';
-        }
-    });
-
-    document.getElementById('eleventhQuestion').addEventListener('click', () => {
-        const twelfthAnswer = document.getElementById('twelfthAnswer');
-
-        if (twelfthAnswer.style.display === 'block') {
-            twelfthAnswer.style.display = 'none';
-        } else {
-            twelfthAnswer.style.display = 'block';
-        }
-    });
-
-    document.getElementById('twelfthQuestion').addEventListener('click', () => {
-        const thirteenthAnswer = document.getElementById('thirteenthAnswer');
-
-        if (thirteenthAnswer.style.display === 'block') {
-            thirteenthAnswer.style.display = 'none';
-        } else {
-            thirteenthAnswer.style.display = 'block';
-        }
-    });
-
-    document.getElementById('thirteenthQuestion').addEventListener('click', () => {
-        const fourteenthAnswer = document.getElementById('fourteenthAnswer');
-
-        if (fourteenthAnswer.style.display === 'block') {
-            fourteenthAnswer.style.display = 'none';
-        } else {
-            fourteenthAnswer.style.display = 'block';
-        }
-    });
-
-    document.getElementById('fourteenthQuestion').addEventListener('click', () => {
-        const fifteenthAnswer = document.getElementById('fifteenthAnswer');
-
-        if (fifteenthAnswer.style.display === 'block') {
-            fifteenthAnswer.style.display = 'none';
-        } else {
-            fifteenthAnswer.style.display = 'block';
-        }
-    });
-
-    document.getElementById('fifteenthQuestion').addEventListener('click', () => {
-        const sixteenthAnswer = document.getElementById('sixteenthAnswer');
-
-        if (sixteenthAnswer.style.display === 'block') {
-            sixteenthAnswer.style.display = 'none';
-        } else {
-            sixteenthAnswer.style.display = 'block';
-        }
-    });
-
-    function hideSubsequentQuestions(questionIds) {
-        questionIds.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.style.display = 'none';
+                event.target.classList.add('clicked');
             }
-        });
-    }
 
-    if (document.getElementById('yesFifthBtn') && document.getElementById('forthAnswer')) {
+            yesBtn.addEventListener('click', buttonClickHandler);
+            noBtn.addEventListener('click', buttonClickHandler);
+        }
+
+        handleYesNoButtons('yesSecondBtn', 'noSecondBtn');
+        handleYesNoButtons('yesBtn1', 'noBtn1');
+        handleYesNoButtons('yesThirdBtn', 'noThirdBtn');
+        handleYesNoButtons('yesForthBtn', 'noForthBtn');
+        handleYesNoButtons('yesFifthBtn', 'noFifthBtn');
+        handleYesNoButtons('yesSixthBtn', 'noSixthBtn');
+
+
+        document.getElementById('noBtn1').addEventListener('click', () => {
+            document.getElementById('firstAnswer').style.display = 'block';
+        });
+
+        document.getElementById('yesBtn1').addEventListener('click', () => {
+            document.getElementById('secondQuestion').style.display = 'block';
+        });
+
+        document.getElementById('yesSecondBtn').addEventListener('click', () => {
+            document.getElementById('thirdQuestion').style.display = 'block';
+        });
+
+        document.getElementById('noSecondBtn').addEventListener('click', () => {
+            document.getElementById('forthQuestion').style.display = 'block';
+        });
+
+        document.getElementById('noForthBtn').addEventListener('click', () => {
+            document.getElementById('fifthQuestion').style.display = 'block';
+        });
+
+        document.getElementById('yesThirdBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer',
+                'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion'
+            ]);
+            document.getElementById('sixthQuestion').style.display = 'block';
+        });
+
         document.getElementById('yesFifthBtn').addEventListener('click', () => {
-            // Show the 'forthAnswer' paragraph
+            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'seventhAnswer', 'seventhQuestion',
+                'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
+                'eighthAnswer', 'ninthAnswer', 'tenthAnswer', 'eleventhAnswer', 'twelfthAnswer'
+            ]);
+            document.getElementById('sixthAnswer').style.display = 'block';
+        });
+
+        document.getElementById('noFifthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer']);
+
+            const elementsToShow = [
+                'seventhAnswer',
+                'seventhQuestion',
+                'eighthQuestion',
+                'ninthQuestion',
+                'tenthQuestion',
+                'eleventhQuestion'
+            ];
+
+            elementsToShow.forEach(id => {
+                document.getElementById(id).style.display = 'block';
+            });
+        });
+
+        document.getElementById('yesSixthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer']);
             document.getElementById('forthAnswer').style.display = 'block';
         });
-    }
 
-    function hideSubsequentQuestions(questionIds) {
-        questionIds.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.style.display = 'none';
+        document.getElementById('noSixthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'seventhAnswer']);
+            document.getElementById('fifthAnswer').style.display = 'block';
+        });
+
+        document.getElementById('seventhQuestion').addEventListener('click', () => {
+            const eighthAnswer = document.getElementById('eighthAnswer');
+
+            if (eighthAnswer.style.display === 'block') {
+                eighthAnswer.style.display = 'none';
+            } else {
+                eighthAnswer.style.display = 'block';
             }
         });
-    }
 
-    document.getElementById('yesFifthBtn').addEventListener('click', function() {
-        const thirdAnswer = document.getElementById('thirdAnswer');
-        thirdAnswer.style.display = 'block';
-    });
+        document.getElementById('eighthQuestion').addEventListener('click', () => {
+            const ninthAnswer = document.getElementById('ninthAnswer');
 
-    document.getElementById('noBtn1').addEventListener('click', () => {
-        hideSubsequentQuestions(['secondQuestion', 'thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
-        document.getElementById('firstAnswer').style.display = 'block';
-    });
-
-    document.getElementById('yesBtn1').addEventListener('click', () => {
-        hideSubsequentQuestions(['thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
-        document.getElementById('firstAnswer').style.display = 'none';
-        document.getElementById('secondQuestion').style.display = 'block';
-    });
-
-    document.getElementById('noThirdBtn').addEventListener("click", () => {
-        hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
-        document.getElementById('secondAnswer').style.display = "block";
-    });
-
-    document.getElementById('yesSecondBtn').addEventListener('click', () => {
-        hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
-        document.getElementById('thirdQuestion').style.display = 'block';
-    });
-
-    document.getElementById('noSecondBtn').addEventListener('click', () => {
-        hideSubsequentQuestions(['thirdQuestion', 'fifthQuestion', 'sixthQuestion',
-            'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo'
-        ]);
-        document.getElementById('forthQuestion').style.display = 'block';
-    });
-
-    document.getElementById('noForthBtn').addEventListener('click', () => {
-        hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion', 'secondAnswer', 'forthAnswer', 'sixthAnswer',
-            'seventhAnswer', 'fifthAnswer', 'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
-            'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo',
-            'thirteenthAnswer', 'fourteenthAnswer', 'fifteenthAnswer', 'sixteenthAnswer'
-        ]);
-        document.getElementById('fifthQuestion').style.display = 'block';
-    });
-
-    document.getElementById('yesForthBtn').addEventListener('click', () => {
-        hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion']);
-
-        const elementsToShow = [
-            'twelfthQuestion',
-            'thirteenthQuestion',
-            'fourteenthQuestion',
-            'fifteenthQuestion',
-            'therapyInfo'
-        ];
-
-        elementsToShow.forEach(id => {
-            document.getElementById(id).style.display = 'block';
+            if (ninthAnswer.style.display === 'block') {
+                ninthAnswer.style.display = 'none';
+            } else {
+                ninthAnswer.style.display = 'block';
+            }
         });
-    });
+
+        document.getElementById('ninthQuestion').addEventListener('click', () => {
+            const tenthAnswer = document.getElementById('tenthAnswer');
+
+            if (tenthAnswer.style.display === 'block') {
+                tenthAnswer.style.display = 'none';
+            } else {
+                tenthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('tenthQuestion').addEventListener('click', () => {
+            const eleventhAnswer = document.getElementById('eleventhAnswer');
+
+            if (eleventhAnswer.style.display === 'block') {
+                eleventhAnswer.style.display = 'none';
+            } else {
+                eleventhAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('eleventhQuestion').addEventListener('click', () => {
+            const twelfthAnswer = document.getElementById('twelfthAnswer');
+
+            if (twelfthAnswer.style.display === 'block') {
+                twelfthAnswer.style.display = 'none';
+            } else {
+                twelfthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('twelfthQuestion').addEventListener('click', () => {
+            const thirteenthAnswer = document.getElementById('thirteenthAnswer');
+
+            if (thirteenthAnswer.style.display === 'block') {
+                thirteenthAnswer.style.display = 'none';
+            } else {
+                thirteenthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('thirteenthQuestion').addEventListener('click', () => {
+            const fourteenthAnswer = document.getElementById('fourteenthAnswer');
+
+            if (fourteenthAnswer.style.display === 'block') {
+                fourteenthAnswer.style.display = 'none';
+            } else {
+                fourteenthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('fourteenthQuestion').addEventListener('click', () => {
+            const fifteenthAnswer = document.getElementById('fifteenthAnswer');
+
+            if (fifteenthAnswer.style.display === 'block') {
+                fifteenthAnswer.style.display = 'none';
+            } else {
+                fifteenthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('fifteenthQuestion').addEventListener('click', () => {
+            const sixteenthAnswer = document.getElementById('sixteenthAnswer');
+
+            if (sixteenthAnswer.style.display === 'block') {
+                sixteenthAnswer.style.display = 'none';
+            } else {
+                sixteenthAnswer.style.display = 'block';
+            }
+        });
+
+        function hideSubsequentQuestions(questionIds) {
+            questionIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+        if (document.getElementById('yesFifthBtn') && document.getElementById('forthAnswer')) {
+            document.getElementById('yesFifthBtn').addEventListener('click', () => {
+                // Show the 'forthAnswer' paragraph
+                document.getElementById('forthAnswer').style.display = 'block';
+            });
+        }
+
+        function hideSubsequentQuestions(questionIds) {
+            questionIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('yesFifthBtn').addEventListener('click', function() {
+            const thirdAnswer = document.getElementById('thirdAnswer');
+            thirdAnswer.style.display = 'block';
+        });
+
+        document.getElementById('noBtn1').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondQuestion', 'thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
+            document.getElementById('firstAnswer').style.display = 'block';
+        });
+
+        document.getElementById('yesBtn1').addEventListener('click', () => {
+            hideSubsequentQuestions(['thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
+            document.getElementById('firstAnswer').style.display = 'none';
+            document.getElementById('secondQuestion').style.display = 'block';
+        });
+
+        document.getElementById('noThirdBtn').addEventListener("click", () => {
+            hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
+            document.getElementById('secondAnswer').style.display = "block";
+        });
+
+        document.getElementById('yesSecondBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
+            document.getElementById('thirdQuestion').style.display = 'block';
+        });
+
+        document.getElementById('noSecondBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['thirdQuestion', 'fifthQuestion', 'sixthQuestion',
+                'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo'
+            ]);
+            document.getElementById('forthQuestion').style.display = 'block';
+        });
+
+        document.getElementById('noForthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion', 'secondAnswer', 'forthAnswer', 'sixthAnswer',
+                'seventhAnswer', 'fifthAnswer', 'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
+                'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo',
+                'thirteenthAnswer', 'fourteenthAnswer', 'fifteenthAnswer', 'sixteenthAnswer'
+            ]);
+            document.getElementById('fifthQuestion').style.display = 'block';
+        });
+
+        document.getElementById('yesForthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion']);
+
+            const elementsToShow = [
+                'twelfthQuestion',
+                'thirteenthQuestion',
+                'fourteenthQuestion',
+                'fifteenthQuestion',
+                'therapyInfo'
+            ];
+
+            elementsToShow.forEach(id => {
+                document.getElementById(id).style.display = 'block';
+            });
+        });
 </script>
 </body>
 
