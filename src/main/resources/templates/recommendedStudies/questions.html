@@ -232,8 +232,8 @@
                 <div id="popupText"></div>
             </div>
         </div>
-        <p id="answer16" th:text="${answer16}" style="display: none;"></p>
-
+        <p id="coreNeedleBiopsy" th:text="${coreNeedleBiopsy}" style="display: none;"></p>
+        <p id="clinicalExamination" th:text="${clinicalExamination}" style="display: none;"></p>
         <!-- FIRST QUESTION-->
         <h5 style="font-weight: bold; text-align: center;">
             Имате ли поставена ДИАГНОЗА ,,рак на гърдата" с хистология?
@@ -375,13 +375,11 @@
     var closeBtn = document.getElementsByClassName('close-btn')[0];
     var popupText = document.getElementById('popupText');
     var modalHeader = document.getElementById('modalHeader');
-    var answer16 = document.getElementById('answer16').textContent;
+
     var wordDefinitions = {
-    "дебелоиглена биопсия": answer16,
-    "ехомамография": "Ехомамография е метод за изследване на млечните жлези чрез използване на ултразвук.",
-    "мамография": "Мамографията е рентгеново изследване на млечните жлези, което се използва за откриване на тумори или други аномалии.",
-    "ядерно-магнитен резонанс": "Ядерно-магнитен резонанс (ЯМР) е метод за образна диагностика, който използва магнитни полета и радиовълни за създаване на подробни изображения на вътрешни органи."
-};
+    "дебелоиглена биопсия": document.getElementById('coreNeedleBiopsy').textContent,
+    "клиничен преглед" : document.getElementById('clinicalExamination').textContent
+    };
 
     document.querySelectorAll('strong')
         .forEach(function (element) {
@@ -389,7 +387,8 @@
                 var clickedWord = this.innerHTML.toLowerCase();
 
                 var definitionKey = Object.keys(wordDefinitions)
-                    .find(key => key.toLowerCase() === clickedWord.toLowerCase());
+                    .find(key => clickedWord.toLowerCase().includes(key.toLowerCase()));
+
 
                 modalHeader.innerHTML = this.innerHTML;
 
