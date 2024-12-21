@@ -38,7 +38,7 @@ public class ChatController {
     @PostMapping("/understandingDiagnosis")
     public String understandingDiagnosis(@RequestParam String message, Model model,
                                          @RequestParam(value = "file", required = false) MultipartFile file) {
-        if(message.isEmpty()){
+        if (message.isEmpty()) {
             message = "Моля да опишеш на разбираем език, без медицинските термини какво е заболяването описано във файла. " +
                     "Обясни значението на всеки термин.";
         }
@@ -49,6 +49,18 @@ public class ChatController {
         model.addAttribute("message", message);
 
         return "menu/understandingDiagnosis";
+    }
+
+    @PostMapping("/explainTerms")
+    public String explainTerms(@RequestParam("message") String message, Model model,
+                                  @RequestParam(value = "file", required = false) MultipartFile file) {
+
+        ResponseEntity<String> response = chatClient.chat(message, file);
+        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
+        model.addAttribute("response", formattedResponse);
+        model.addAttribute("message", message);
+
+        return "chat";
     }
 
     private String formatResponse(String response) {

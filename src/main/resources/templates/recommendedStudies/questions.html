@@ -230,6 +230,15 @@
                 <span class="close-btn">&times;</span>
                 <h3 id="modalHeader" style="font-weight: bold;"></h3><br>
                 <div id="popupText"></div>
+                <form th:action="@{/explainTerms}" method="post" class="search-box">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="message" name="message"
+                               placeholder="Message..." required>
+                    </div>
+                    <button type="submit" class="btn btn-search">
+                        <img src="https://img.icons8.com/?size=30&id=AdrKKYXG06TU&format=png&color=000000" alt="Search">
+                    </button>
+                </form>
             </div>
         </div>
         <p id="coreNeedleBiopsy" th:text="${coreNeedleBiopsy}" style="display: none;"></p>
