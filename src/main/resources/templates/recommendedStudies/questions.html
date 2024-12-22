@@ -230,11 +230,13 @@
                 <span class="close-btn">&times;</span>
                 <h3 id="modalHeader" style="font-weight: bold;"></h3><br>
                 <div id="popupText"></div>
-                <form th:action="@{/explainTerms}" method="post" class="search-box">
+                <form th:action="@{/explainTerms}" method="post" class="search-box" onsubmit="addPopupTextToForm()">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="message" name="message"
-                               placeholder="Message..." required>
+                        <input type="text" class="form-control" id="message" name="message" placeholder="Message..."
+                               required>
                     </div>
+                    <!-- Hidden input field to hold popup text -->
+                    <input type="hidden" id="popupTextContent" name="popupTextContent">
                     <button type="submit" class="btn btn-search">
                         <img src="https://img.icons8.com/?size=30&id=AdrKKYXG06TU&format=png&color=000000" alt="Search">
                     </button>
@@ -298,12 +300,14 @@
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ХИМИОТЕРАПИЯ
                 </button>
-                <div id="thirteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[12].text}"></div>
+                <div id="thirteenthAnswer" style="display: none; margin-top: 20px;"
+                     th:utext="${answers[12].text}"></div>
                 <button id="thirteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ТАРГЕТНА ТЕРАПИЯ
                 </button>
-                <div id="fourteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[13].text}"></div>
+                <div id="fourteenthAnswer" style="display: none; margin-top: 20px;"
+                     th:utext="${answers[13].text}"></div>
                 <button id="fourteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ЕНДОКРИННА ТЕРАПИЯ
@@ -389,6 +393,11 @@
     "дебелоиглена биопсия": document.getElementById('coreNeedleBiopsy').textContent,
     "клиничен преглед" : document.getElementById('clinicalExamination').textContent
     };
+
+    function addPopupTextToForm() {
+        const popupText = document.getElementById('popupText').textContent;
+        document.getElementById('popupTextContent').value = popupText.trim();
+    }
 
     document.querySelectorAll('strong')
         .forEach(function (element) {

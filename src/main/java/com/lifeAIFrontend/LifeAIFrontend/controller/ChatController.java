@@ -52,11 +52,20 @@ public class ChatController {
     }
 
     @PostMapping("/explainTerms")
-    public String explainTerms(@RequestParam("message") String message, Model model,
-                                  @RequestParam(value = "file", required = false) MultipartFile file) {
+    public String explainTerms(
+            @RequestParam("message") String message,
+            @RequestParam(value = "popupTextContent", required = false) String popupTextContent,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            Model model) {
+
+        if (popupTextContent != null) {
+            message = message + " " + popupTextContent;
+            System.out.println(message);
+        }
 
         ResponseEntity<String> response = chatClient.chat(message, file);
         String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
+
         model.addAttribute("response", formattedResponse);
         model.addAttribute("message", message);
 
