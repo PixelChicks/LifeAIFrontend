@@ -58,9 +58,11 @@ public class ChatController {
             @RequestParam(value = "file", required = false) MultipartFile file,
             Model model) {
 
+        model.addAttribute("plainMessage", message);
+
         if (popupTextContent != null) {
             message = message + " " + popupTextContent;
-            System.out.println(message);
+            model.addAttribute("popupText", popupTextContent);
         }
 
         ResponseEntity<String> response = chatClient.chat(message, file);
@@ -69,7 +71,7 @@ public class ChatController {
         model.addAttribute("response", formattedResponse);
         model.addAttribute("message", message);
 
-        return "chat";
+        return "recommendedStudies/chat";
     }
 
     private String formatResponse(String response) {
