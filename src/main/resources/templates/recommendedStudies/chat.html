@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Life AI</title>
-    <link rel="icon" href="https://life.bbca.bg/img/Group-1629.svg">
+    <link href="https://life.bbca.bg/img/Group-1629.svg" rel="icon">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -74,9 +74,9 @@
 <body>
 
 <!-- Spinner Start -->
-<div id="spinner"
-     class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+<div class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
+     id="spinner">
+    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
         <span class="sr-only">Loading...</span>
     </div>
 </div>
@@ -87,15 +87,17 @@
 
 <div class="container-fluid p-0">
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0">
-        <a href="javascript:history.back()" class="back-icon" id="backButton">
+        <a class="back-icon" href="javascript:history.back()" id="backButton">
             <!-- Back Icon SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+            <svg class="bi bi-arrow-left" fill="currentColor" height="35" viewBox="0 0 16 16" width="35"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"
+                      fill-rule="evenodd"/>
             </svg>
         </a>
-        <a href="/home" class="navbar-brand p-0">
+        <a class="navbar-brand p-0" href="/home">
             <!-- Centered Logo -->
-            <img src="https://life.bbca.bg/img/Group-1629.svg" alt="Life AI Logo">
+            <img alt="Life AI Logo" src="https://life.bbca.bg/img/Group-1629.svg">
         </a>
     </nav>
 </div>
@@ -152,16 +154,29 @@
 <div class="container py-0">
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="container mt-5">
-            <div class="chat-bubble user-message">
-                <p th:text="${popupText}"></p>
+            <div id="chat-container">
+                <div class="chat-bubble user-message">
+                    <p th:text="${popupText}"></p>
+                </div>
+                <div class="chat-bubble user-message">
+                    <p th:text="${plainMessage}"></p>
+                </div>
+                <div class="chat-bubble response-message">
+                    <p id="response-message" th:text="${response}">Отговорът на вашето търсене ще се появи тук...</p>
+                </div>
             </div>
-            <div class="chat-bubble user-message">
-                <p th:text="${plainMessage}"></p>
-            </div>
-            <div class="chat-bubble response-message">
-                <p th:text="${response}">Отговорът на вашето търсене ще се появи тук...</p>
-            </div>
-            <br>
+            <form id="chat-form" class="search-box" method="post">
+                <div class="input-group">
+                    <!-- Hidden input to maintain conversation context -->
+                    <input type="hidden" id="popupText" name="popupText" th:value="${popupText}">
+                    <input type="hidden" id="conversationContext" name="conversationContext" th:value="${conversationContext}">
+                    <input class="form-control" id="message" name="message" placeholder="Message..." required type="text">
+                </div>
+                <button class="btn btn-search" type="submit">
+                    <img alt="Search" src="https://img.icons8.com/?size=30&id=AdrKKYXG06TU&format=png&color=000000">
+                </button>
+            </form>
+
         </div>
         <br> <br> <br>
     </div>
@@ -170,6 +185,56 @@
 </div>
 <!-- Contact End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
+<script>
+    document.getElementById("chat-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const message = document.getElementById("message").value;
+    const conversationContextElement = document.getElementById("popupText");
+    const conversationContext = conversationContextElement.value;
+
+    // Create the user message div and append it to chat container
+    const chatContainer = document.getElementById("chat-container");
+    const userMessage = document.createElement("div");
+    userMessage.classList.add("chat-bubble", "user-message");
+    userMessage.innerHTML = `<p>${message}</p>`;
+    chatContainer.appendChild(userMessage);
+
+    // Update conversation context to hold the user's message
+    conversationContextElement.value = message;
+
+    fetch("/explainTermsChat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            message: message,
+            conversationContext: conversationContext
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Create assistant's response and append it to chat container
+        const assistantResponse = document.createElement("div");
+        assistantResponse.classList.add("chat-bubble", "response-message");
+        assistantResponse.innerHTML = `<p>${data.response}</p>`;
+        chatContainer.appendChild(assistantResponse);
+
+        // Update the conversationContext with the assistant's response
+        conversationContextElement.value = data.conversationContext;
+
+        // Clear the input field for the next message
+        document.getElementById("message").value = "";
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+});
+
+
+
+</script>
 </body>
 
 </html>

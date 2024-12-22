@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -72,6 +72,29 @@ public class ChatController {
         model.addAttribute("message", message);
 
         return "recommendedStudies/chat";
+    }
+
+    @PostMapping("/explainTermsChat")
+    @ResponseBody
+    public Map<String, String> explainTermsChat(
+            @RequestBody Map<String, String> payload) {
+
+        String message = payload.get("message");
+        String conversationContext = payload.get("conversationContext");
+
+        String updatedContext = (conversationContext == null ? "" : conversationContext) +
+                "\nUser: " + message;
+
+        ResponseEntity<String> response = chatClient.chat(updatedContext, null);
+        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
+
+        updatedContext += "\nAssistant: " + formattedResponse;
+
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("response", formattedResponse);
+        responseBody.put("conversationContext", updatedContext);
+
+        return responseBody;
     }
 
     private String formatResponse(String response) {
