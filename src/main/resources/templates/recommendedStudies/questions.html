@@ -34,15 +34,15 @@
           background-color: #007bff;
           color: white;
         }
-        .btn-danger {
-          width: 300%;
+        .btn-question {
+          width: 350px;
           max-width: 160px;
           padding: 20px 60px;
           font-size: 18px;
           text-align: center;
           border-radius: 15px;
-          background-color: #9fb2a9;
-          outline: 2px solid #9fb2a9;
+          background-color: #E1E6EF;
+          outline: 2px solid #E1E6EF;
           color: black;
           border: none;
         }
@@ -52,16 +52,17 @@
           box-shadow: none;
         }
 
-        .btn-danger:focus {
+        .btn-question:focus {
           color: var(--bs-dark);
           background-color: #fff;
-          border-color: #15844e;
-          box-shadow: 0 0 0 0.25rem rgba(159, 178, 169, 0.5);
+          border-color: #1c9473;
+          box-shadow: none;
         }
 
-        .btn-danger.clicked {
-          background-color: #15844e;
-          outline: 2px solid #15844e;
+        .btn-question.clicked {
+          background-color:#1c9473;
+          outline: 2px solid #1c9473;
+          border: none;
           color: white;
         }
 
@@ -72,11 +73,12 @@
           line-height: 50px;
           text-align: center;
           margin: 5px 0;
-          border-radius: 6px;
-          background-color: #9fb2a9;
+          border-radius: 15px;
+          background-color: #E1E6EF;
           color: #000;
           border: none;
           cursor: pointer;
+            outline: none;
         }
 
         .btn-secondary:hover {
@@ -86,12 +88,25 @@
           line-height: 50px;
           text-align: center;
           margin: 5px 0;
-          border-radius: 6px;
-          background-color: #9fb2a9;
+          border-radius: 15px;
+          background-color: #E1E6EF;
+          border-color: #1c9473;
           color: #000;
+          outline: none;
+          box-shadow: none;
           border: none;
           cursor: pointer;
         }
+
+        .highlighted-word{
+         background-color: #ebeef2;
+         cursor: pointer;
+         font-weight: bold;
+         padding: 0;
+         margin-bottom: 10px;
+         display: inline-block;
+         text-align: left;
+          }
 
         #popupModal {
           display: none;
@@ -228,7 +243,7 @@
         <div id="popupModal">
             <div id="modalContent">
                 <span class="close-btn">&times;</span>
-                <h3 id="modalHeader" style="font-weight: bold;"></h3><br>
+                <h3 class= "highlighted-word" id="modalHeader" ></h3><br>
                 <div id="popupText"></div>
                 <form th:action="@{/explainTerms}" method="post" class="search-box">
                     <div class="input-group">
@@ -241,19 +256,37 @@
                 </form>
             </div>
         </div>
-        <p id="coreNeedleBiopsy" th:text="${coreNeedleBiopsy}" style="display: none;"></p>
         <p id="clinicalExamination" th:text="${clinicalExamination}" style="display: none;"></p>
+        <p id="imagingStudies" th:text="${imagingStudies}" style="display: none;"></p>
+        <p id="echomammography" th:text="${echomammography}" style="display: none;"></p>
+        <p id="mammography" th:text="${mammography}" style="display: none;"></p>
+        <p id="coreNeedleBiopsy" th:text="${coreNeedleBiopsy}" style="display: none;"></p>
+        <p id="ultrasound" th:text="${ultrasound}" style="display: none;"></p>
+        <p id="nuclearMagneticResonance" th:text="${nuclearMagneticResonance}" style="display: none;"></p>
+        <p id="PETScanner" th:text="${PETScanner}" style="display: none;"></p>
+        <p id="contrastScanner" th:text="${contrastScanner}" style="display: none;"></p>
+        <p id="boneScintigraphy" th:text="${boneScintigraphy}" style="display: none;"></p>
+        <p id="abdominalUltrasound" th:text="${abdominalUltrasound}" style="display: none;"></p>
+        <p id="lungXray" th:text="${lungXray}" style="display: none;"></p>
+        <p id="tumorMarker" th:text="${tumorMarker}" style="display: none;"></p>
+        <p id="BRCA12" th:text="${BRCA12}" style="display: none;"></p>
+        <p id="chemotherapy" th:text="${chemotherapy}" style="display: none;"></p>
+        <p id="targetedTherapy" th:text="${targetedTherapy}" style="display: none;"></p>
+        <p id="immuneTherapy" th:text="${immuneTherapy}" style="display: none;"></p>
+        <p id="hormonalTherapy" th:text="${hormonalTherapy}" style="display: none;"></p>
+
+
         <!-- FIRST QUESTION-->
         <h5 style="font-weight: bold; text-align: center;">
-            Имате ли поставена ДИАГНОЗА ,,рак на гърдата" с хистология?
+            Имате ли поставена ДИАГНОЗА "рак на гърдата" с хистология?
         </h5>
         <br>
         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
-            <button id="yesBtn1" type="button" class="btn btn-danger">ДА</button>
-            <button id="noBtn1" type="button" class="btn btn-danger">НЕ</button>
+            <button id="yesBtn1" type="button" class="btn btn-question">ДА</button>
+            <button id="noBtn1" type="button" class="btn btn-question">НЕ</button>
         </div>
         <br>
-        <div id="firstAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[0].text}"></div>
+        <div id="firstAnswer" style="display: none; margin-top: 20px text-align: left;" th:utext="${answers[0].text}"></div>
         <br>
         <!-- SECOND QUESTION-->
         <div id="secondQuestion" style="display:none;">
@@ -261,8 +294,8 @@
                 ОПЕРИРАНА ЛИ СТЕ?
             </h5>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
-                <button id="yesSecondBtn" class="btn btn-danger">ДА</button>
-                <button id="noSecondBtn" class="btn btn-danger">НЕ</button>
+                <button id="yesSecondBtn" class="btn btn-question">ДА</button>
+                <button id="noSecondBtn" class="btn btn-question">НЕ</button>
             </div>
         </div>
         <br><br>
@@ -272,8 +305,8 @@
                 ПРОВЕЖДАЛИ ЛИ СТЕ ТЕРАПИЯ ПРЕДИ операцията?
             </h5>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
-                <button id="yesThirdBtn" class="btn btn-danger">ДА</button>
-                <button id="noThirdBtn" class="btn btn-danger">НЕ</button>
+                <button id="yesThirdBtn" class="btn btn-question">ДА</button>
+                <button id="noThirdBtn" class="btn btn-question">НЕ</button>
             </div>
             <br>
             <div id="secondAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[1].text}"></div>
@@ -285,36 +318,36 @@
                 ПРОВЕЖДАТЕ ЛИ лекарствена, неоадювантна ТЕРАПИЯ?
             </h5>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
-                <button id="yesForthBtn" class="btn btn-danger">ДА</button>
-                <button id="noForthBtn" class="btn btn-danger">НЕ</button>
+                <button id="yesForthBtn" class="btn btn-question">ДА</button>
+                <button id="noForthBtn" class="btn btn-question">НЕ</button>
             </div>
             <br>
-            <center>
-                <p id="therapyInfo" style="display: none;">
-                    Препоръчителните изследвания зависят от терапията, която провеждате
+            <left>
+                <p id="therapyInfo" style="display: none; margin-bottom: 15px">
+                    Препоръчителните изследвания зависят от терапията, която провеждате:
                 </p>
-                <br>
-                <button id="twelfthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+
+                <button id="twelfthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ХИМИОТЕРАПИЯ
                 </button>
                 <div id="thirteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[12].text}"></div>
-                <button id="thirteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                <button id="thirteenthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ТАРГЕТНА ТЕРАПИЯ
                 </button>
                 <div id="fourteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[13].text}"></div>
-                <button id="fourteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                <button id="fourteenthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ЕНДОКРИННА ТЕРАПИЯ
                 </button>
                 <div id="fifteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[14].text}"></div>
-                <button id="fifteenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                <button id="fifteenthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ИМУНОТЕРАПИЯ
                 </button>
                 <div id="sixteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[15].text}"></div>
-            </center>
+            </left>
         </div>
         <br>
         <!-- FIFTH QUESTION-->
@@ -323,39 +356,39 @@
                 ОПРЕДЕЛЕН ЛИ Е СТАДИЯТ на заболяването?
             </h5>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
-                <button id="yesFifthBtn" class="btn btn-danger">ДА</button>
-                <button id="noFifthBtn" class="btn btn-danger">НЕ</button>
+                <button id="yesFifthBtn" class="btn btn-question">ДА</button>
+                <button id="noFifthBtn" class="btn btn-question">НЕ</button>
             </div>
             <div id="sixthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[5].text}"></div>
             <div id="seventhAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[6].text}"></div>
             <br>
-            <center>
-                <button id="seventhQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+            <left>
+                <button id="seventhQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     Размер на тумора: ПОД 2см
                 </button>
                 <div id="eighthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[7].text}"></div>
-                <button id="eighthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                <button id="eighthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     Размер на тумора: НАД 2см
                 </button>
                 <div id="ninthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[8].text}"></div>
-                <button id="ninthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                <button id="ninthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ВЪЗРАСТ ПОД 40г.
                 </button>
                 <div id="tenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[9].text}"></div>
-                <button id="tenthQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                <button id="tenthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ВЪЗРАСТ 40-50г.
                 </button>
                 <div id="eleventhAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[10].text}"></div>
-                <button id="eleventhQuestion" class="btn btn-secondary dropdown-toggle" type="button"
+                <button id="eleventhQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
                     При ВЪЗРАСТ НАД 50г.
                 </button>
                 <div id="twelfthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[11].text}"></div>
-            </center>
+            </left>
         </div>
         <!-- SIXTH QUESTION-->
         <div id="sixthQuestion" style="display:none;">
@@ -363,8 +396,8 @@
                 ПРОВЕЖДАТЕ ЛИ ТЕРАПИЯ СЛЕД операцията?
             </h5>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
-                <button id="yesSixthBtn" class="btn btn-danger">ДА</button>
-                <button id="noSixthBtn" class="btn btn-danger">НЕ</button>
+                <button id="yesSixthBtn" class="btn btn-question">ДА</button>
+                <button id="noSixthBtn" class="btn btn-question">НЕ</button>
             </div>
             <div id="forthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[3].text}"></div>
             <div id="fifthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[4].text}"></div>
@@ -387,10 +420,30 @@
 
     var wordDefinitions = {
     "дебелоиглена биопсия": document.getElementById('coreNeedleBiopsy').textContent,
-    "клиничен преглед" : document.getElementById('clinicalExamination').textContent
+    "клиничен преглед" : document.getElementById('clinicalExamination').textContent,
+    "ехомамография" : document.getElementById('echomammography').textContent,
+    "мамография" : document.getElementById('mammography').textContent,
+    "ехография" : document.getElementById('ultrasound').textContent,
+    "ехо" : document.getElementById('ultrasound').textContent,
+    "ядрено-магнитен резонанс" : document.getElementById('nuclearMagneticResonance').textContent,
+    "образното изследване" : document.getElementById('imagingStudies').textContent,
+    "образни изследвания" : document.getElementById('imagingStudies').textContent,
+    "ЯМР" : document.getElementById('nuclearMagneticResonance').textContent,
+    "ПЕТ скенер" : document.getElementById('PETScanner').textContent,
+    "скенер с контраст" : document.getElementById('contrastScanner').textContent,
+    "костна сцинтиграфия" : document.getElementById('boneScintigraphy').textContent,
+    "ехография на корем" : document.getElementById('abdominalUltrasound').textContent,
+    "рентгенова снимка на бял дроб" : document.getElementById('lungXray').textContent,
+    "туморен маркер - карциоембрионалния антиген CEA" : document.getElementById('tumorMarker').textContent,
+    "BRCA1/2" : document.getElementById('BRCA12').textContent,
+    "Химиотерапия" : document.getElementById('chemotherapy').textContent,
+    "Таргетна терапия" : document.getElementById('targetedTherapy').textContent,
+    "Таргетна" : document.getElementById('targetedTherapy').textContent,
+    "Имунотерапия" : document.getElementById('immuneTherapy').textContent,
+    "Хормонална терапия" : document.getElementById('hormonalTherapy').textContent,
     };
 
-    document.querySelectorAll('strong')
+    document.querySelectorAll('strong[style*="background-color: #e9ecf2"]')
         .forEach(function (element) {
             element.addEventListener('click', function () {
                 var clickedWord = this.innerHTML.toLowerCase();

@@ -37,13 +37,15 @@ public class AnswerController {
         model.addAttribute("PETScanner", answerClient.getAnswerById(25L).getText());
         model.addAttribute("contrastScanner", answerClient.getAnswerById(26L).getText());
         model.addAttribute("abdominalUltrasound", answerClient.getAnswerById(27L).getText());
-        model.addAttribute("lungX-ray", answerClient.getAnswerById(28L).getText());
+        model.addAttribute("lungXray", answerClient.getAnswerById(28L).getText());
         model.addAttribute("boneScintigraphy", answerClient.getAnswerById(29L).getText());
         model.addAttribute("tumorMarker", answerClient.getAnswerById(30L).getText());
-        model.addAttribute("BRCA1/2", answerClient.getAnswerById(31L).getText());
+        model.addAttribute("BRCA12", answerClient.getAnswerById(31L).getText());
         model.addAttribute("chemotherapy", answerClient.getAnswerById(32L).getText());
-        model.addAttribute("targetedTherapy", answerClient.getAnswerById(32L).getText());
-        model.addAttribute("chemotherapy", answerClient.getAnswerById(32L).getText());
+        model.addAttribute("targetedTherapy", answerClient.getAnswerById(33L).getText());
+        model.addAttribute("hormonalTherapy", answerClient.getAnswerById(34L).getText());
+        model.addAttribute("immuneTherapy", answerClient.getAnswerById(35L).getText());
+
 
         return "recommendedStudies/questions";
     }
