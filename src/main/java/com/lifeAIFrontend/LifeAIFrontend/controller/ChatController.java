@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -38,7 +38,7 @@ public class ChatController {
     @PostMapping("/understandingDiagnosis")
     public String understandingDiagnosis(@RequestParam String message, Model model,
                                          @RequestParam(value = "file", required = false) MultipartFile file) {
-        if(message.isEmpty()){
+        if (message.isEmpty()) {
             message = "Моля да опишеш на разбираем език, без медицинските термини какво е заболяването описано във файла. " +
                     "Обясни значението на всеки термин.";
         }
@@ -49,6 +49,52 @@ public class ChatController {
         model.addAttribute("message", message);
 
         return "menu/understandingDiagnosis";
+    }
+
+    @PostMapping("/explainTerms")
+    public String explainTerms(
+            @RequestParam("message") String message,
+            @RequestParam(value = "popupTextContent") String popupTextContent,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            Model model) {
+
+        model.addAttribute("plainMessage", message);
+
+        if (popupTextContent != null) {
+            message = message + " " + popupTextContent;
+            model.addAttribute("popupText", popupTextContent);
+        }
+
+        ResponseEntity<String> response = chatClient.chat(message, file);
+        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
+
+        model.addAttribute("response", formattedResponse);
+        model.addAttribute("message", message);
+
+        return "recommendedStudies/chat";
+    }
+
+    @PostMapping("/explainTermsChat")
+    @ResponseBody
+    public Map<String, String> explainTermsChat(
+            @RequestBody Map<String, String> payload) {
+
+        String message = payload.get("message");
+        String conversationContext = payload.get("conversationContext");
+
+        String updatedContext = (conversationContext == null ? "" : conversationContext) +
+                "\nUser: " + message;
+
+        ResponseEntity<String> response = chatClient.chat(updatedContext, null);
+        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
+
+        updatedContext += "\nAssistant: " + formattedResponse;
+
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("response", formattedResponse);
+        responseBody.put("conversationContext", updatedContext);
+
+        return responseBody;
     }
 
     private String formatResponse(String response) {

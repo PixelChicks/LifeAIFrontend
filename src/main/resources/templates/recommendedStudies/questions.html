@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Препоръчителни изследвания</title>
+    <link rel="icon" href="https://life.bbca.bg/img/Group-1629.svg">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .search-box {
+          display: flex;
+          align-items: center;
+          margin-top: 20px;
+        }
+
+        .search-box input[type="text"] {
+          border-radius: 50px 0 0 50px;
+          padding-left: 20px;
+          border-right: none;
+        }
+
+        .search-box button {
+          border-radius: 0 50px 50px 0;
+        }
+
+        .search-box .input-group {
+          flex-grow: 1;
+        }
+
+        .search-box .btn {
+          background-color: #007bff;
+          color: white;
+        }
+        .btn-question {
+          width: 350px;
+          max-width: 160px;
+          padding: 20px 60px;
+          font-size: 18px;
+          text-align: center;
+          border-radius: 15px;
+          background-color: #E1E6EF;
+          outline: 2px solid #E1E6EF;
+          color: black;
+          border: none;
+        }
+
+        button:focus {
+          outline: none;
+          box-shadow: none;
+        }
+
+        .btn-question:focus {
+          color: var(--bs-dark);
+          background-color: #fff;
+          border-color: #1c9473;
+          box-shadow: none;
+        }
+
+        .btn-question.clicked {
+          background-color:#1c9473;
+          outline: 2px solid #1c9473;
+          border: none;
+          color: white;
+        }
+
+        .btn-secondary {
+          width: 350px;
+          height: 62px;
+          font-size: 18px;
+          line-height: 50px;
+          text-align: center;
+          margin: 5px 0;
+          border-radius: 15px;
+          background-color: #E1E6EF;
+          color: #000;
+          border: none;
+          cursor: pointer;
+            outline: none;
+        }
+
+        .btn-secondary:hover {
+          width: 350px;
+          height: 62px;
+          font-size: 18px;
+          line-height: 50px;
+          text-align: center;
+          margin: 5px 0;
+          border-radius: 15px;
+          background-color: #E1E6EF;
+          border-color: #1c9473;
+          color: #000;
+          outline: none;
+          box-shadow: none;
+          border: none;
+          cursor: pointer;
+        }
+
+        .highlighted-word{
+         background-color: #ebeef2;
+         cursor: pointer;
+         font-weight: bold;
+         padding: 0;
+         margin-bottom: 10px;
+         display: inline-block;
+         text-align: left;
+          }
+
+        #popupModal {
+          display: none;
+          position: fixed;
+          bottom: 50px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 90%;
+          max-width: 800px;
+          background-color: rgba(0, 0, 0, 0.6);
+          z-index: 1000;
+          border-radius: 10px;
+          overflow: hidden;
+        }
+
+        #modalContent {
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-btn {
+          color: #aaa;
+          font-size: 28px;
+          font-weight: bold;
+          cursor: pointer;
+          position: absolute;
+          top: 5px;
+          right: 10px;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+          color: black;
+          text-decoration: none;
+        }
+
+        #overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    display: none; /* Hidden by default */
+    z-index: 999; /* Ensure it appears above all other content */
+}
+    </style>
+</head>
+
+<body>
+<div id="spinner"
+     class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<!-- Spinner End -->
+
+
+<!-- Navbar & Hero Start -->
+
+<div class="container-fluid p-0">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0">
+        <a href="javascript:history.back()" class="back-icon" id="backButton">
+            <!-- Back Icon SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left"
+                 viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+            </svg>
+        </a>
+        <a href="/home" class="navbar-brand p-0">
+            <!-- Centered Logo -->
+            <img src="https://life.bbca.bg/img/Group-1629.svg" alt="Life AI Logo">
+        </a>
+    </nav>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Check if the current URL path includes "info"
+    if (window.location.pathname.includes('info')) {
+        // Hide the back button if "info" is part of the URL path
+        document.getElementById('backButton').style.display = 'none';
+    }
+</script>
+<!-- Navbar & Hero End -->
+<style>
+    .navbar {
+        justify-content: center; /* Center the navbar content */
+        position: relative; /* Allows absolute positioning for the back icon */
+    }
+    .navbar-brand {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .back-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+</style>
+
+<!-- Header Start -->
+<div class="container-fluid bg-breadcrumb">
+    <ul class="breadcrumb-animation">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div class="container text-center py-5" style="max-width: 900px;">
+        <h1 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Препоръчителни изследвания</h1>
+    </div>
+</div>
+
+<!-- Contact Start -->
+
+<div class="container py-6">
+    <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 350px;">
+        <!-- Modal (popup) -->
+        <div id="overlay"></div>
+        <div id="popupModal">
+            <div id="modalContent">
+                <span class="close-btn">&times;</span>
+                <h3 id="modalHeader" style="font-weight: bold;"></h3><br>
+                <div id="popupText"></div>
+                <form th:action="@{/explainTerms}" method="post" class="search-box" onsubmit="addPopupTextToForm()">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="message" name="message" placeholder="Message..."
+                               required>
+                    </div>
+                    <!-- Hidden input field to hold popup text -->
+                    <input type="hidden" id="popupTextContent" name="popupTextContent">
+                    <button type="submit" class="btn btn-search">
+                        <img src="https://img.icons8.com/?size=30&id=AdrKKYXG06TU&format=png&color=000000" alt="Search">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <p id="clinicalExamination" th:text="${clinicalExamination}" style="display: none;"></p>
+        <p id="imagingStudies" th:text="${imagingStudies}" style="display: none;"></p>
+        <p id="echomammography" th:text="${echomammography}" style="display: none;"></p>
+        <p id="mammography" th:text="${mammography}" style="display: none;"></p>
+        <p id="coreNeedleBiopsy" th:text="${coreNeedleBiopsy}" style="display: none;"></p>
+        <p id="ultrasound" th:text="${ultrasound}" style="display: none;"></p>
+        <p id="nuclearMagneticResonance" th:text="${nuclearMagneticResonance}" style="display: none;"></p>
+        <p id="histologicalExaminationOfBiopsyMaterial" th:text="${histologicalExaminationOfBiopsyMaterial}" style="display: none;"></p>
+        <p id="PETScanner" th:text="${PETScanner}" style="display: none;"></p>
+        <p id="contrastScanner" th:text="${contrastScanner}" style="display: none;"></p>
+        <p id="boneScintigraphy" th:text="${boneScintigraphy}" style="display: none;"></p>
+        <p id="abdominalUltrasound" th:text="${abdominalUltrasound}" style="display: none;"></p>
+        <p id="lungXray" th:text="${lungXray}" style="display: none;"></p>
+        <p id="tumorMarker" th:text="${tumorMarker}" style="display: none;"></p>
+        <p id="BRCA12" th:text="${BRCA12}" style="display: none;"></p>
+        <p id="chemotherapy" th:text="${chemotherapy}" style="display: none;"></p>
+        <p id="targetedTherapy" th:text="${targetedTherapy}" style="display: none;"></p>
+        <p id="immuneTherapy" th:text="${immuneTherapy}" style="display: none;"></p>
+        <p id="hormonalTherapy" th:text="${hormonalTherapy}" style="display: none;"></p>
+
+
+        <!-- FIRST QUESTION-->
+        <h5 style="font-weight: bold; text-align: center;">
+            Имате ли поставена ДИАГНОЗА "рак на гърдата" с хистология?
+        </h5>
+        <br>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
+            <button id="yesBtn1" type="button" class="btn btn-question">ДА</button>
+            <button id="noBtn1" type="button" class="btn btn-question">НЕ</button>
+        </div>
+        <br>
+        <div id="firstAnswer" style="display: none; margin-top: 20px text-align: left;" th:utext="${answers[0].text}"></div>
+        <br>
+        <!-- SECOND QUESTION-->
+        <div id="secondQuestion" style="display:none;">
+            <h5 style="font-weight: bold; text-align: center;">
+                ОПЕРИРАНА ЛИ СТЕ?
+            </h5>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
+                <button id="yesSecondBtn" class="btn btn-question">ДА</button>
+                <button id="noSecondBtn" class="btn btn-question">НЕ</button>
+            </div>
+        </div>
+        <br><br>
+        <!-- THIRD QUESTION-->
+        <div id="thirdQuestion" style="display:none;">
+            <h5 style="font-weight: bold; text-align: center;">
+                ПРОВЕЖДАЛИ ЛИ СТЕ ТЕРАПИЯ ПРЕДИ операцията?
+            </h5>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
+                <button id="yesThirdBtn" class="btn btn-question">ДА</button>
+                <button id="noThirdBtn" class="btn btn-question">НЕ</button>
+            </div>
+            <br>
+            <div id="secondAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[1].text}"></div>
+            <br>
+        </div>
+        <!-- FORTH QUESTION-->
+        <div id="forthQuestion" style="display:none;">
+            <h5 style="font-weight: bold; text-align: center;">
+                ПРОВЕЖДАТЕ ЛИ лекарствена, неоадювантна ТЕРАПИЯ?
+            </h5>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
+                <button id="yesForthBtn" class="btn btn-question">ДА</button>
+                <button id="noForthBtn" class="btn btn-question">НЕ</button>
+            </div>
+            <br>
+            <left>
+                <p id="therapyInfo" style="display: none; margin-bottom: 15px">
+                    Препоръчителните изследвания зависят от терапията, която провеждате:
+                </p>
+
+                <button id="twelfthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ХИМИОТЕРАПИЯ
+                </button>
+                <div id="thirteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[12].text}"></div>
+                <button id="thirteenthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ТАРГЕТНА ТЕРАПИЯ
+                </button>
+                <div id="fourteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[13].text}"></div>
+                <button id="fourteenthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ЕНДОКРИННА ТЕРАПИЯ
+                </button>
+                <div id="fifteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[14].text}"></div>
+                <button id="fifteenthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ИМУНОТЕРАПИЯ
+                </button>
+                <div id="sixteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[15].text}"></div>
+            </left>
+        </div>
+        <br>
+        <!-- FIFTH QUESTION-->
+        <div id="fifthQuestion" style="display:none;">
+            <h5 style="font-weight: bold; text-align: center;">
+                ОПРЕДЕЛЕН ЛИ Е СТАДИЯТ на заболяването?
+            </h5>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
+                <button id="yesFifthBtn" class="btn btn-question">ДА</button>
+                <button id="noFifthBtn" class="btn btn-question">НЕ</button>
+            </div>
+            <div id="sixthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[5].text}"></div>
+            <div id="seventhAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[6].text}"></div>
+            <br>
+            <left>
+                <button id="seventhQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    Размер на тумора: ПОД 2см
+                </button>
+                <div id="eighthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[7].text}"></div>
+                <button id="eighthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    Размер на тумора: НАД 2см
+                </button>
+                <div id="ninthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[8].text}"></div>
+                <button id="ninthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ВЪЗРАСТ ПОД 40г.
+                </button>
+                <div id="tenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[9].text}"></div>
+                <button id="tenthQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ВЪЗРАСТ 40-50г.
+                </button>
+                <div id="eleventhAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[10].text}"></div>
+                <button id="eleventhQuestion" class="btn btn-secondary dropdown-toggle shadow-none" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="display:none;">
+                    При ВЪЗРАСТ НАД 50г.
+                </button>
+                <div id="twelfthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[11].text}"></div>
+            </left>
+        </div>
+        <!-- SIXTH QUESTION-->
+        <div id="sixthQuestion" style="display:none;">
+            <h5 style="font-weight: bold; text-align: center;">
+                ПРОВЕЖДАТЕ ЛИ ТЕРАПИЯ СЛЕД операцията?
+            </h5>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
+                <button id="yesSixthBtn" class="btn btn-question">ДА</button>
+                <button id="noSixthBtn" class="btn btn-question">НЕ</button>
+            </div>
+            <div id="forthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[3].text}"></div>
+            <div id="fifthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[4].text}"></div>
+        </div>
+        <br>
+        <br>
+        <br> <br>
+    </div>
+    <th:block th:insert="~{fragments/feedback}"></th:block>
+    <br> <br>
+</div>
+<!-- Contact End -->
+<th:block th:insert="~{fragments/footer}"></th:block>
+<script>
+    var modal = document.getElementById('popupModal');
+    var overlay = document.getElementById('overlay');
+    var closeBtn = document.getElementsByClassName('close-btn')[0];
+    var popupText = document.getElementById('popupText');
+    var modalHeader = document.getElementById('modalHeader');
+
+    var wordDefinitions = {
+    "дебелоиглена биопсия": document.getElementById('coreNeedleBiopsy').textContent,
+    "клиничен преглед" : document.getElementById('clinicalExamination').textContent,
+    "ехомамография" : document.getElementById('echomammography').textContent,
+    "мамография" : document.getElementById('mammography').textContent,
+    "ехография" : document.getElementById('ultrasound').textContent,
+    "ехо" : document.getElementById('ultrasound').textContent,
+    "ядрено-магнитен резонанс" : document.getElementById('nuclearMagneticResonance').textContent,
+    "образното изследване" : document.getElementById('imagingStudies').textContent,
+    "образни изследвания" : document.getElementById('imagingStudies').textContent,
+    "ЯМР" : document.getElementById('nuclearMagneticResonance').textContent,
+    "ПЕТ скенер" : document.getElementById('PETScanner').textContent,
+    "скенер с контраст" : document.getElementById('contrastScanner').textContent,
+    "костна сцинтиграфия" : document.getElementById('boneScintigraphy').textContent,
+    "ехография на корем" : document.getElementById('abdominalUltrasound').textContent,
+    "рентгенова снимка на бял дроб" : document.getElementById('lungXray').textContent,
+    "туморен маркер - карциоембрионалния антиген CEA" : document.getElementById('tumorMarker').textContent,
+    "BRCA1/2" : document.getElementById('BRCA12').textContent,
+    "Химиотерапия" : document.getElementById('chemotherapy').textContent,
+    "Таргетна терапия" : document.getElementById('targetedTherapy').textContent,
+    "Таргетна" : document.getElementById('targetedTherapy').textContent,
+    "Имунотерапия" : document.getElementById('immuneTherapy').textContent,
+    "Хормонална терапия" : document.getElementById('hormonalTherapy').textContent
+    };
+
+     function addPopupTextToForm() {
+        const popupText = document.getElementById('popupText').textContent;
+        document.getElementById('popupTextContent').value = popupText.trim();
+    }
+
+    document.querySelectorAll('strong[style*="background-color: #e9ecf2"]')
+        .forEach(function (element) {
+            element.addEventListener('click', function () {
+                var clickedWord = this.innerHTML.toLowerCase();
+
+                var definitionKey = Object.keys(wordDefinitions)
+                    .find(key => clickedWord.toLowerCase().includes(key.toLowerCase()));
+
+
+                modalHeader.innerHTML = this.innerHTML;
+
+                if (definitionKey) {
+                    popupText.innerHTML = wordDefinitions[definitionKey];
+                } else {
+                    popupText.innerHTML = 'Sorry, no definition available for this word.';
+                }
+
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+            });
+        });
+
+
+    closeBtn.onclick = function () {
+        modal.style.display = 'none';
+        overlay.style.display = 'none';
+    };
+
+    window.onclick = function (event) {
+        if (event.target == modal || event.target == overlay) {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    };
+
+
+        function handleYesNoButtons(yesBtnId, noBtnId) {
+            const yesBtn = document.getElementById(yesBtnId);
+            const noBtn = document.getElementById(noBtnId);
+
+            function buttonClickHandler(event) {
+                yesBtn.classList.remove('clicked');
+                noBtn.classList.remove('clicked');
+
+                event.target.classList.add('clicked');
+            }
+
+            yesBtn.addEventListener('click', buttonClickHandler);
+            noBtn.addEventListener('click', buttonClickHandler);
+        }
+
+        handleYesNoButtons('yesSecondBtn', 'noSecondBtn');
+        handleYesNoButtons('yesBtn1', 'noBtn1');
+        handleYesNoButtons('yesThirdBtn', 'noThirdBtn');
+        handleYesNoButtons('yesForthBtn', 'noForthBtn');
+        handleYesNoButtons('yesFifthBtn', 'noFifthBtn');
+        handleYesNoButtons('yesSixthBtn', 'noSixthBtn');
+
+
+        document.getElementById('noBtn1').addEventListener('click', () => {
+            document.getElementById('firstAnswer').style.display = 'block';
+        });
+
+        document.getElementById('yesBtn1').addEventListener('click', () => {
+            document.getElementById('secondQuestion').style.display = 'block';
+        });
+
+        document.getElementById('yesSecondBtn').addEventListener('click', () => {
+            document.getElementById('thirdQuestion').style.display = 'block';
+        });
+
+        document.getElementById('noSecondBtn').addEventListener('click', () => {
+            document.getElementById('forthQuestion').style.display = 'block';
+        });
+
+        document.getElementById('noForthBtn').addEventListener('click', () => {
+            document.getElementById('fifthQuestion').style.display = 'block';
+        });
+
+        document.getElementById('yesThirdBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer',
+                'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion'
+            ]);
+            document.getElementById('sixthQuestion').style.display = 'block';
+        });
+
+        document.getElementById('yesFifthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'seventhAnswer', 'seventhQuestion',
+                'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
+                'eighthAnswer', 'ninthAnswer', 'tenthAnswer', 'eleventhAnswer', 'twelfthAnswer'
+            ]);
+            document.getElementById('sixthAnswer').style.display = 'block';
+        });
+
+        document.getElementById('noFifthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer']);
+
+            const elementsToShow = [
+                'seventhAnswer',
+                'seventhQuestion',
+                'eighthQuestion',
+                'ninthQuestion',
+                'tenthQuestion',
+                'eleventhQuestion'
+            ];
+
+            elementsToShow.forEach(id => {
+                document.getElementById(id).style.display = 'block';
+            });
+        });
+
+        document.getElementById('yesSixthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer']);
+            document.getElementById('forthAnswer').style.display = 'block';
+        });
+
+        document.getElementById('noSixthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'seventhAnswer']);
+            document.getElementById('fifthAnswer').style.display = 'block';
+        });
+
+        document.getElementById('seventhQuestion').addEventListener('click', () => {
+            const eighthAnswer = document.getElementById('eighthAnswer');
+
+            if (eighthAnswer.style.display === 'block') {
+                eighthAnswer.style.display = 'none';
+            } else {
+                eighthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('eighthQuestion').addEventListener('click', () => {
+            const ninthAnswer = document.getElementById('ninthAnswer');
+
+            if (ninthAnswer.style.display === 'block') {
+                ninthAnswer.style.display = 'none';
+            } else {
+                ninthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('ninthQuestion').addEventListener('click', () => {
+            const tenthAnswer = document.getElementById('tenthAnswer');
+
+            if (tenthAnswer.style.display === 'block') {
+                tenthAnswer.style.display = 'none';
+            } else {
+                tenthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('tenthQuestion').addEventListener('click', () => {
+            const eleventhAnswer = document.getElementById('eleventhAnswer');
+
+            if (eleventhAnswer.style.display === 'block') {
+                eleventhAnswer.style.display = 'none';
+            } else {
+                eleventhAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('eleventhQuestion').addEventListener('click', () => {
+            const twelfthAnswer = document.getElementById('twelfthAnswer');
+
+            if (twelfthAnswer.style.display === 'block') {
+                twelfthAnswer.style.display = 'none';
+            } else {
+                twelfthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('twelfthQuestion').addEventListener('click', () => {
+            const thirteenthAnswer = document.getElementById('thirteenthAnswer');
+
+            if (thirteenthAnswer.style.display === 'block') {
+                thirteenthAnswer.style.display = 'none';
+            } else {
+                thirteenthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('thirteenthQuestion').addEventListener('click', () => {
+            const fourteenthAnswer = document.getElementById('fourteenthAnswer');
+
+            if (fourteenthAnswer.style.display === 'block') {
+                fourteenthAnswer.style.display = 'none';
+            } else {
+                fourteenthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('fourteenthQuestion').addEventListener('click', () => {
+            const fifteenthAnswer = document.getElementById('fifteenthAnswer');
+
+            if (fifteenthAnswer.style.display === 'block') {
+                fifteenthAnswer.style.display = 'none';
+            } else {
+                fifteenthAnswer.style.display = 'block';
+            }
+        });
+
+        document.getElementById('fifteenthQuestion').addEventListener('click', () => {
+            const sixteenthAnswer = document.getElementById('sixteenthAnswer');
+
+            if (sixteenthAnswer.style.display === 'block') {
+                sixteenthAnswer.style.display = 'none';
+            } else {
+                sixteenthAnswer.style.display = 'block';
+            }
+        });
+
+        function hideSubsequentQuestions(questionIds) {
+            questionIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+        if (document.getElementById('yesFifthBtn') && document.getElementById('forthAnswer')) {
+            document.getElementById('yesFifthBtn').addEventListener('click', () => {
+                // Show the 'forthAnswer' paragraph
+                document.getElementById('forthAnswer').style.display = 'block';
+            });
+        }
+
+        function hideSubsequentQuestions(questionIds) {
+            questionIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('yesFifthBtn').addEventListener('click', function() {
+            const thirdAnswer = document.getElementById('thirdAnswer');
+            thirdAnswer.style.display = 'block';
+        });
+
+        document.getElementById('noBtn1').addEventListener('click', () => {
+            hideSubsequentQuestions(['secondQuestion', 'thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
+            document.getElementById('firstAnswer').style.display = 'block';
+        });
+
+        document.getElementById('yesBtn1').addEventListener('click', () => {
+            hideSubsequentQuestions(['thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
+            document.getElementById('firstAnswer').style.display = 'none';
+            document.getElementById('secondQuestion').style.display = 'block';
+        });
+
+        document.getElementById('noThirdBtn').addEventListener("click", () => {
+            hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
+            document.getElementById('secondAnswer').style.display = "block";
+        });
+
+        document.getElementById('yesSecondBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
+            document.getElementById('thirdQuestion').style.display = 'block';
+        });
+
+        document.getElementById('noSecondBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['thirdQuestion', 'fifthQuestion', 'sixthQuestion',
+                'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo'
+            ]);
+            document.getElementById('forthQuestion').style.display = 'block';
+        });
+
+        document.getElementById('noForthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion', 'secondAnswer', 'forthAnswer', 'sixthAnswer',
+                'seventhAnswer', 'fifthAnswer', 'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
+                'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo',
+                'thirteenthAnswer', 'fourteenthAnswer', 'fifteenthAnswer', 'sixteenthAnswer'
+            ]);
+            document.getElementById('fifthQuestion').style.display = 'block';
+        });
+
+        document.getElementById('yesForthBtn').addEventListener('click', () => {
+            hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion']);
+
+            const elementsToShow = [
+                'twelfthQuestion',
+                'thirteenthQuestion',
+                'fourteenthQuestion',
+                'fifteenthQuestion',
+                'therapyInfo'
+            ];
+
+            elementsToShow.forEach(id => {
+                document.getElementById(id).style.display = 'block';
+            });
+        });
+</script>
+</body>
+
+</html>

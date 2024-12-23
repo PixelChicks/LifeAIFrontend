@@ -1,6 +1,8 @@
 package com.lifeAIFrontend.LifeAIFrontend.controller;
 
+import com.lifeAIFrontend.LifeAIFrontend.model.Answer;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
