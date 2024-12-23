@@ -162,7 +162,7 @@
                     <p th:text="${plainMessage}"></p>
                 </div>
                 <div class="chat-bubble response-message">
-                    <p id="response-message" th:text="${response}">Отговорът на вашето търсене ще се появи тук...</p>
+                    <p id="response-message" th:utext="${response}">Отговорът на вашето търсене ще се появи тук...</p>
                 </div>
             </div>
             <form id="chat-form" class="search-box" method="post">

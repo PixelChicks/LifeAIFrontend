@@ -243,13 +243,15 @@
         <div id="popupModal">
             <div id="modalContent">
                 <span class="close-btn">&times;</span>
-                <h3 class= "highlighted-word" id="modalHeader" ></h3><br>
+                <h3 id="modalHeader" style="font-weight: bold;"></h3><br>
                 <div id="popupText"></div>
-                <form th:action="@{/explainTerms}" method="post" class="search-box">
+                <form th:action="@{/explainTerms}" method="post" class="search-box" onsubmit="addPopupTextToForm()">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="message" name="message"
-                               placeholder="Message..." required>
+                        <input type="text" class="form-control" id="message" name="message" placeholder="Message..."
+                               required>
                     </div>
+                    <!-- Hidden input field to hold popup text -->
+                    <input type="hidden" id="popupTextContent" name="popupTextContent">
                     <button type="submit" class="btn btn-search">
                         <img src="https://img.icons8.com/?size=30&id=AdrKKYXG06TU&format=png&color=000000" alt="Search">
                     </button>
@@ -263,6 +265,7 @@
         <p id="coreNeedleBiopsy" th:text="${coreNeedleBiopsy}" style="display: none;"></p>
         <p id="ultrasound" th:text="${ultrasound}" style="display: none;"></p>
         <p id="nuclearMagneticResonance" th:text="${nuclearMagneticResonance}" style="display: none;"></p>
+        <p id="histologicalExaminationOfBiopsyMaterial" th:text="${histologicalExaminationOfBiopsyMaterial}" style="display: none;"></p>
         <p id="PETScanner" th:text="${PETScanner}" style="display: none;"></p>
         <p id="contrastScanner" th:text="${contrastScanner}" style="display: none;"></p>
         <p id="boneScintigraphy" th:text="${boneScintigraphy}" style="display: none;"></p>
@@ -440,8 +443,13 @@
     "Таргетна терапия" : document.getElementById('targetedTherapy').textContent,
     "Таргетна" : document.getElementById('targetedTherapy').textContent,
     "Имунотерапия" : document.getElementById('immuneTherapy').textContent,
-    "Хормонална терапия" : document.getElementById('hormonalTherapy').textContent,
+    "Хормонална терапия" : document.getElementById('hormonalTherapy').textContent
     };
+
+     function addPopupTextToForm() {
+        const popupText = document.getElementById('popupText').textContent;
+        document.getElementById('popupTextContent').value = popupText.trim();
+    }
 
     document.querySelectorAll('strong[style*="background-color: #e9ecf2"]')
         .forEach(function (element) {
