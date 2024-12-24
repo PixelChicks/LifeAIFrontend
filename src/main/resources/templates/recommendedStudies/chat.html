@@ -155,10 +155,10 @@
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="container mt-5">
             <div id="chat-container">
-                <div class="chat-bubble user-message">
+                <div class="chat-bubble user-message" th:if="${popupText != null and !#strings.isEmpty(popupText)}">
                     <p th:text="${popupText}"></p>
                 </div>
-                <div class="chat-bubble user-message">
+                <div class="chat-bubble user-message" th:if="${plainMessage != null and !#strings.isEmpty(plainMessage)}">
                     <p th:text="${plainMessage}"></p>
                 </div>
                 <div class="chat-bubble response-message">

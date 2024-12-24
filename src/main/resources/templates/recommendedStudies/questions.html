@@ -41,8 +41,8 @@
           font-size: 18px;
           text-align: center;
           border-radius: 15px;
-          background-color: #E1E6EF;
-          outline: 2px solid #E1E6EF;
+          background-color: #e1e6ef;
+          outline: 2px solid #e1e6ef;
           color: black;
           border: none;
         }
@@ -60,7 +60,7 @@
         }
 
         .btn-question.clicked {
-          background-color:#1c9473;
+          background-color: #1c9473;
           outline: 2px solid #1c9473;
           border: none;
           color: white;
@@ -74,11 +74,11 @@
           text-align: center;
           margin: 5px 0;
           border-radius: 15px;
-          background-color: #E1E6EF;
+          background-color: #e1e6ef;
           color: #000;
           border: none;
           cursor: pointer;
-            outline: none;
+          outline: none;
         }
 
         .btn-secondary:hover {
@@ -89,7 +89,7 @@
           text-align: center;
           margin: 5px 0;
           border-radius: 15px;
-          background-color: #E1E6EF;
+          background-color: #e1e6ef;
           border-color: #1c9473;
           color: #000;
           outline: none;
@@ -98,20 +98,20 @@
           cursor: pointer;
         }
 
-        .highlighted-word{
-         background-color: #ebeef2;
-         cursor: pointer;
-         font-weight: bold;
-         padding: 0;
-         margin-bottom: 10px;
-         display: inline-block;
-         text-align: left;
-          }
+        .highlighted-word {
+          background-color: #ebeef2;
+          cursor: pointer;
+          font-weight: bold;
+          padding: 0;
+          margin-bottom: 10px;
+          display: inline-block;
+          text-align: left;
+        }
 
         #popupModal {
           display: none;
           position: fixed;
-          bottom: 50px;
+          bottom: 85px;
           left: 50%;
           transform: translateX(-50%);
           width: 90%;
@@ -146,15 +146,35 @@
         }
 
         #overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-    display: none; /* Hidden by default */
-    z-index: 999; /* Ensure it appears above all other content */
-}
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          display: none;
+          z-index: 999;
+        }
+        .floating-icon {
+          position: fixed;
+          bottom: 15px;
+          right: 20px;
+          width: 60px;
+          /* Adjust size of the circle */
+          height: 60px;
+          background-color: #1c9473;
+          border-radius: 100%;
+          box-shadow: 0 7px 200px rgba(0, 0, 0, 0.2);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
+        .floating-icon img {
+          width: 90%;
+          height: 50%;
+          object-fit: contain;
+        }
     </style>
 </head>
 
@@ -238,6 +258,18 @@
 
 <div class="container py-6">
     <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 350px;">
+        <div th:fragment="floating-icon">
+            <div class="floating-icon">
+                <form th:action="@{/explainTerms}" method="post" id="floatingIconForm">
+                    <!-- Hidden input fields to send null values -->
+                    <input type="hidden" name="message" value="">
+                    <input type="hidden" name="popupTextContent" value="">
+                    <button type="button" class="floating-icon" onclick="submitFloatingIconForm()">
+                        <img src="https://img.icons8.com/?size=100&id=2WHX382zjkkB&format=png&color=FFFFFF" alt="Floating Icon">
+                    </button>
+                </form>
+            </div>
+        </div>
         <!-- Modal (popup) -->
         <div id="overlay"></div>
         <div id="popupModal">
@@ -420,6 +452,10 @@
     var closeBtn = document.getElementsByClassName('close-btn')[0];
     var popupText = document.getElementById('popupText');
     var modalHeader = document.getElementById('modalHeader');
+
+    function submitFloatingIconForm() {
+        document.getElementById('floatingIconForm').submit();
+    }
 
     var wordDefinitions = {
     "дебелоиглена биопсия": document.getElementById('coreNeedleBiopsy').textContent,
