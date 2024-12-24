@@ -51,6 +51,14 @@
             text-align: center;
             border-radius: 50px;
         }
+
+         #loadingText {
+            font-size: 14px;
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -94,7 +102,7 @@
     </div>
 </div>
 <div class="container mt-3">
-    <form th:action="@{/chat}" method="post" class="search-box">
+    <form th:action="@{/chat}" method="post" class="search-box" id="chatForm">
         <div class="input-group">
             <input type="text" class="form-control" id="message" name="message"
                    placeholder="Задайте въпрос, търсете информация..." required>
@@ -102,7 +110,12 @@
         <button type="submit" class="btn btn-search">
             <img src="https://img.icons8.com/ios-glyphs/30/0000/search.png" alt="Search">
         </button>
+        <br>
     </form>
+    <!-- Loading text (initially hidden) -->
+    <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
+        Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от LifeAI.
+    </div>
 
     <!-- The response section that will appear on the new page -->
     <div class="mt-5" th:if="${response}">
@@ -158,6 +171,17 @@
 </div>
 <!-- Contact End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
+<script>
+    const form = document.getElementById("chatForm");
+    const loadingText = document.getElementById("loadingText");
+
+    form.addEventListener("submit", function(event) {
+        loadingText.style.display = "block";
+
+        // disable the submit button to prevent multiple submissions
+        form.querySelector("button[type='submit']").disabled = true;
+    });
+</script>
 </body>
 
 </html>

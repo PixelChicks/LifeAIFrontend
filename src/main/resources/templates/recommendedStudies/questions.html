@@ -233,6 +233,13 @@
         transform: translateY(-50%);
         cursor: pointer;
     }
+    #loadingText {
+            font-size: 14px;
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            margin-top: 10px;
+    }
 </style>
 
 <!-- Header Start -->
@@ -277,7 +284,7 @@
                 <span class="close-btn">&times;</span>
                 <h3 id="modalHeader" style="font-weight: bold;"></h3><br>
                 <div id="popupText"></div>
-                <form th:action="@{/explainTerms}" method="post" class="search-box" onsubmit="addPopupTextToForm()">
+                <form th:action="@{/explainTerms}" method="post" class="search-box" id="chatForm" onsubmit="addPopupTextToForm()">
                     <div class="input-group">
                         <input type="text" class="form-control" id="message" name="message" placeholder="Message..."
                                required>
@@ -288,6 +295,10 @@
                         <img src="https://img.icons8.com/?size=30&id=AdrKKYXG06TU&format=png&color=000000" alt="Search">
                     </button>
                 </form>
+                <!-- Loading text (initially hidden) -->
+                <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
+                    Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от LifeAI.
+                </div>
             </div>
         </div>
         <p id="clinicalExamination" th:text="${clinicalExamination}" style="display: none;"></p>
@@ -447,6 +458,16 @@
 <!-- Contact End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
 <script>
+    const form = document.getElementById("chatForm");
+    const loadingText = document.getElementById("loadingText");
+
+    form.addEventListener("submit", function(event) {
+        loadingText.style.display = "block";
+
+        // disable the submit button to prevent multiple submissions
+        form.querySelector("button[type='submit']").disabled = true;
+    });
+
     var modal = document.getElementById('popupModal');
     var overlay = document.getElementById('overlay');
     var closeBtn = document.getElementsByClassName('close-btn')[0];
@@ -501,7 +522,7 @@
                 if (definitionKey) {
                     popupText.innerHTML = wordDefinitions[definitionKey];
                 } else {
-                    popupText.innerHTML = 'Sorry, no definition available for this word.';
+                    popupText.innerHTML = 'За съжаление все още нямаме дефиниция за този термин.';
                 }
 
                 modal.style.display = 'block';
