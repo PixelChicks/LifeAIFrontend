@@ -111,7 +111,7 @@
         #popupModal {
           display: none;
           position: fixed;
-          bottom: 50px;
+          bottom: 85px;
           left: 50%;
           transform: translateX(-50%);
           width: 90%;
@@ -157,7 +157,7 @@
         }
         .floating-icon {
           position: fixed;
-          bottom: 20px;
+          bottom: 15px;
           right: 20px;
           width: 60px;
           /* Adjust size of the circle */
@@ -260,9 +260,14 @@
     <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 350px;">
         <div th:fragment="floating-icon">
             <div class="floating-icon">
-                <a href="#your-link">
-                    <img src="https://img.icons8.com/?size=100&id=2WHX382zjkkB&format=png&color=FFFFFF" alt="Floating Icon">
-                </a>
+                <form th:action="@{/explainTerms}" method="post" id="floatingIconForm">
+                    <!-- Hidden input fields to send null values -->
+                    <input type="hidden" name="message" value="">
+                    <input type="hidden" name="popupTextContent" value="">
+                    <button type="button" class="floating-icon" onclick="submitFloatingIconForm()">
+                        <img src="https://img.icons8.com/?size=100&id=2WHX382zjkkB&format=png&color=FFFFFF" alt="Floating Icon">
+                    </button>
+                </form>
             </div>
         </div>
         <!-- Modal (popup) -->
@@ -447,6 +452,10 @@
     var closeBtn = document.getElementsByClassName('close-btn')[0];
     var popupText = document.getElementById('popupText');
     var modalHeader = document.getElementById('modalHeader');
+
+    function submitFloatingIconForm() {
+        document.getElementById('floatingIconForm').submit();
+    }
 
     var wordDefinitions = {
     "дебелоиглена биопсия": document.getElementById('coreNeedleBiopsy').textContent,
