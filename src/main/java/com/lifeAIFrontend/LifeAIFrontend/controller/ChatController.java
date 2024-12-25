@@ -58,8 +58,10 @@ public class ChatController {
             @RequestParam(value = "file", required = false) MultipartFile file,
             Model model) {
 
-        if (message != null) {
+        if (!(message.isEmpty())) {
             model.addAttribute("plainMessage", message);
+        } else {
+            message = "Каква е целта ти?";
         }
 
         if (popupTextContent != null) {
