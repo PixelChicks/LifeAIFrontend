@@ -73,6 +73,13 @@
             margin-top: 10px;
             font-size: 14px;
         }
+        #loadingText {
+            font-size: 14px;
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -90,7 +97,7 @@
             Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
         </p>
 
-        <form th:action="@{/understandingDiagnosis}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/understandingDiagnosis}" method="post" enctype="multipart/form-data" id="chatForm">
             <div class="upload-section">
                 <label for="file" class="btn btn-secondary">
                     <img src="https://img.icons8.com/ios/50/000000/upload--v1.png" alt="Camera Icon" style="width:24px;">
@@ -116,6 +123,10 @@
                 <button type="submit" class="btn btn-primary">Изпрати</button>
             </div>
         </form>
+        <!-- Loading text (initially hidden) -->
+        <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
+            Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от LifeAI.
+        </div>
     </div>
 
     <!-- Display the response if available -->
@@ -141,6 +152,15 @@
     }
 });
 
+    const form = document.getElementById("chatForm");
+    const loadingText = document.getElementById("loadingText");
+
+    form.addEventListener("submit", function(event) {
+        loadingText.style.display = "block";
+
+        // disable the submit button to prevent multiple submissions
+        form.querySelector("button[type='submit']").disabled = true;
+    });
 </script>
 </body>
 </html>

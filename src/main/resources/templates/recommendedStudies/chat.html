@@ -68,6 +68,13 @@
         text-align: left;
         margin-right: auto;
     }
+     #loadingText {
+        font-size: 14px;
+        color: #888;
+        font-style: italic;
+        text-align: center;
+        margin-top: 10px;
+    }
     </style>
 </head>
 
@@ -155,14 +162,14 @@
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="container mt-5">
             <div id="chat-container">
-                <div class="chat-bubble user-message">
+                <div class="chat-bubble user-message" th:if="${popupText != null and !#strings.isEmpty(popupText)}">
                     <p th:text="${popupText}"></p>
                 </div>
-                <div class="chat-bubble user-message">
+                <div class="chat-bubble user-message" th:if="${plainMessage != null and !#strings.isEmpty(plainMessage)}">
                     <p th:text="${plainMessage}"></p>
                 </div>
                 <div class="chat-bubble response-message">
-                    <p id="response-message" th:text="${response}">Отговорът на вашето търсене ще се появи тук...</p>
+                    <p id="response-message" th:utext="${response}">Отговорът на вашето търсене ще се появи тук...</p>
                 </div>
             </div>
             <form id="chat-form" class="search-box" method="post">
@@ -170,14 +177,22 @@
                     <!-- Hidden input to maintain conversation context -->
                     <input type="hidden" id="popupText" name="popupText" th:value="${popupText}">
                     <input type="hidden" id="conversationContext" name="conversationContext" th:value="${conversationContext}">
-                    <input class="form-control" id="message" name="message" placeholder="Message..." required type="text">
+                    <input class="form-control" id="message" name="message" placeholder="Попитайте LifeAI..." required type="text">
                 </div>
                 <button class="btn btn-search" type="submit">
                     <img alt="Search" src="https://img.icons8.com/?size=30&id=AdrKKYXG06TU&format=png&color=000000">
                 </button>
             </form>
+            <!-- Loading text (initially hidden) -->
+            <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
+                Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от LifeAI.
+            </div>
 
         </div>
+        <br>
+        <center>
+            <a href="/recommendedStudies" class="btn btn-danger rounded-pill py-2 px-5">Назад</a>
+        </center>
         <br> <br> <br>
     </div>
     <th:block th:insert="~{fragments/feedback}"></th:block>
@@ -186,6 +201,13 @@
 <!-- Contact End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
 <script>
+    const form = document.getElementById("chat-form");
+    const loadingText = document.getElementById("loadingText");
+
+    form.addEventListener("submit", function(event) {
+        loadingText.style.display = "block";
+    });
+
     document.getElementById("chat-form").addEventListener("submit", function (event) {
     event.preventDefault();
 

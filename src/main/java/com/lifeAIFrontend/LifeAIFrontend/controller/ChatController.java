@@ -53,12 +53,14 @@ public class ChatController {
 
     @PostMapping("/explainTerms")
     public String explainTerms(
-            @RequestParam("message") String message,
+            @RequestParam(value = "message", required = false) String message,
             @RequestParam(value = "popupTextContent", required = false) String popupTextContent,
             @RequestParam(value = "file", required = false) MultipartFile file,
             Model model) {
 
-        model.addAttribute("plainMessage", message);
+        if (message != null) {
+            model.addAttribute("plainMessage", message);
+        }
 
         if (popupTextContent != null) {
             message = message + " " + popupTextContent;
