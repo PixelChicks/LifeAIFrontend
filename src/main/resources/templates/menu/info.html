@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Life AI Info</title>
-    <link rel="icon" href="https://life.bbca.bg/img/Group-1629.svg">
+    <link href="https://life.bbca.bg/img/Group-1629.svg" rel="icon">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -42,6 +42,23 @@
             text-align: center;
             border-radius: 50px;
         }
+
+        .responsive-image {
+            width: 80%; /* Default width for mobile */
+            max-width: 400px; /* Limit maximum size */
+        }
+
+        @media (min-width: 768px) { /* Medium screens and up */
+            .responsive-image {
+            width: 60%;
+            }
+        }
+
+        @media (min-width: 992px) { /* Large screens and up */
+             .responsive-image {
+             width: 40%;
+            }
+        }
     </style>
 </head>
 
@@ -53,27 +70,29 @@
     <div class="container py-1">
         <div class="col-lg-20 wow fadeInUp" data-wow-delay="0.3s">
             <center>
-                <h1 class="display-5 mb-4">Информация за приложението</h1>
+                <h1 class="display-6 mb-4">Информация за приложението</h1>
                 <div class="col-lg-20 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="RotateMoveLeft">
-                        <img src="https://life.bbca.bg/img/rose-lady.svg"
-                             class="img-fluid w-40 w-md-30"
-                             alt="rose-lady image">
+                        <img
+                                src="https://life.bbca.bg/img/rose-lady.svg"
+                                class="img-fluid responsive-image"
+                                alt="rose-lady image">
                     </div>
                 </div>
             </center>
             <br>
-            <h5 class="mb-4">Искаме да направим приложението по-полезно за вас.<br><br>
+            <h5 class="mb-3" style="margin: 0 auto; max-width: 600px; text-align: left;">
+                Искаме да направим приложението по-полезно за вас.<br><br>
                 Затова ни трябва да тестваме и полуваме обратна връзка. <br>
                 Благодарим за участието!<br>
-                Ще видите проекта ни на главната страница. Ползвайте я както решите <br><br>
+                Ще видите проекта ни на главната страница. Ползвайте я както решите. <br><br>
                 Целта е да разберем какво Ви интересува и какво намирате за полезно. Ако има недовършено
                 съдържание
                 или функционалност, ще бъде комуникирано.
             </h5>
             <br>
             <center>
-                <a href="/home" class="btn btn-danger rounded-pill py-3 px-5">Към потребителския тест</a>
+                <a class="btn btn-danger rounded-pill py-3 px-5" href="/home">Към потребителския тест</a>
             </center>
         </div>
         <br><br><br>
