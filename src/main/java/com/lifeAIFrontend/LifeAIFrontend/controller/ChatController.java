@@ -64,7 +64,7 @@ public class ChatController {
             message = "Каква е целта ти?";
         }
 
-        if (popupTextContent != null) {
+        if (popupTextContent != null && !(popupTextContent.contains("Здравейте! Аз съм LifeAI"))) {
             message = message + " " + popupTextContent;
             model.addAttribute("popupText", popupTextContent);
         }
