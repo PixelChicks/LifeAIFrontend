@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Life AI - Упражнения след операция</title>
+    <link href="https://life.bbca.bg/img/Group-1629.svg" rel="icon">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .search-box input[type="text"] {
+            border-radius: 50px 0 0 50px;
+            padding-left: 20px;
+            border-right: none;
+        }
+
+        .search-box button {
+            border-radius: 0 50px 50px 0;
+        }
+
+        .search-box .input-group {
+            flex-grow: 1;
+        }
+
+        .search-box .btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary {
+            width: 90%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 50px;
+        }
+
+        .btn-danger {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 50px;
+        }
+
+        .content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .label {
+            display: inline-block;
+            background-color: #1C9473;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .tips {
+            margin: 20px 0;
+        }
+
+        .tips p {
+            margin: 10px 0;
+        }
+
+        .tips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips ul li {
+            background: #f0f0f0;
+            border-left: 4px solid #1C9473;
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+<th:block th:insert="~{fragments/header}"></th:block>
+<div class="container-fluid overflow-hidden py-1 mt-1">
+    <div class="container py-1" style="max-width: 600px;">
+        <div class="col-lg-20 wow fadeInUp" data-wow-delay="0.3s">
+            <center>
+                <h1 class="display-7 mb-4">Здравословна диета</h1>
+            </center>
+        </div>
+
+        <div class="tips">
+            <p>Намалете количеството сол в храната си и яжте много плодове и зеленчуци. Солта повишава кръвното
+                налягане.
+                Диетичните насоки за 2015–2020 г. препоръчват да се консумират по-малко от 2300 милиграма (mg) натрий на
+                ден.</p>
+            <p>Стремете се да ядете 5 порции плодове и зеленчуци всеки ден.</p>
+            <p>Ограничете приема на алкохол.</p>
+            <p>Стремете се да ограничите храненето навън, консумацията на газирани напитки, високообработени храни и
+                полуфабрикати.</p>
+
+            <p><strong>ВАЖНО!</strong> Всичко във включените в приложението рецепти и меню може да бъде заменено. Ето
+                някои
+                съвети за замяна, така че да направите менюто съобразено с Вашите нужди и предпочитания:</p>
+
+            <ul>
+                <li>1. Избирайте сезонни плодове. Може да ползвате диня, грозде, праскови, череши, круши, портокали,
+                    банани,
+                    мандарини, райска ябълка.
+                </li>
+                <li>2. Всички зеленчуци без нишесте могат да бъдат заменени с други – тиквички, броколи, карфиол,
+                    патладжан,
+                    репички, зелен фасул.
+                </li>
+                <li>3. Може да замените рибата с пилешко месо без кожа, пуешко, свинско филе, нискомаслена моцарела или
+                    извара.
+                </li>
+                <li>4. Ползвайте пълнозърнест хляб, кафяв ориз, елда, киноа, леща, грах, боб, просо.</li>
+                <li>5. Използвайте различни подправки, но внимателно с готови сосове и дресинги (съдържат сол).</li>
+                <li>6. Подслаждайте с мед, кленов сироп, захар от фурми.</li>
+                <li>7. За готвене ползвайте зехтин, кокосово масло, или масло гхи. Ограничете мазнините до 1 чаена
+                    лъжичка
+                    на порция.
+                </li>
+            </ul>
+        </div>
+    </div>
+    <br>
+    <center>
+        <a class="btn btn-danger rounded-pill py-3 px-5" href="https://life.bbca.bg/patients/diary/recipes">Рецепти</a>
+    </center>
+    <br>
+    <center>
+        <a class="btn btn-danger rounded-pill py-3 px-5" href="/home">Назад</a>
+    </center>
+    <br> <br>
+    <th:block th:insert="~{fragments/feedback}"></th:block>
+    <br> <br>
+</div>
+
+<th:block th:insert="~{fragments/footer}"></th:block>
+
+<style>
+    .hidden-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+    }
+
+    .show-content {
+        max-height: 10000px;
+        transition: max-height 0.5s ease-in;
+    }
+    .exercise-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    }
+</style>
+</body>
+
+</html>

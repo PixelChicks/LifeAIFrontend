@@ -16,8 +16,13 @@ public class MenuController {
         return "menu/info";
     }
 
-    @GetMapping("/exercises")
+    @GetMapping("/recipes")
     public String recipes() {
+        return "menu/recipes";
+    }
+
+    @GetMapping("/exercises")
+    public String exercises() {
         return "menu/exercises";
     }
 
