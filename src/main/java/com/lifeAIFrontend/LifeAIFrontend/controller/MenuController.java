@@ -51,6 +51,11 @@ public class MenuController {
         return "menu/exercises/shoulderStretch";
     }
 
+    @GetMapping("/moreInfoExercises")
+    public String moreInfoExercises() {
+        return "menu/exercises/moreInfo";
+    }
+
     @GetMapping("/limfedem")
     public String limfedem() {
         return "menu/limfedem";
