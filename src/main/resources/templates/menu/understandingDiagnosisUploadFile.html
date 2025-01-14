@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>Разбиране на диагнозата</title>
-    <link rel="icon" href="https://life.bbca.bg/img/Group-1629.svg">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://life.bbca.bg/img/Group-1629.svg" rel="icon">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
         .container {
@@ -89,31 +89,33 @@
 <div class="container py-6" style="max-width: 650px;">
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="d-flex align-items-center mb-4">
-            <img width="58" height="58" src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
-                 alt="person-male--v2"/>
+            <img alt="person-male--v2" height="58" src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
+                 width="58"/>
             <h2 class="display-7 mb-1" style="text-align: left;">Разбиране на диагнозата</h2>
         </div>
         <p class="instruction">
             Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
         </p>
 
-        <form th:action="@{/understandingDiagnosis}" method="post" enctype="multipart/form-data" id="chatForm">
+        <form enctype="multipart/form-data" id="chatForm" method="post" th:action="@{/understandingDiagnosis}">
             <div class="upload-section">
-                <!-- Button to upload image from the file system -->
-                <label for="file" class="btn btn-secondary">
-                    <img src="https://img.icons8.com/ios/50/000000/upload--v1.png" alt="Upload Icon" style="width:24px;">
+                <label class="btn btn-secondary" for="file">
+                    <img alt="Camera Icon" src="https://img.icons8.com/ios/50/000000/upload--v1.png"
+                         style="width:24px;">
                     Качи снимка
                 </label>
-                <input type="file" id="file" class="file-input" name="fileUpload" accept="image/*" style="display: none;">
+                <input accept="image/*" class="file-input" id="file" name="file" style="display: none;" type="file">
 
-                <!-- Button to capture an image with the camera -->
-                <label for="camera-input" class="btn btn-secondary">
-                    <img src="https://img.icons8.com/ios/50/000000/camera--v1.png" alt="Camera Icon" style="width:24px;">
+                <!-- New button for capturing photo with back camera -->
+                <label class="btn btn-secondary" for="camera-input">
+                    <img alt="Camera Icon" src="https://img.icons8.com/ios/50/000000/camera--v1.png"
+                         style="width:24px;">
                     Направи снимка
                 </label>
-                <input type="file" id="camera-input" class="file-input" name="cameraFileUpload" accept="image/*" capture="environment" style="display: none;">
+                <input accept="image/*" capture="environment" class="file-input" id="camera-input" name="camera-file"
+                       style="display: none;" type="file">
 
-                <span id="upload-message" class="upload-message"></span>
+                <span class="upload-message" id="upload-message"></span>
             </div>
 
             <div class="mt-3">
@@ -121,13 +123,13 @@
                   placeholder="Моля да обясниш значението на медицинските термини в документа на разбираем език..."
                   rows="5"></textarea>
                 <br>
-                <button type="submit" class="btn btn-primary">Изпрати</button>
+                <button class="btn btn-primary" type="submit">Изпрати</button>
             </div>
         </form>
-
         <!-- Loading text (initially hidden) -->
         <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
-            Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от LifeAI.
+            Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от
+            LifeAI.
         </div>
     </div>
 
@@ -142,17 +144,17 @@
 
 <th:block th:insert="~{fragments/footer}"></th:block>
 <script>
+    document.getElementById("file").addEventListener("change", function() {
+    const uploadMessage = document.getElementById("upload-message");
 
-           // Auto-submit the form when a file is selected or an image is captured
-           document.getElementById('file').addEventListener('change', function () {
-               document.getElementById('upload-message').innerText = "Uploading file...";
-               document.getElementById('chatForm').submit();
-           });
-
-           document.getElementById('camera-input').addEventListener('change', function () {
-               document.getElementById('upload-message').innerText = "Uploading camera capture...";
-               document.getElementById('chatForm').submit();
-           });
+    // Check if a file was selected
+    if (this.files && this.files.length > 0) {
+        uploadMessage.textContent = "Файлът е качен успешно!"; // Success message in Bulgarian
+        uploadMessage.style.display = "inline"; // Show the message
+    } else {
+        uploadMessage.style.display = "none"; // Hide the message if no file is selected
+    }
+});
 
     const form = document.getElementById("chatForm");
     const loadingText = document.getElementById("loadingText");
