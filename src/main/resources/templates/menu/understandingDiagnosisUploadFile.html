@@ -86,7 +86,7 @@
 <body>
 <th:block th:insert="~{fragments/header}"></th:block>
 
-<div class="container py-6" style="max-width: 650px;">>
+<div class="container py-6" style="max-width: 650px;">
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="d-flex align-items-center mb-4">
             <img width="58" height="58" src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
@@ -99,18 +99,19 @@
 
         <form th:action="@{/understandingDiagnosis}" method="post" enctype="multipart/form-data" id="chatForm">
             <div class="upload-section">
+                <!-- Button to upload image from the file system -->
                 <label for="file" class="btn btn-secondary">
-                    <img src="https://img.icons8.com/ios/50/000000/upload--v1.png" alt="Camera Icon" style="width:24px;">
+                    <img src="https://img.icons8.com/ios/50/000000/upload--v1.png" alt="Upload Icon" style="width:24px;">
                     Качи снимка
                 </label>
                 <input type="file" id="file" class="file-input" name="file" accept="image/*" style="display: none;">
 
-                <!-- New button for capturing photo with back camera -->
+                <!-- Button to capture an image with the camera -->
                 <label for="camera-input" class="btn btn-secondary">
                     <img src="https://img.icons8.com/ios/50/000000/camera--v1.png" alt="Camera Icon" style="width:24px;">
                     Направи снимка
                 </label>
-                <input type="file" id="camera-input" class="file-input" name="camera-file" accept="image/*" capture="environment" style="display: none;">
+                <input type="file" id="camera-input" class="file-input" name="file" accept="image/*" capture="environment" style="display: none;">
 
                 <span id="upload-message" class="upload-message"></span>
             </div>
@@ -123,6 +124,7 @@
                 <button type="submit" class="btn btn-primary">Изпрати</button>
             </div>
         </form>
+
         <!-- Loading text (initially hidden) -->
         <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
             Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от LifeAI.
