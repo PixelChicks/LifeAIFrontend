@@ -36,8 +36,15 @@ public class ChatController {
     }
 
     @PostMapping("/understandingDiagnosis")
-    public String understandingDiagnosis(@RequestParam String message, Model model,
-                                         @RequestParam(value = "file", required = false) MultipartFile file) {
+    public String understandingDiagnosis(
+            @RequestParam String message,
+            Model model,
+            @RequestParam(value = "fileUpload", required = false) MultipartFile fileUpload,
+            @RequestParam(value = "cameraFileUpload", required = false) MultipartFile cameraFileUpload) {
+
+        // Select the correct file input
+        MultipartFile file = fileUpload != null ? fileUpload : cameraFileUpload;
+
         if (message.isEmpty()) {
             message = "Моля да опишеш на разбираем език, без медицинските термини какво е заболяването описано във файла. " +
                     "Обясни значението на всеки термин.";
@@ -50,6 +57,7 @@ public class ChatController {
 
         return "menu/understandingDiagnosis";
     }
+
 
     @PostMapping("/explainTerms")
     public String explainTerms(

@@ -104,14 +104,14 @@
                     <img src="https://img.icons8.com/ios/50/000000/upload--v1.png" alt="Upload Icon" style="width:24px;">
                     Качи снимка
                 </label>
-                <input type="file" id="file" class="file-input" name="file" accept="image/*" style="display: none;">
+                <input type="file" id="file" class="file-input" name="fileUpload" accept="image/*" style="display: none;">
 
                 <!-- Button to capture an image with the camera -->
                 <label for="camera-input" class="btn btn-secondary">
                     <img src="https://img.icons8.com/ios/50/000000/camera--v1.png" alt="Camera Icon" style="width:24px;">
                     Направи снимка
                 </label>
-                <input type="file" id="camera-input" class="file-input" name="file" accept="image/*" capture="environment" style="display: none;">
+                <input type="file" id="camera-input" class="file-input" name="cameraFileUpload" accept="image/*" capture="environment" style="display: none;">
 
                 <span id="upload-message" class="upload-message"></span>
             </div>
@@ -142,17 +142,17 @@
 
 <th:block th:insert="~{fragments/footer}"></th:block>
 <script>
-    document.getElementById("file").addEventListener("change", function() {
-    const uploadMessage = document.getElementById("upload-message");
 
-    // Check if a file was selected
-    if (this.files && this.files.length > 0) {
-        uploadMessage.textContent = "Файлът е качен успешно!"; // Success message in Bulgarian
-        uploadMessage.style.display = "inline"; // Show the message
-    } else {
-        uploadMessage.style.display = "none"; // Hide the message if no file is selected
-    }
-});
+           // Auto-submit the form when a file is selected or an image is captured
+           document.getElementById('file').addEventListener('change', function () {
+               document.getElementById('upload-message').innerText = "Uploading file...";
+               document.getElementById('chatForm').submit();
+           });
+
+           document.getElementById('camera-input').addEventListener('change', function () {
+               document.getElementById('upload-message').innerText = "Uploading camera capture...";
+               document.getElementById('chatForm').submit();
+           });
 
     const form = document.getElementById("chatForm");
     const loadingText = document.getElementById("loadingText");
