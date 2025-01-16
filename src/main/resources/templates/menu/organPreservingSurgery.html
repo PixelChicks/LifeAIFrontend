@@ -63,6 +63,11 @@
             <center>
                 <h1 class="display-7 mb-4">Органо-съхраняващи операции на гърдите</h1>
             </center>
+            <div class="mb-4 video-responsive">
+                <center>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Vp5F3NdDCyQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </center>
+            </div>
             <p class="mb-4">
                 Органо-съхраняващите операции на гърдите са група от оперативни интервенции, които се обединяват
                 около крайния резултат – запазване на гърдата.
@@ -172,6 +177,22 @@
     .show-content {
         max-height: 10000px; /* Adjust this value based on the height of your content */
         transition: max-height 0.5s ease-in;
+    }
+
+     .video-responsive {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000;
+    }
+    .video-responsive iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
     }
 </style>
 <script>
