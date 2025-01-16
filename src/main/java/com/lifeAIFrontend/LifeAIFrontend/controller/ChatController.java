@@ -23,6 +23,14 @@ public class ChatController {
         return "chat";
     }
 
+    @GetMapping("/researchSideEffects")
+    public String researchSideEffects(Model model) {
+        model.addAttribute("response", "Здравейте! Аз съм LifeAI, вашият персонализиран асистент. " +
+                "Моля, напишете какви странични ефекти изпитвате, за да мога да ви предоставя полезна информация и решения " +
+                "за облекчаване на симптомите.");
+        return "recommendedStudies/researchSideEffects";
+    }
+
     @PostMapping("/chat")
     public String sendChatMessage(@RequestParam("message") String message, Model model,
                                   @RequestParam(value = "file", required = false) MultipartFile file) {
@@ -33,6 +41,21 @@ public class ChatController {
         model.addAttribute("message", message);
 
         return "chat";
+    }
+
+    @PostMapping("/researchSideEffects")
+    public ResponseEntity<Map<String, String>> researchSideEffects(@RequestBody Map<String, String> payload) {
+        String message = payload.get("message");
+        // Call the service or chatClient to get the response
+        ResponseEntity<String> response = chatClient.researchSideEffects(message);
+        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
+
+        // Create response map to send back to the frontend
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("response", formattedResponse);
+
+        // Return the response as JSON
+        return ResponseEntity.ok(responseMap);
     }
 
     @PostMapping("/understandingDiagnosis")
