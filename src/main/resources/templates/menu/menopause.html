@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="">
+
+<head>
+    <meta charset="utf-8">
+    <title>Life AI Ранна менопауза</title>
+    <link href="https://life.bbca.bg/img/Group-1629.svg" rel="icon">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .video-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Adjust space between videos */
+            justify-content: space-between;
+        }
+
+        .video-item {
+            flex: 1 1 calc(50% - 20px); /* 2 columns with space between */
+            box-sizing: border-box;
+        }
+
+        /* Ensure video iframe is responsive */
+        .elementor-video {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9; /* Maintain 16:9 aspect ratio for YouTube videos */
+        }
+
+        /* Make the video gallery responsive */
+        @media (max-width: 768px) {
+            .video-item {
+                flex: 1 1 100%; /* Stack videos in a single column on smaller screens */
+            }
+        }
+
+                /* Search box and button styling (as per the code you included) */
+                .search-box {
+                    display: flex;
+                    align-items: center;
+                    margin-top: 20px;
+                }
+
+                .search-box input[type="text"] {
+                    border-radius: 50px 0 0 50px;
+                    padding-left: 20px;
+                    border-right: none;
+                }
+
+                .search-box button {
+                    border-radius: 0 50px 50px 0;
+                }
+
+                .search-box .input-group {
+                    flex-grow: 1;
+                }
+
+                .search-box .btn {
+                    background-color: #007bff;
+                    color: white;
+                }
+
+                .btn-primary,
+                .btn-danger {
+                    width: 90%;
+                    max-width: 500px;
+                    padding: 15px 20px;
+                    font-size: 18px;
+                    text-align: center;
+                    border-radius: 50px;
+                }
+    .image-container {
+    display: flex;
+    justify-content: center;  /* Horizontally center the image */
+    align-items: center;      /* Vertically center the image */
+    }
+
+    img {
+    max-width: 100%;          /* Makes the image responsive */
+    height: auto;             /* Maintains the image's aspect ratio */
+    }
+
+    </style>
+</head>
+
+<body>
+
+<th:block th:insert="~{fragments/header}"></th:block>
+
+<!-- About Section -->
+<div class="container-fluid overflow-hidden py-1 mt-1">
+    <div class="container py-1" style="max-width: 800px;">
+
+        <div class="elementor-element elementor-element-c8c2ccd e-flex e-con-boxed e-con e-parent e-lazyloaded"
+             data-element_type="container" data-id="c8c2ccd">
+            <div class="e-con-inner">
+                <div class="elementor-element elementor-element-35756b6 elementor-widget elementor-widget-text-editor"
+                     data-element_type="widget" data-id="35756b6" data-widget_type="text-editor.default">
+                    <center>
+                        <div class="elementor-widget-container">
+                            <h3 class="wp-block-heading">Вече можете да откриете записите от форума на нашия <a
+                                    href="https://www.youtube.com/@bbcancerassociation" rel="noreferrer noopener"
+                                    target="_blank">Youtube</a> канал!</h3>
+                        </div>
+                        <div class="elementor-widget-container">
+                            <h3 class="wp-block-heading">Пациентски форум <a
+                                    href="https://www.bbca.bg/galery-early-menopause/" rel="noreferrer noopener"
+                                    target="_blank">„Ранна менопауза“</a> 2023</h3>
+                        </div><br>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Gallery Section -->
+        <div class="video-gallery">
+            <div class="video-item">
+                <iframe allowfullscreen="" class="elementor-video" frameborder="0"
+                        height="360" src="https://www.youtube.com/embed/PzosmFgF_L8?controls=1" width="640"></iframe>
+            </div>
+            <div class="video-item">
+                <iframe allowfullscreen="" class="elementor-video" frameborder="0"
+                        height="360" src="https://www.youtube.com/embed/QJtw9dwPQfk?controls=1" width="640"></iframe>
+            </div>
+            <div class="video-item">
+                <iframe allowfullscreen="" class="elementor-video" frameborder="0"
+                        height="360" src="https://www.youtube.com/embed/Kqy-HB81NFo?controls=1" width="640"></iframe>
+            </div>
+            <div class="video-item">
+                <iframe allowfullscreen="" class="elementor-video" frameborder="0"
+                        height="360" src="https://www.youtube.com/embed/-Cdzc0ZFRrU?controls=1" width="640"></iframe>
+            </div>
+            <div class="video-item">
+                <iframe allowfullscreen="" class="elementor-video" frameborder="0"
+                        height="360" src="https://www.youtube.com/embed/Bd4oDp_8ssU?controls=1" width="640"></iframe>
+            </div>
+            <div class="video-item">
+                <iframe allowfullscreen="" class="elementor-video" frameborder="0"
+                        height="360" src="https://www.youtube.com/embed/BA8Qg-9YUPc?controls=1" width="640"></iframe>
+            </div>
+            <div class="video-item">
+                <iframe allowfullscreen="" class="elementor-video" frameborder="0"
+                        height="360" src="https://www.youtube.com/embed/fjm_Wg20I5U?controls=1" width="640"></iframe>
+            </div>
+            <div class="video-item">
+                <iframe allowfullscreen="" class="elementor-video" frameborder="0"
+                        height="360" src="https://www.youtube.com/embed/K5LjEL_q6xk?controls=1" width="640"></iframe>
+            </div>
+        </div>
+        <br>
+        <div class="image-container">
+            <img src="https://www.bbca.bg/wp-content/uploads/2023/03/2.png" alt="Description of Image">
+        </div>
+    </div>
+</div>
+<br> <br><br> <br>
+<th:block th:insert="~{fragments/feedback}"></th:block>
+<br> <br>
+<!-- About End -->
+<th:block th:insert="~{fragments/footer}"></th:block>
+</body>
+</html>

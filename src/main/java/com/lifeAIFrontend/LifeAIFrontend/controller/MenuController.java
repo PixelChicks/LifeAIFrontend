@@ -21,6 +21,11 @@ public class MenuController {
         return "menu/organPreservingSurgery";
     }
 
+    @GetMapping("/menopause")
+    public String menopause(){
+        return "menu/menopause";
+    }
+
     @GetMapping("/recipes")
     public String recipes() {
         return "menu/recipes";
