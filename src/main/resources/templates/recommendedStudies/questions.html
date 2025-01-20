@@ -192,7 +192,7 @@
 
 <div class="container-fluid p-0">
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0">
-        <a href="javascript:history.back()" class="back-icon" id="backButton">
+        <a href="javascript:history.back()" class="back-icon" id="backButton" style="margin-top: 10px;">
             <!-- Back Icon SVG -->
             <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left"
                  viewBox="0 0 16 16">
@@ -202,7 +202,7 @@
         </a>
         <a href="/home" class="navbar-brand p-0">
             <!-- Centered Logo -->
-            <img src="https://life.bbca.bg/img/Group-1629.svg" alt="Life AI Logo">
+            <img src="https://life.bbca.bg/img/Group-1629.svg" alt="Life AI Logo" style="margin-top: 50px;">
         </a>
     </nav>
 </div>
@@ -263,7 +263,7 @@
 
 <!-- Contact Start -->
 
-<div class="container py-6">
+<div class="container py-6" style="max-width: 650px;">
     <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 350px;">
         <div th:fragment="floating-icon">
             <div class="floating-icon">
@@ -271,28 +271,28 @@
                     <!-- Hidden input fields to send null values -->
                     <input type="hidden" name="message" value="">
                     <input type="hidden" name="popupTextContent" value="">
-                    <button type="button" class="floating-icon" onclick="submitFloatingIconForm()">
+                    <button type="button" class="floating-icon" onclick="openModal()">
                         <img src="https://img.icons8.com/?size=100&id=2WHX382zjkkB&format=png&color=FFFFFF" alt="Floating Icon">
                     </button>
                 </form>
             </div>
         </div>
+
         <!-- Modal (popup) -->
-        <div id="overlay"></div>
-        <div id="popupModal">
+        <div id="overlay" style="display: none;"></div>
+        <div id="popupModal" style="display: none;">
             <div id="modalContent">
-                <span class="close-btn">&times;</span>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
                 <h3 id="modalHeader" style="font-weight: bold;"></h3><br>
                 <div id="popupText"></div>
                 <form th:action="@{/explainTerms}" method="post" class="search-box" id="chatForm" onsubmit="addPopupTextToForm()">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="message" name="message" placeholder="Message..."
-                               required>
+                        <input type="text" class="form-control" id="message" name="message" placeholder="Попитайте LifeAI..." required>
                     </div>
                     <!-- Hidden input field to hold popup text -->
                     <input type="hidden" id="popupTextContent" name="popupTextContent">
                     <button type="submit" class="btn btn-search">
-                       <img src=/img/pink-send.png" alt="Search" width="30px" height="30px">
+                        <img src="/img/pink-send.png" alt="Search" width="30px" height="30px">
                     </button>
                 </form>
                 <!-- Loading text (initially hidden) -->
@@ -301,6 +301,7 @@
                 </div>
             </div>
         </div>
+    </div>
         <p id="clinicalExamination" th:text="${clinicalExamination}" style="display: none;"></p>
         <p id="imagingStudies" th:text="${imagingStudies}" style="display: none;"></p>
         <p id="echomammography" th:text="${echomammography}" style="display: none;"></p>
@@ -801,6 +802,29 @@
                 document.getElementById(id).style.display = 'block';
             });
         });
+
+     function openModal() {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('popupModal').style.display = 'block';
+
+        // Set the default text in the modal
+        document.getElementById('modalHeader').innerText = 'LifeAI';
+        document.getElementById('popupText').innerText = 'Здравейте! Аз съм LifeAI – вашият личен асистент в борбата с рака на гърдата. Специално обучен изкуствен интелект, който предоставя точна и полезна информация, за да ви подкрепи на всяка стъпка от вашето пътуване. Чувствайте се свободни да задавате въпроси относно рака на гърдата, и аз ще се постарая да ви предоставя необходимата помощ и насоки.';
+    }
+
+    function closeModal() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('popupModal').style.display = 'none';
+    }
+
+    document.getElementById('overlay').addEventListener('click', function() {
+        closeModal();
+    });
+
+    function addPopupTextToForm() {
+        const popupText = document.getElementById('popupText').innerText;
+        document.getElementById('popupTextContent').value = popupText;
+    }
 </script>
 </body>
 

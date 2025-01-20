@@ -110,13 +110,6 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Check if the current URL path includes "info"
-    if (window.location.pathname.includes('info')) {
-        // Hide the back button if "info" is part of the URL path
-        document.getElementById('backButton').style.display = 'none';
-    }
-</script>
 <!-- Navbar & Hero End -->
 <style>
     .navbar {
@@ -162,21 +155,12 @@
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="container mt-5" style="max-width: 650px;">
             <div id="chat-container">
-                <div class="chat-bubble user-message" th:if="${popupText != null and !#strings.isEmpty(popupText)}">
-                    <p th:text="${popupText}"></p>
-                </div>
-                <div class="chat-bubble user-message" th:if="${plainMessage != null and !#strings.isEmpty(plainMessage)}">
-                    <p th:text="${plainMessage}"></p>
-                </div>
                 <div class="chat-bubble response-message">
                     <p id="response-message" th:utext="${response}">Отговорът на вашето търсене ще се появи тук...</p>
                 </div>
             </div>
-            <form id="chat-form" class="search-box" method="post">
+            <form id="chat-form" class="search-box" method="post" th:action="@{/researchSideEffects}">
                 <div class="input-group">
-                    <!-- Hidden input to maintain conversation context -->
-                    <input type="hidden" id="popupText" name="popupText" th:value="${popupText}">
-                    <input type="hidden" id="conversationContext" name="conversationContext" th:value="${conversationContext}">
                     <input class="form-control" id="message" name="message" placeholder="Попитайте LifeAI..." required type="text">
                 </div>
                 <button class="btn btn-search" type="submit">
@@ -187,11 +171,73 @@
             <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
                 Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от LifeAI.
             </div>
+            <input type="hidden" id="popupText" value="">
+
+            <script>
+                const form = document.getElementById("chat-form");
+                const loadingText = document.getElementById("loadingText");
+                const chatContainer = document.getElementById("chat-container");
+                const conversationContextElement = document.getElementById("popupText");
+
+                form.addEventListener("submit", function(event) {
+                    event.preventDefault(); // Prevent the default form submission
+
+                    // Show loading text
+                    loadingText.style.display = "block";
+
+                    // Get the user's message
+                    const message = document.getElementById("message").value;
+                    const conversationContext = conversationContextElement.value;
+
+                    // Append the user's message to the chat container
+                    const userMessage = document.createElement("div");
+                    userMessage.classList.add("chat-bubble", "user-message");
+                    userMessage.innerHTML = `<p>${message}</p>`;
+                    chatContainer.appendChild(userMessage);
+
+                    // Update conversation context with user's message
+                    conversationContextElement.value = message;
+
+                    // Make a POST request to the backend endpoint
+                    fetch("/researchSideEffects", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            conversationContext: conversationContext
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hide loading text
+                        loadingText.style.display = "none";
+
+                        // Display assistant's response in the chat container
+                        const assistantResponse = document.createElement("div");
+                        assistantResponse.classList.add("chat-bubble", "response-message");
+                        assistantResponse.innerHTML = `<p>${data.response}</p>`;
+                        chatContainer.appendChild(assistantResponse);
+
+                        // Update conversationContext with assistant's response
+                        conversationContextElement.value = data.conversationContext;
+
+                        // Clear the input field for the next message
+                        document.getElementById("message").value = "";
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        loadingText.style.display = "none"; // Hide loading text on error
+                    });
+                });
+            </script>
+
 
         </div>
         <br>
         <center>
-            <a href="/recommendedStudies" class="btn btn-danger rounded-pill py-2 px-5">Назад</a>
+            <a href="/home" class="btn btn-danger rounded-pill py-2 px-5">Назад</a>
         </center>
         <br> <br> <br>
     </div>
@@ -200,63 +246,6 @@
 </div>
 <!-- Contact End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
-<script>
-    const form = document.getElementById("chat-form");
-    const loadingText = document.getElementById("loadingText");
-
-    form.addEventListener("submit", function(event) {
-        loadingText.style.display = "block";
-    });
-
-    document.getElementById("chat-form").addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const message = document.getElementById("message").value;
-    const conversationContextElement = document.getElementById("popupText");
-    const conversationContext = conversationContextElement.value;
-
-    // Create the user message div and append it to chat container
-    const chatContainer = document.getElementById("chat-container");
-    const userMessage = document.createElement("div");
-    userMessage.classList.add("chat-bubble", "user-message");
-    userMessage.innerHTML = `<p>${message}</p>`;
-    chatContainer.appendChild(userMessage);
-
-    // Update conversation context to hold the user's message
-    conversationContextElement.value = message;
-
-    fetch("/explainTermsChat", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            message: message,
-            conversationContext: conversationContext
-        }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Create assistant's response and append it to chat container
-        const assistantResponse = document.createElement("div");
-        assistantResponse.classList.add("chat-bubble", "response-message");
-        assistantResponse.innerHTML = `<p>${data.response}</p>`;
-        chatContainer.appendChild(assistantResponse);
-
-        // Update the conversationContext with the assistant's response
-        conversationContextElement.value = data.conversationContext;
-
-        // Clear the input field for the next message
-        document.getElementById("message").value = "";
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
-});
-
-
-
-</script>
 </body>
 
 </html>

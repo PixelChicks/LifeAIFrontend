@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Life AI - Упражнения след операция</title>
+    <link href="https://life.bbca.bg/img/Group-1629.svg" rel="icon">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .search-box input[type="text"] {
+            border-radius: 50px 0 0 50px;
+            padding-left: 20px;
+            border-right: none;
+        }
+
+        .search-box button {
+            border-radius: 0 50px 50px 0;
+        }
+
+        .search-box .input-group {
+            flex-grow: 1;
+        }
+
+        .search-box .btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary {
+            width: 90%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 50px;
+        }
+
+        .btn-danger {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 50px;
+        }
+
+        .content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .label {
+            display: inline-block;
+            background-color: #1C9473;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<th:block th:insert="~{fragments/header}"></th:block>
+
+<div class="container-fluid overflow-hidden py-1 mt-1">
+    <center>
+        <a href="/moreInfoExercises" class="btn btn-danger rounded-pill py-2 px-5">Научи повече</a>
+    </center>
+    <br>
+    <center>
+        <div class="exercise-container" style="max-width: 600px;">
+            <a class="exercise-card" href="/stickExercises">
+                <img alt="Упражнение с пръчка" src="https://life.bbca.bg/img/exercise1.png">
+                <p>Упражнение с пръчка</p>
+            </a>
+            <a class="exercise-card" href="/spadeStretching">
+                <img alt="Разтягане на лопатките" src="https://life.bbca.bg/img/exercise2.png">
+                <p>Разтягане на лопатките</p>
+            </a>
+            <a class="exercise-card" href="/shoulderBlades">
+                <img alt="Събиране на лопатките" src="https://life.bbca.bg/img/exercise3.png">
+                <p>Събиране на лопатките</p>
+            </a>
+            <a class="exercise-card" href="/tiltSide">
+                <img alt="Наклони встрани" src="https://life.bbca.bg/img/exercise5.png">
+                <p>Наклони встрани</p>
+            </a>
+            <a class="exercise-card" href="/chestStretch">
+                <img alt="Разтягане на гръден кош" src="https://life.bbca.bg/img/exercise6.png">
+                <p>Разтягане на гръден кош</p>
+            </a>
+            <a class="exercise-card" href="/shoulderStretch">
+                <img alt="Разтягане на раменете" src="https://life.bbca.bg/img/exercise7.png">
+                <p>Разтягане на раменете</p>
+            </a>
+        </div>
+        <br><br>
+        <center>
+            <a href="/home" class="btn btn-danger rounded-pill py-2 px-5">Към началната страница</a>
+        </center>
+    </center>
+    <br> <br> <br>
+    <th:block th:insert="~{fragments/feedback}"></th:block>
+    <br> <br>
+</div>
+
+<th:block th:insert="~{fragments/footer}"></th:block>
+
+<style>
+    .hidden-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+    }
+
+    .show-content {
+        max-height: 10000px;
+        transition: max-height 0.5s ease-in;
+    }
+    .exercise-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.exercise-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    width: 150px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.exercise-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.exercise-card img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.exercise-card p {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+    text-align: center;
+}
+
+</style>
+
+<script>
+    document.getElementById("readMoreBtn").addEventListener("click", function () {
+        var moreContent = document.getElementById("moreContent");
+        var button = document.getElementById("readMoreBtn");
+
+        if (moreContent.classList.contains("show-content")) {
+            moreContent.classList.remove("show-content");
+            button.textContent = "Прочети повече"; // Change button text to "Read More"
+        } else {
+            moreContent.classList.add("show-content");
+            button.textContent = "Прочети по-малко"; // Change button text to "Read Less"
+        }
+    });
+</script>
+</body>
+
+</html>
