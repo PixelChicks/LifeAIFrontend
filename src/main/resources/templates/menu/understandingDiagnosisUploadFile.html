@@ -8,7 +8,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
-        .container {
+        .containerCenter {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -86,63 +86,67 @@
 <body>
 <th:block th:insert="~{fragments/header}"></th:block>
 
-<div class="container py-6" style="max-width: 650px;">
-    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
-        <div class="d-flex align-items-center mb-4">
-            <img alt="person-male--v2" height="58" src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
-                 width="58"/>
-            <h2 class="display-7 mb-1" style="text-align: left;">Разбиране на диагнозата</h2>
-        </div>
-        <p class="instruction">
-            Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
-        </p>
-
-        <form enctype="multipart/form-data" id="chatForm" method="post" th:action="@{/understandingDiagnosis}">
-            <div class="upload-section">
-                <label class="btn btn-secondary" for="file">
-                    <img alt="Camera Icon" src="https://img.icons8.com/ios/50/000000/upload--v1.png"
-                         style="width:24px;">
-                    Качи снимка
-                </label>
-                <input accept="image/*" class="file-input" id="file" name="file" style="display: none;" type="file">
-
-                <!-- New button for capturing photo with back camera -->
-                <label class="btn btn-secondary" for="camera-input">
-                    <img alt="Camera Icon" src="https://img.icons8.com/ios/50/000000/camera--v1.png"
-                         style="width:24px;">
-                    Направи снимка
-                </label>
-                <input accept="image/*" capture="environment" class="file-input" id="camera-input" name="camera-file"
-                       style="display: none;" type="file">
-
-                <span class="upload-message" id="upload-message"></span>
+<div class="container-fluid overflow-hidden py-1 mt-1">
+    <div class="container py-1" style="max-width: 600px;">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+            <div class="d-flex align-items-center mb-4">
+                <img alt="person-male--v2" height="58" src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
+                     width="58"/>
+                <h2 class="display-7 mb-1" style="text-align: left;">Разбиране на диагнозата</h2>
             </div>
+            <p class="instruction">
+                Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
+            </p>
 
-            <div class="mt-3">
+            <form enctype="multipart/form-data" id="chatForm" method="post" th:action="@{/understandingDiagnosis}">
+                <div class="upload-section">
+                    <label class="btn btn-secondary" for="file">
+                        <img alt="Camera Icon" src="https://img.icons8.com/ios/50/000000/upload--v1.png"
+                             style="width:24px;">
+                        Качи снимка
+                    </label>
+                    <input accept="image/*" class="file-input" id="file" name="file" style="display: none;" type="file">
+
+                    <!-- New button for capturing photo with back camera -->
+                    <label class="btn btn-secondary" for="camera-input">
+                        <img alt="Camera Icon" src="https://img.icons8.com/ios/50/000000/camera--v1.png"
+                             style="width:24px;">
+                        Направи снимка
+                    </label>
+                    <input accept="image/*" capture="environment" class="file-input" id="camera-input"
+                           name="camera-file"
+                           style="display: none;" type="file">
+
+                    <span class="upload-message" id="upload-message"></span>
+                </div>
+
+                <div class="mt-3">
         <textarea class="form-control wide-textarea" id="message" name="message"
                   placeholder="Моля да обясниш значението на медицинските термини в документа на разбираем език..."
                   rows="5"></textarea>
-                <br>
-                <button class="btn btn-primary" type="submit">Изпрати</button>
+                    <br>
+                    <button class="btn btn-primary" type="submit">Изпрати</button>
+                </div>
+            </form>
+            <!-- Loading text (initially hidden) -->
+            <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
+                Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от
+                LifeAI.
             </div>
-        </form>
-        <!-- Loading text (initially hidden) -->
-        <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
-            Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от
-            LifeAI.
         </div>
-    </div>
 
-    <!-- Display the response if available -->
-    <div class="response-section" th:if="${response}">
-        <h4>Резултат:</h4>
-        <p th:text="${response}">Тук ще се появи отговорът на ИИ...</p>
+        <!-- Display the response if available -->
+        <div class="response-section" th:if="${response}">
+            <h4>Резултат:</h4>
+            <p th:text="${response}">Тук ще се появи отговорът на ИИ...</p>
+        </div>
+        <th:block th:insert="~{fragments/feedback}"></th:block>
+        <br> <br>
     </div>
-    <th:block th:insert="~{fragments/feedback}"></th:block>
-    <br> <br>
 </div>
 
-<th:block th:insert="~{fragments/footer}"></th:block>
+<th:block style="text-align: left;" th:insert="~{fragments/footer}"></th:block>
+
 <script>
     document.getElementById("file").addEventListener("change", function() {
     const uploadMessage = document.getElementById("upload-message");
