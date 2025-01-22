@@ -10,6 +10,7 @@
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
+
         .search-box {
             display: flex;
             align-items: center;
@@ -34,15 +35,37 @@
             background-color: #007bff;
             color: white;
         }
-                .btn-danger {
+
+    .btn-danger {
     width: 100%;
     max-width: 500px;  /* Adjust as per your layout */
     padding: 15px 20px;
     font-size: 18px;  /* Adjust font size if needed */
     text-align: center;
-    border-radius: 50px;
- }
-         .chat-container {
+    border-radius: 50px;}
+
+    .spinner {
+        opacity: 80%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 5px solid #ff91b6;
+        border-bottom: 5px solid #b81d53;
+        animation: spin 2s linear infinite;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.chat-container {
         max-width: 600px;
         margin: 0 auto;
         border: 1px solid #ddd;
@@ -68,12 +91,11 @@
         text-align: left;
         margin-right: auto;
     }
-     #loadingText {
-        font-size: 14px;
-        color: #888;
-        font-style: italic;
-        text-align: center;
-        margin-top: 10px;
+     #loadingText {font-size: 14px;
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            margin-top: 10px;
     }
     </style>
 </head>
@@ -184,7 +206,9 @@
                 </button>
             </form>
             <!-- Loading text (initially hidden) -->
+
             <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
+                <div class="spinner"></div>
                 Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от LifeAI.
             </div>
 
