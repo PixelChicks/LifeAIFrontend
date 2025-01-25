@@ -44,27 +44,6 @@
     text-align: center;
     border-radius: 50px;}
 
-    .spinner {
-        opacity: 80%;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 5px solid #ff91b6;
-        border-bottom: 5px solid #b81d53;
-        animation: spin 2s linear infinite;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
 .chat-container {
         max-width: 600px;
         margin: 0 auto;
@@ -96,6 +75,38 @@
             font-style: italic;
             text-align: center;
             margin-top: 10px;
+    }
+        .typing-bubble {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 5px;
+    }
+
+    .typing-bubble span {
+        width: 15px;
+        height: 15px;
+        background-color: #ff6f91;
+        border-radius: 50%;
+        animation: typing 1.5s infinite;
+    }
+
+    .typing-bubble span:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .typing-bubble span:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    @keyframes typing {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+    40% {
+            transform: scale(1);
+        }
     }
     </style>
 </head>
@@ -194,6 +205,12 @@
                     <p id="response-message" th:utext="${response}">Отговорът на вашето търсене ще се появи тук...</p>
                 </div>
             </div>
+            <div id="typing-indicator" class="typing-bubble" style="display: none;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <br>
             <form id="chat-form" class="search-box" method="post">
                 <div class="input-group">
                     <!-- Hidden input to maintain conversation context -->
@@ -278,7 +295,17 @@
     });
 });
 
+document.getElementById("chat-form").addEventListener("submit", function (event) {
+                    event.preventDefault();
 
+                    const typingIndicator = document.getElementById("typing-indicator");
+                    typingIndicator.style.display = "flex";
+
+                    // Simulate waiting for a response (replace with your actual async handling)
+                    setTimeout(() => {
+                        typingIndicator.style.display = "none"; // Hide the typing bubble
+                    }, 17000); // Simulate 17-second wait just in case
+                });
 
 </script>
 </body>

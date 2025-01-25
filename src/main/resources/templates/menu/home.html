@@ -275,18 +275,6 @@
         // disable the submit button to prevent multiple submissions
         form.querySelector("button[type='submit']").disabled = true;
     });
-
-        document.getElementById("chatForm").addEventListener("submit", function (event) {
-                    event.preventDefault();
-
-                    const typingIndicator = document.getElementById("typing-indicator");
-                    typingIndicator.style.display = "flex";
-
-                    // Simulate waiting for a response (replace with your actual async handling)
-                    setTimeout(() => {
-                        typingIndicator.style.display = "none"; // Hide the typing bubble
-                    }, 16000); // Simulate 16-second wait just in case
-                });
 </script>
 </body>
 
