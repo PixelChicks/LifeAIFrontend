@@ -68,8 +68,8 @@
 
 .btn.btn-primary {
   /* background: var(--bs-primary) !important;*/
-  background-color: #ffa7c55c !important;
-  color: var(--bs-dark) !important; /*za teksta*/
+  background-color: #21064999 !important;
+  color: var(--bs-light) !important; /*za teksta*/
     font-weight: 500;
     transition: 0.5s;
     border-width: 2px;
@@ -95,7 +95,7 @@
 }
 
 .btn.btn-search{
-    background-color: #ffbad1 !important;
+    background-color: #f2739e !important;
     border-width: 1.5px;
     transition: background-color 0.3s ease;
 }
