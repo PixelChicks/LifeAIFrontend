@@ -178,8 +178,8 @@
         }
         .floating-icon {
           position: fixed;
-          bottom: 15px;
-          right: 20px;
+          bottom: 80px;
+          right: 15px;
           width: 60px;
           /* Adjust size of the circle */
           height: 60px;
@@ -196,6 +196,47 @@
           height: 50%;
           object-fit: contain;
         }
+        .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #F8F8F8;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+
+.nav-item {
+    text-align: center;
+    font-size: 14px;
+    color: #8E8E93; /* Default gray */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-item i {
+    font-size: 24px; /* Adjust icon size */
+    margin-bottom: 5px;
+}
+
+.nav-item p {
+    margin: 0;
+    font-size: 12px;
+}
+
+/* Active Item */
+.nav-item.active {
+    color: #2E1E46; /* Dark purple */
+    font-weight: bold;
+}
+
+.nav-item.active i {
+    color: #2E1E46;
+}
     </style>
 </head>
 

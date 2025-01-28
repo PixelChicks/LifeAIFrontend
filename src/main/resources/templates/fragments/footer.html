@@ -1,4 +1,46 @@
 <!-- Footer Start -->
+<div class="bottom-nav" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="bottom-nav">
+        <a href="https://life.bbca.bg/articles" class="nav-item">
+            <i class="fa-solid fa-glasses"></i>
+            <p>Статии</p>
+        </a>
+        <a href="https://life.bbca.bg/patients/diary" class="nav-item">
+            <i class="fa-solid fa-book"></i>
+            <p>Дневник</p>
+        </a>
+        <a id="calendar-link" class="nav-item">
+            <i class="fa-solid fa-calendar-days"></i>
+            <p>Календар</p>
+        </a>
+
+        <script>
+            // Function to get the formatted date (dd/MM/yyyy)
+            function formatDate(date) {
+                let day = String(date.getDate()).padStart(2, '0');
+                let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+                let year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+
+            // Get today's date and one month later
+            let today = new Date();
+            let nextMonth = new Date();
+            nextMonth.setMonth(nextMonth.getMonth() + 1);
+
+            // Construct the URL dynamically
+            let calendarURL = `https://life.bbca.bg/events?date=${formatDate(today)}&last_date=${formatDate(nextMonth)}`;
+
+            // Set the href attribute of the calendar link
+            document.getElementById("calendar-link").setAttribute("href", calendarURL);
+        </script>
+
+        <a href="https://life.bbca.bg/patients/profile/profile" class="nav-item">
+            <i class="fa-solid fa-user"></i>
+            <p>Профил</p>
+        </a>
+    </div>
+</div>
 <div class="container-fluid footer py-2 wow fadeIn" data-wow-delay="0.2s">
     <div class="container py-5">
         <div class="row g-5">
