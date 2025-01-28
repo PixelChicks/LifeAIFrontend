@@ -5,6 +5,7 @@ import com.lifeAIFrontend.LifeAIFrontend.config.FeignClientConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -19,4 +20,7 @@ public interface ChatClient {
 
     @PostMapping("/researchSideEffects")
     ResponseEntity<String> researchSideEffects(@RequestParam("message") String userMessage);
+
+    @GetMapping("/dailyReminder")
+    String receiveDailyReminder();
 }

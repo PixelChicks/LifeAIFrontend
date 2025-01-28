@@ -11,117 +11,150 @@
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
 
-    .spinner {
-        opacity: 80%;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 5px solid #ff91b6;
-        border-bottom: 5px solid #b81d53;
-        animation: spin 2s linear infinite;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
+        .spinner {
+            opacity: 80%;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 5px solid #ff91b6;
+            border-bottom: 5px solid #b81d53;
+            animation: spin 2s linear infinite;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    @keyframes spin {
-    0% {
-        transform: rotate(0deg); /* Start at 0 degrees */
+        @keyframes spin {
+        0% {
+            transform: rotate(0deg); /* Start at 0 degrees */
+        }
+        100% {
+            transform: rotate(360deg); /* Rotate to 360 degrees */
+        }
     }
-    100% {
-        transform: rotate(360deg); /* Rotate to 360 degrees */
-    }
-}
-        .search-box {
+            .search-box {
+                display: flex;
+                align-items: center;
+                margin-top: 20px;
+            }
+
+            .search-box input[type="text"] {
+                border-radius: 50px 0 0 50px;
+                padding-left: 20px;
+                border-right: none;
+            }
+
+            .search-box button {
+                border-radius: 0 50px 50px 0;
+            }
+
+            .search-box .input-group {
+                flex-grow: 1;
+            }
+
+            .search-box .btn {
+                background-color: #007bff;
+                color: white;
+            }
+
+            .btn-primary {
+                width: 90%;
+                max-width: 500px;  /* Adjust as per your layout */
+                padding: 15px 20px;
+                font-size: 18px;  /* Adjust font size if needed */
+                text-align: center;
+                border-radius: 50px;
+            }
+                    .btn-danger {
+                width: 100%;
+                max-width: 500px;  /* Adjust as per your layout */
+                padding: 15px 20px;
+                font-size: 18px;  /* Adjust font size if needed */
+                text-align: center;
+                border-radius: 50px;
+            }
+
+             #loadingText {
+                font-size: 14px;
+                color: #888;
+                font-style: italic;
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            * {
+             box-sizing: border-box;
+            }
+             html, body {
+             margin: 0;
+             padding: 0;
+             overflow-x: hidden;
+             }
+                .typing-bubble {
             display: flex;
+            gap: 5px;
             align-items: center;
-            margin-top: 20px;
+            justify-content: center;
+            margin-top: 6px;
         }
 
-        .search-box input[type="text"] {
-            border-radius: 50px 0 0 50px;
-            padding-left: 20px;
-            border-right: none;
+        .typing-bubble span {
+            width: 15px;
+            height: 15px;
+            background-color: #ff6f91;
+            border-radius: 50%;
+            animation: typing 1.5s infinite;
         }
 
-        .search-box button {
-            border-radius: 0 50px 50px 0;
+        .typing-bubble span:nth-child(2) {
+            animation-delay: 0.2s;
         }
 
-        .search-box .input-group {
-            flex-grow: 1;
+        .typing-bubble span:nth-child(3) {
+            animation-delay: 0.4s;
         }
 
-        .search-box .btn {
-            background-color: #007bff;
-            color: white;
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+        40% {
+                transform: scale(1);
+            }
         }
-
-        .btn-primary {
-            width: 90%;
-            max-width: 500px;  /* Adjust as per your layout */
-            padding: 15px 20px;
-            font-size: 18px;  /* Adjust font size if needed */
+        .quote-box {
+            position: relative;
+            background: url('/img/ribbon.png') no-repeat center center;
+            background-size: cover;
+            padding: 20px;
+            border-radius: 20px;
             text-align: center;
-            border-radius: 50px;
-        }
-                .btn-danger {
-            width: 100%;
-            max-width: 500px;  /* Adjust as per your layout */
-            padding: 15px 20px;
-            font-size: 18px;  /* Adjust font size if needed */
-            text-align: center;
-            border-radius: 50px;
-        }
-
-         #loadingText {
-            font-size: 14px;
-            color: #888;
+            font-size: 1.2em;
             font-style: italic;
-            text-align: center;
-            margin-top: 10px;
+            color: white;
+            font-weight: bold;
+            width: 80%;
+            max-width: 500px;
+            margin: 20px auto;
         }
 
-        * {
-         box-sizing: border-box;
+        /* Overlay Effect */
+        .quote-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgb(188 26 135 / 49%);
+            border-radius: 20px;
         }
-         html, body {
-         margin: 0;
-         padding: 0;
-         overflow-x: hidden;
-         }
-            .typing-bubble {
-        display: flex;
-        gap: 5px;
-        align-items: center;
-        justify-content: center;
-        margin-top: 6px;
-    }
 
-    .typing-bubble span {
-        width: 15px;
-        height: 15px;
-        background-color: #ff6f91;
-        border-radius: 50%;
-        animation: typing 1.5s infinite;
-    }
-
-    .typing-bubble span:nth-child(2) {
-        animation-delay: 0.2s;
-    }
-
-    .typing-bubble span:nth-child(3) {
-        animation-delay: 0.4s;
-    }
-
-    @keyframes typing {
-        0%, 80%, 100% {
-            transform: scale(0);
+        /* Text should be on top of the overlay */
+        .quote-text {
+            position: relative;
+            z-index: 1;
         }
-    40% {
-            transform: scale(1);
-        }
-    }
     </style>
 </head>
 
@@ -130,8 +163,11 @@
 <!-- Contact Start -->
 <center>
     <div style="max-width: 600px;">
-        <div class="container py-5">
+        <div class="container py-0">
             <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <div class="quote-box">
+                    <span class="quote-text" th:text="${dailyReminder}"></span>
+                </div>
                 <div class="d-flex align-items-center mb-4">
                     <img alt="person-male--v2" height="64"
                          src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
@@ -171,15 +207,15 @@
         </div>
         <div class="container mt-3" style="max-width: 600px;">
 
-<!--            <center>-->
-<!--                <div class="input-group">-->
-<!--                    <div class="typing-bubble" id="typing-indicator" style="display: none;">-->
-<!--                        <span></span>-->
-<!--                        <span></span>-->
-<!--                        <span></span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </center>-->
+            <!--            <center>-->
+            <!--                <div class="input-group">-->
+            <!--                    <div class="typing-bubble" id="typing-indicator" style="display: none;">-->
+            <!--                        <span></span>-->
+            <!--                        <span></span>-->
+            <!--                        <span></span>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </center>-->
             <form class="search-box" id="chatForm" method="post" th:action="@{/chat}">
                 <input class="form-control" id="message" name="message"
                        placeholder="Задайте въпрос, търсете информация в LifeAI..."

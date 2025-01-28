@@ -1,13 +1,20 @@
 package com.lifeAIFrontend.LifeAIFrontend.controller;
 
+import com.lifeAIFrontend.LifeAIFrontend.client.ChatClient;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@AllArgsConstructor
 public class MenuController {
 
+    private final ChatClient chatClient;
+
     @GetMapping("/home")
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("dailyReminder",chatClient.receiveDailyReminder());
         return "menu/home";
     }
 
