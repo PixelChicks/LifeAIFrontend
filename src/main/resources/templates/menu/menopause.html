@@ -10,76 +10,77 @@
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
-        .video-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px; /* Adjust space between videos */
-            justify-content: space-between;
-        }
+    .video-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Adjust space between videos */
+        justify-content: space-between;
+    }
 
+    .video-item {
+        flex: 1 1 calc(50% - 20px); /* 2 columns with space between */
+        box-sizing: border-box;
+    }
+
+    /* Ensure video iframe is responsive */
+    .elementor-video {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9; /* Maintain 16:9 aspect ratio for YouTube videos */
+    }
+
+    /* Make the video gallery responsive */
+    @media (max-width: 768px) {
         .video-item {
-            flex: 1 1 calc(50% - 20px); /* 2 columns with space between */
-            box-sizing: border-box;
+            flex: 1 1 100%; /* Stack videos in a single column on smaller screens */
         }
+    }
 
-        /* Ensure video iframe is responsive */
-        .elementor-video {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 16/9; /* Maintain 16:9 aspect ratio for YouTube videos */
-        }
+    /* Search box and button styling (as per the code you included) */
+    .search-box {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+    }
 
-        /* Make the video gallery responsive */
-        @media (max-width: 768px) {
-            .video-item {
-                flex: 1 1 100%; /* Stack videos in a single column on smaller screens */
-            }
-        }
+    .search-box input[type="text"] {
+        border-radius: 50px 0 0 50px;
+        padding-left: 20px;
+        border-right: none;
+    }
 
-                /* Search box and button styling (as per the code you included) */
-                .search-box {
-                    display: flex;
-                    align-items: center;
-                    margin-top: 20px;
-                }
+    .search-box button {
+        border-radius: 0 50px 50px 0;
+    }
 
-                .search-box input[type="text"] {
-                    border-radius: 50px 0 0 50px;
-                    padding-left: 20px;
-                    border-right: none;
-                }
+    .search-box .input-group {
+        flex-grow: 1;
+    }
 
-                .search-box button {
-                    border-radius: 0 50px 50px 0;
-                }
+    .search-box .btn {
+        background-color: #007bff;
+        color: white;
+    }
 
-                .search-box .input-group {
-                    flex-grow: 1;
-                }
+    .btn-primary,
+    .btn-danger {
+        width: 90%;
+        max-width: 500px;
+        padding: 15px 20px;
+        font-size: 18px;
+        text-align: center;
+        border-radius: 50px;
+    }
 
-                .search-box .btn {
-                    background-color: #007bff;
-                    color: white;
-                }
-
-                .btn-primary,
-                .btn-danger {
-                    width: 90%;
-                    max-width: 500px;
-                    padding: 15px 20px;
-                    font-size: 18px;
-                    text-align: center;
-                    border-radius: 50px;
-                }
     .image-container {
-    display: flex;
-    justify-content: center;  /* Horizontally center the image */
-    align-items: center;      /* Vertically center the image */
+        display: flex;
+        justify-content: center;  /* Horizontally center the image */
+        align-items: center;      /* Vertically center the image */
     }
 
     img {
-    max-width: 100%;          /* Makes the image responsive */
-    height: auto;             /* Maintains the image's aspect ratio */
+        max-width: 100%;          /* Makes the image responsive */
+        height: auto;             /* Maintains the image's aspect ratio */
     }
 
     </style>

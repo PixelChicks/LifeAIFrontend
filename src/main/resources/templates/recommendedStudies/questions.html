@@ -10,7 +10,7 @@
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
-        .spinner {
+    .spinner {
         opacity: 80%;
         width: 50px;
         height: 50px;
@@ -24,219 +24,243 @@
     }
 
     @keyframes spin {
-    0% {
-        transform: rotate(0deg); /* Start at 0 degrees */
+        0% {
+            transform: rotate(0deg); /* Start at 0 degrees */
+        }
+        100% {
+            transform: rotate(360deg); /* Rotate to 360 degrees */
+        }
     }
-    100% {
-        transform: rotate(360deg); /* Rotate to 360 degrees */
+    .search-box {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
     }
-}
-        .search-box {
-          display: flex;
-          align-items: center;
-          margin-top: 20px;
-        }
 
-        .search-box input[type="text"] {
-          border-radius: 50px 0 0 50px;
-          padding-left: 20px;
-          border-right: none;
-        }
+    .search-box input[type="text"] {
+      border-radius: 50px 0 0 50px;
+      padding-left: 20px;
+      border-right: none;
+    }
 
-        .search-box button {
-          border-radius: 0 50px 50px 0;
-        }
+    .search-box button {
+      border-radius: 0 50px 50px 0;
+    }
 
-        .search-box .input-group {
-          flex-grow: 1;
-        }
+    .search-box .input-group {
+      flex-grow: 1;
+    }
 
-        .search-box .btn {
-          background-color: #007bff;
-          color: white;
-        }
-        .btn-question {
-          width: 350px;
-          max-width: 160px;
-          padding: 20px 60px;
-          font-size: 18px;
-          text-align: center;
-          border-radius: 15px;
-          background-color: #e1e6ef;
-          outline: 2px solid #e1e6ef;
-          color: black;
-          border: none;
-        }
+    .search-box .btn {
+      background-color: #007bff;
+      color: white;
+    }
+    .btn-question {
+      width: 350px;
+      max-width: 160px;
+      padding: 20px 60px;
+      font-size: 18px;
+      text-align: center;
+      border-radius: 15px;
+      background-color: #e1e6ef;
+      outline: 2px solid #e1e6ef;
+      color: black;
+      border: none;
+    }
 
-        button:focus {
-          outline: none;
-          box-shadow: none;
-        }
+    button:focus {
+      outline: none;
+      box-shadow: none;
+    }
 
-        .btn-question:focus {
-          color: var(--bs-dark);
-          background-color: #fff;
-          border-color: #1c9473;
-          box-shadow: none;
-        }
+    .btn-question:focus {
+      color: var(--bs-dark);
+      background-color: #fff;
+      border-color: #1c9473;
+      box-shadow: none;
+    }
 
-        .btn-question.clicked {
-          background-color: #1c9473;
-          outline: 2px solid #1c9473;
-          border: none;
-          color: white;
-        }
+    .btn-question.clicked {
+      background-color: #1c9473;
+      outline: 2px solid #1c9473;
+      border: none;
+      color: white;
+    }
 
-        .btn-secondary {
-          width: 350px;
-          height: 62px;
-          font-size: 18px;
-          line-height: 50px;
-          text-align: center;
-          margin: 5px 0;
-          border-radius: 15px;
-          background-color: #e1e6ef;
-          color: #000;
-          border: none;
-          cursor: pointer;
-          outline: none;
-        }
+    .btn-secondary {
+      width: 350px;
+      height: 62px;
+      font-size: 18px;
+      line-height: 50px;
+      text-align: center;
+      margin: 5px 0;
+      border-radius: 15px;
+      background-color: #e1e6ef;
+      color: #000;
+      border: none;
+      cursor: pointer;
+      outline: none;
+    }
 
-        .btn-secondary:hover {
-          width: 350px;
-          height: 62px;
-          font-size: 18px;
-          line-height: 50px;
-          text-align: center;
-          margin: 5px 0;
-          border-radius: 15px;
-          background-color: #e1e6ef;
-          border-color: #1c9473;
-          color: #000;
-          outline: none;
-          box-shadow: none;
-          border: none;
-          cursor: pointer;
-        }
+    .btn-secondary:hover {
+      width: 350px;
+      height: 62px;
+      font-size: 18px;
+      line-height: 50px;
+      text-align: center;
+      margin: 5px 0;
+      border-radius: 15px;
+      background-color: #e1e6ef;
+      border-color: #1c9473;
+      color: #000;
+      outline: none;
+      box-shadow: none;
+      border: none;
+      cursor: pointer;
+    }
 
-        .highlighted-word {
-          background-color: #ebeef2;
-          cursor: pointer;
-          font-weight: bold;
-          padding: 0;
-          margin-bottom: 10px;
-          display: inline-block;
-          text-align: left;
-        }
+    .highlighted-word {
+      background-color: #ebeef2;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 0;
+      margin-bottom: 10px;
+      display: inline-block;
+      text-align: left;
+    }
 
-        #popupModal {
-          display: none;
-          position: fixed;
-          bottom: 85px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 90%;
-          max-width: 800px;
-          background-color: rgba(0, 0, 0, 0.6);
-          z-index: 1000;
-          border-radius: 10px;
-          overflow: hidden;
-        }
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 999;
+      opacity: 0; /* Start with 0 opacity */
+      animation: fadeIn 0.5s ease-out forwards; /* Fade-in animation */
+    }
 
-        #modalContent {
-          background-color: #ffffff;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
+    #popupModal {
+      display: none;
+      position: fixed;
+      bottom: 85px;
+      left: 50%;
+      transform: translateX(100%); /* Start off-screen to the right */
+      animation: slideInFromRight 0.5s ease-out forwards; /* Modal slide-in animation */
+      width: 90%;
+      max-width: 800px;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      border-radius: 10px;
+      overflow: hidden;
+    }
 
-        .close-btn {
-          color: #aaa;
-          font-size: 28px;
-          font-weight: bold;
-          cursor: pointer;
-          position: absolute;
-          top: 5px;
-          right: 10px;
-        }
+    @keyframes slideInFromRight {
+      0% {
+        transform: translateX(100%); /* Start off-screen */
+      }
+      100% {
+        transform: translateX(-50%); /* Slide to its final position */
+      }
+    }
 
-        .close-btn:hover,
-        .close-btn:focus {
-          color: black;
-          text-decoration: none;
-        }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0; /* Start with no visibility */
+      }
+      100% {
+        opacity: 1; /* Fade in to full visibility */
+      }
+    }
 
-        #overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.5);
-          display: none;
-          z-index: 999;
-        }
-        .floating-icon {
-          position: fixed;
-          bottom: 80px;
-          right: 15px;
-          width: 60px;
-          /* Adjust size of the circle */
-          height: 60px;
-          background-color: #1c9473;
-          border-radius: 100%;
-          box-shadow: 0 7px 200px rgba(0, 0, 0, 0.2);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-        }
-        .floating-icon img {
-          width: 90%;
-          height: 50%;
-          object-fit: contain;
-        }
-        .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #F8F8F8;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-}
 
-.nav-item {
-    text-align: center;
-    font-size: 14px;
-    color: #8E8E93; /* Default gray */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: color 0.3s ease-in-out;
-}
+    #modalContent {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
-.nav-item i {
-    font-size: 24px; /* Adjust icon size */
-    margin-bottom: 5px;
-}
+    .close-btn {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      top: 5px;
+      right: 10px;
+    }
 
-.nav-item p {
-    margin: 0;
-    font-size: 12px;
-}
+    .close-btn:hover,
+    .close-btn:focus {
+      color: black;
+      text-decoration: none;
+    }
 
-/* Active Item */
-.nav-item.active {
-    color: #2E1E46; /* Dark purple */
-    font-weight: bold;
-}
+    .floating-icon {
+      position: fixed;
+      bottom: 80px;
+      right: 15px;
+      width: 60px;
+      /* Adjust size of the circle */
+      height: 60px;
+      background-color: #1c9473;
+      border-radius: 100%;
+      box-shadow: 0 7px 200px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .floating-icon img {
+      width: 90%;
+      height: 50%;
+      object-fit: contain;
+    }
 
-.nav-item.active i {
-    color: #2E1E46;
-}
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #F8F8F8;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+    }
+
+    .nav-item {
+        text-align: center;
+        font-size: 14px;
+        color: #8E8E93; /* Default gray */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .nav-item i {
+        font-size: 24px; /* Adjust icon size */
+        margin-bottom: 5px;
+    }
+
+    .nav-item p {
+        margin: 0;
+        font-size: 12px;
+    }
+
+    /* Active Item */
+    .nav-item.active {
+        color: #2E1E46; /* Dark purple */
+        font-weight: bold;
+    }
+
+    .nav-item.active i {
+        color: #2E1E46;
+    }
     </style>
 </head>
 
@@ -254,7 +278,7 @@
 
 <div class="container-fluid p-0">
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0">
-        <a href="javascript:history.back()" class="back-icon" id="backButton" style="margin-top: 10px;">
+        <a href="/home" class="back-icon" id="backButton" style="margin-top: 10px;">
             <!-- Back Icon SVG -->
             <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left"
                  viewBox="0 0 16 16">
@@ -283,11 +307,13 @@
         justify-content: center; /* Center the navbar content */
         position: relative; /* Allows absolute positioning for the back icon */
     }
+
     .navbar-brand {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
     }
+
     .back-icon {
         position: absolute;
         left: 20px;
@@ -295,12 +321,13 @@
         transform: translateY(-50%);
         cursor: pointer;
     }
+
     #loadingText {
-            font-size: 14px;
-            color: #888;
-            font-style: italic;
-            text-align: center;
-            margin-top: 10px;
+        font-size: 14px;
+        color: #888;
+        font-style: italic;
+        text-align: center;
+        margin-top: 10px;
     }
 </style>
 
@@ -608,276 +635,294 @@
     };
 
 
-        function handleYesNoButtons(yesBtnId, noBtnId) {
-            const yesBtn = document.getElementById(yesBtnId);
-            const noBtn = document.getElementById(noBtnId);
+    function handleYesNoButtons(yesBtnId, noBtnId) {
+        const yesBtn = document.getElementById(yesBtnId);
+        const noBtn = document.getElementById(noBtnId);
 
-            function buttonClickHandler(event) {
-                yesBtn.classList.remove('clicked');
-                noBtn.classList.remove('clicked');
+        function buttonClickHandler(event) {
+            yesBtn.classList.remove('clicked');
+            noBtn.classList.remove('clicked');
 
-                event.target.classList.add('clicked');
-            }
-
-            yesBtn.addEventListener('click', buttonClickHandler);
-            noBtn.addEventListener('click', buttonClickHandler);
+            event.target.classList.add('clicked');
         }
 
-        handleYesNoButtons('yesSecondBtn', 'noSecondBtn');
-        handleYesNoButtons('yesBtn1', 'noBtn1');
-        handleYesNoButtons('yesThirdBtn', 'noThirdBtn');
-        handleYesNoButtons('yesForthBtn', 'noForthBtn');
-        handleYesNoButtons('yesFifthBtn', 'noFifthBtn');
-        handleYesNoButtons('yesSixthBtn', 'noSixthBtn');
+        yesBtn.addEventListener('click', buttonClickHandler);
+        noBtn.addEventListener('click', buttonClickHandler);
+    }
+
+    handleYesNoButtons('yesSecondBtn', 'noSecondBtn');
+    handleYesNoButtons('yesBtn1', 'noBtn1');
+    handleYesNoButtons('yesThirdBtn', 'noThirdBtn');
+    handleYesNoButtons('yesForthBtn', 'noForthBtn');
+    handleYesNoButtons('yesFifthBtn', 'noFifthBtn');
+    handleYesNoButtons('yesSixthBtn', 'noSixthBtn');
 
 
-        document.getElementById('noBtn1').addEventListener('click', () => {
-            document.getElementById('firstAnswer').style.display = 'block';
+    document.getElementById('noBtn1').addEventListener('click', () => {
+        document.getElementById('firstAnswer').style.display = 'block';
+    });
+
+    document.getElementById('yesBtn1').addEventListener('click', () => {
+        document.getElementById('secondQuestion').style.display = 'block';
+    });
+
+    document.getElementById('yesSecondBtn').addEventListener('click', () => {
+        document.getElementById('thirdQuestion').style.display = 'block';
+    });
+
+    document.getElementById('noSecondBtn').addEventListener('click', () => {
+        document.getElementById('forthQuestion').style.display = 'block';
+    });
+
+    document.getElementById('noForthBtn').addEventListener('click', () => {
+        document.getElementById('fifthQuestion').style.display = 'block';
+    });
+
+    document.getElementById('yesThirdBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer',
+            'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion'
+        ]);
+        document.getElementById('sixthQuestion').style.display = 'block';
+    });
+
+    document.getElementById('yesFifthBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'seventhAnswer', 'seventhQuestion',
+            'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
+            'eighthAnswer', 'ninthAnswer', 'tenthAnswer', 'eleventhAnswer', 'twelfthAnswer'
+        ]);
+        document.getElementById('sixthAnswer').style.display = 'block';
+    });
+
+    document.getElementById('noFifthBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer']);
+
+        const elementsToShow = [
+            'seventhAnswer',
+            'seventhQuestion',
+            'eighthQuestion',
+            'ninthQuestion',
+            'tenthQuestion',
+            'eleventhQuestion'
+        ];
+
+        elementsToShow.forEach(id => {
+            document.getElementById(id).style.display = 'block';
         });
+    });
 
-        document.getElementById('yesBtn1').addEventListener('click', () => {
-            document.getElementById('secondQuestion').style.display = 'block';
+    document.getElementById('yesSixthBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer']);
+        document.getElementById('forthAnswer').style.display = 'block';
+    });
+
+    document.getElementById('noSixthBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'seventhAnswer']);
+        document.getElementById('fifthAnswer').style.display = 'block';
+    });
+
+    document.getElementById('seventhQuestion').addEventListener('click', () => {
+        const eighthAnswer = document.getElementById('eighthAnswer');
+
+        if (eighthAnswer.style.display === 'block') {
+            eighthAnswer.style.display = 'none';
+        } else {
+            eighthAnswer.style.display = 'block';
+        }
+    });
+
+    document.getElementById('eighthQuestion').addEventListener('click', () => {
+        const ninthAnswer = document.getElementById('ninthAnswer');
+
+        if (ninthAnswer.style.display === 'block') {
+            ninthAnswer.style.display = 'none';
+        } else {
+            ninthAnswer.style.display = 'block';
+        }
+    });
+
+    document.getElementById('ninthQuestion').addEventListener('click', () => {
+        const tenthAnswer = document.getElementById('tenthAnswer');
+
+        if (tenthAnswer.style.display === 'block') {
+            tenthAnswer.style.display = 'none';
+        } else {
+            tenthAnswer.style.display = 'block';
+        }
+    });
+
+    document.getElementById('tenthQuestion').addEventListener('click', () => {
+        const eleventhAnswer = document.getElementById('eleventhAnswer');
+
+        if (eleventhAnswer.style.display === 'block') {
+            eleventhAnswer.style.display = 'none';
+        } else {
+            eleventhAnswer.style.display = 'block';
+        }
+    });
+
+    document.getElementById('eleventhQuestion').addEventListener('click', () => {
+        const twelfthAnswer = document.getElementById('twelfthAnswer');
+
+        if (twelfthAnswer.style.display === 'block') {
+            twelfthAnswer.style.display = 'none';
+        } else {
+            twelfthAnswer.style.display = 'block';
+        }
+    });
+
+    document.getElementById('twelfthQuestion').addEventListener('click', () => {
+        const thirteenthAnswer = document.getElementById('thirteenthAnswer');
+
+        if (thirteenthAnswer.style.display === 'block') {
+            thirteenthAnswer.style.display = 'none';
+        } else {
+            thirteenthAnswer.style.display = 'block';
+        }
+    });
+
+    document.getElementById('thirteenthQuestion').addEventListener('click', () => {
+        const fourteenthAnswer = document.getElementById('fourteenthAnswer');
+
+        if (fourteenthAnswer.style.display === 'block') {
+            fourteenthAnswer.style.display = 'none';
+        } else {
+            fourteenthAnswer.style.display = 'block';
+        }
+    });
+
+    document.getElementById('fourteenthQuestion').addEventListener('click', () => {
+        const fifteenthAnswer = document.getElementById('fifteenthAnswer');
+
+        if (fifteenthAnswer.style.display === 'block') {
+            fifteenthAnswer.style.display = 'none';
+        } else {
+            fifteenthAnswer.style.display = 'block';
+        }
+    });
+
+    document.getElementById('fifteenthQuestion').addEventListener('click', () => {
+        const sixteenthAnswer = document.getElementById('sixteenthAnswer');
+
+        if (sixteenthAnswer.style.display === 'block') {
+            sixteenthAnswer.style.display = 'none';
+        } else {
+            sixteenthAnswer.style.display = 'block';
+        }
+    });
+
+    function hideSubsequentQuestions(questionIds) {
+        questionIds.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.style.display = 'none';
+            }
         });
+    }
 
-        document.getElementById('yesSecondBtn').addEventListener('click', () => {
-            document.getElementById('thirdQuestion').style.display = 'block';
-        });
-
-        document.getElementById('noSecondBtn').addEventListener('click', () => {
-            document.getElementById('forthQuestion').style.display = 'block';
-        });
-
-        document.getElementById('noForthBtn').addEventListener('click', () => {
-            document.getElementById('fifthQuestion').style.display = 'block';
-        });
-
-        document.getElementById('yesThirdBtn').addEventListener('click', () => {
-            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer',
-                'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion'
-            ]);
-            document.getElementById('sixthQuestion').style.display = 'block';
-        });
-
+    if (document.getElementById('yesFifthBtn') && document.getElementById('forthAnswer')) {
         document.getElementById('yesFifthBtn').addEventListener('click', () => {
-            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'seventhAnswer', 'seventhQuestion',
-                'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
-                'eighthAnswer', 'ninthAnswer', 'tenthAnswer', 'eleventhAnswer', 'twelfthAnswer'
-            ]);
-            document.getElementById('sixthAnswer').style.display = 'block';
-        });
-
-        document.getElementById('noFifthBtn').addEventListener('click', () => {
-            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'fifthAnswer', 'sixthAnswer']);
-
-            const elementsToShow = [
-                'seventhAnswer',
-                'seventhQuestion',
-                'eighthQuestion',
-                'ninthQuestion',
-                'tenthQuestion',
-                'eleventhQuestion'
-            ];
-
-            elementsToShow.forEach(id => {
-                document.getElementById(id).style.display = 'block';
-            });
-        });
-
-        document.getElementById('yesSixthBtn').addEventListener('click', () => {
-            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'fifthAnswer', 'sixthAnswer', 'seventhAnswer']);
+            // Show the 'forthAnswer' paragraph
             document.getElementById('forthAnswer').style.display = 'block';
         });
+    }
 
-        document.getElementById('noSixthBtn').addEventListener('click', () => {
-            hideSubsequentQuestions(['secondAnswer', 'forthAnswer', 'sixthAnswer', 'seventhAnswer']);
-            document.getElementById('fifthAnswer').style.display = 'block';
-        });
-
-        document.getElementById('seventhQuestion').addEventListener('click', () => {
-            const eighthAnswer = document.getElementById('eighthAnswer');
-
-            if (eighthAnswer.style.display === 'block') {
-                eighthAnswer.style.display = 'none';
-            } else {
-                eighthAnswer.style.display = 'block';
+    function hideSubsequentQuestions(questionIds) {
+        questionIds.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.style.display = 'none';
             }
         });
+    }
 
-        document.getElementById('eighthQuestion').addEventListener('click', () => {
-            const ninthAnswer = document.getElementById('ninthAnswer');
+    document.getElementById('yesFifthBtn').addEventListener('click', function() {
+        const thirdAnswer = document.getElementById('thirdAnswer');
+        thirdAnswer.style.display = 'block';
+    });
 
-            if (ninthAnswer.style.display === 'block') {
-                ninthAnswer.style.display = 'none';
-            } else {
-                ninthAnswer.style.display = 'block';
-            }
+    document.getElementById('noBtn1').addEventListener('click', () => {
+        hideSubsequentQuestions(['secondQuestion', 'thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
+        document.getElementById('firstAnswer').style.display = 'block';
+    });
+
+    document.getElementById('yesBtn1').addEventListener('click', () => {
+        hideSubsequentQuestions(['thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
+        document.getElementById('firstAnswer').style.display = 'none';
+        document.getElementById('secondQuestion').style.display = 'block';
+    });
+
+    document.getElementById('noThirdBtn').addEventListener("click", () => {
+        hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
+        document.getElementById('secondAnswer').style.display = "block";
+    });
+
+    document.getElementById('yesSecondBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
+        document.getElementById('thirdQuestion').style.display = 'block';
+    });
+
+    document.getElementById('noSecondBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['thirdQuestion', 'fifthQuestion', 'sixthQuestion',
+            'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo'
+        ]);
+        document.getElementById('forthQuestion').style.display = 'block';
+    });
+
+    document.getElementById('noForthBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion', 'secondAnswer', 'forthAnswer', 'sixthAnswer',
+            'seventhAnswer', 'fifthAnswer', 'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
+            'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo',
+            'thirteenthAnswer', 'fourteenthAnswer', 'fifteenthAnswer', 'sixteenthAnswer'
+        ]);
+        document.getElementById('fifthQuestion').style.display = 'block';
+    });
+
+    document.getElementById('yesForthBtn').addEventListener('click', () => {
+        hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion']);
+
+        const elementsToShow = [
+            'twelfthQuestion',
+            'thirteenthQuestion',
+            'fourteenthQuestion',
+            'fifteenthQuestion',
+            'therapyInfo'
+        ];
+
+        elementsToShow.forEach(id => {
+            document.getElementById(id).style.display = 'block';
         });
+    });
 
-        document.getElementById('ninthQuestion').addEventListener('click', () => {
-            const tenthAnswer = document.getElementById('tenthAnswer');
+    function closeModal() {
+      const modal = document.getElementById('popupModal');
+      modal.style.display = 'none';
+    }
 
-            if (tenthAnswer.style.display === 'block') {
-                tenthAnswer.style.display = 'none';
-            } else {
-                tenthAnswer.style.display = 'block';
-            }
-        });
+    function openModal() {
+      const overlay = document.getElementById('overlay');
+      const modal = document.getElementById('popupModal');
 
-        document.getElementById('tenthQuestion').addEventListener('click', () => {
-            const eleventhAnswer = document.getElementById('eleventhAnswer');
+      // Show the overlay and the modal
+      overlay.style.display = 'block';
+      modal.style.display = 'block';
 
-            if (eleventhAnswer.style.display === 'block') {
-                eleventhAnswer.style.display = 'none';
-            } else {
-                eleventhAnswer.style.display = 'block';
-            }
-        });
+     // Set the default text in the modal
+            document.getElementById('modalHeader').innerText = 'LifeAI';
+            document.getElementById('popupText').innerText = 'Здравейте! Аз съм LifeAI – вашият личен асистент в борбата с рака на гърдата. Специално обучен изкуствен интелект, който предоставя точна и полезна информация, за да ви подкрепи на всяка стъпка от вашето пътуване. Чувствайте се свободни да задавате въпроси относно рака на гърдата, и аз ще се постарая да ви предоставя необходимата помощ и насоки.';
 
-        document.getElementById('eleventhQuestion').addEventListener('click', () => {
-            const twelfthAnswer = document.getElementById('twelfthAnswer');
 
-            if (twelfthAnswer.style.display === 'block') {
-                twelfthAnswer.style.display = 'none';
-            } else {
-                twelfthAnswer.style.display = 'block';
-            }
-        });
-
-        document.getElementById('twelfthQuestion').addEventListener('click', () => {
-            const thirteenthAnswer = document.getElementById('thirteenthAnswer');
-
-            if (thirteenthAnswer.style.display === 'block') {
-                thirteenthAnswer.style.display = 'none';
-            } else {
-                thirteenthAnswer.style.display = 'block';
-            }
-        });
-
-        document.getElementById('thirteenthQuestion').addEventListener('click', () => {
-            const fourteenthAnswer = document.getElementById('fourteenthAnswer');
-
-            if (fourteenthAnswer.style.display === 'block') {
-                fourteenthAnswer.style.display = 'none';
-            } else {
-                fourteenthAnswer.style.display = 'block';
-            }
-        });
-
-        document.getElementById('fourteenthQuestion').addEventListener('click', () => {
-            const fifteenthAnswer = document.getElementById('fifteenthAnswer');
-
-            if (fifteenthAnswer.style.display === 'block') {
-                fifteenthAnswer.style.display = 'none';
-            } else {
-                fifteenthAnswer.style.display = 'block';
-            }
-        });
-
-        document.getElementById('fifteenthQuestion').addEventListener('click', () => {
-            const sixteenthAnswer = document.getElementById('sixteenthAnswer');
-
-            if (sixteenthAnswer.style.display === 'block') {
-                sixteenthAnswer.style.display = 'none';
-            } else {
-                sixteenthAnswer.style.display = 'block';
-            }
-        });
-
-        function hideSubsequentQuestions(questionIds) {
-            questionIds.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.style.display = 'none';
-                }
-            });
-        }
-
-        if (document.getElementById('yesFifthBtn') && document.getElementById('forthAnswer')) {
-            document.getElementById('yesFifthBtn').addEventListener('click', () => {
-                // Show the 'forthAnswer' paragraph
-                document.getElementById('forthAnswer').style.display = 'block';
-            });
-        }
-
-        function hideSubsequentQuestions(questionIds) {
-            questionIds.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.style.display = 'none';
-                }
-            });
-        }
-
-        document.getElementById('yesFifthBtn').addEventListener('click', function() {
-            const thirdAnswer = document.getElementById('thirdAnswer');
-            thirdAnswer.style.display = 'block';
-        });
-
-        document.getElementById('noBtn1').addEventListener('click', () => {
-            hideSubsequentQuestions(['secondQuestion', 'thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
-            document.getElementById('firstAnswer').style.display = 'block';
-        });
-
-        document.getElementById('yesBtn1').addEventListener('click', () => {
-            hideSubsequentQuestions(['thirdQuestion', 'forthQuestion', 'fifthQuestion', 'sixthQuestion']);
-            document.getElementById('firstAnswer').style.display = 'none';
-            document.getElementById('secondQuestion').style.display = 'block';
-        });
-
-        document.getElementById('noThirdBtn').addEventListener("click", () => {
-            hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
-            document.getElementById('secondAnswer').style.display = "block";
-        });
-
-        document.getElementById('yesSecondBtn').addEventListener('click', () => {
-            hideSubsequentQuestions(['forthQuestion', 'fifthQuestion', 'sixthQuestion', 'secondAnswer']);
-            document.getElementById('thirdQuestion').style.display = 'block';
-        });
-
-        document.getElementById('noSecondBtn').addEventListener('click', () => {
-            hideSubsequentQuestions(['thirdQuestion', 'fifthQuestion', 'sixthQuestion',
-                'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo'
-            ]);
-            document.getElementById('forthQuestion').style.display = 'block';
-        });
-
-        document.getElementById('noForthBtn').addEventListener('click', () => {
-            hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion', 'secondAnswer', 'forthAnswer', 'sixthAnswer',
-                'seventhAnswer', 'fifthAnswer', 'seventhQuestion', 'eighthQuestion', 'ninthQuestion', 'tenthQuestion', 'eleventhQuestion',
-                'twelfthQuestion', 'thirteenthQuestion', 'fourteenthQuestion', 'fifteenthQuestion', 'therapyInfo',
-                'thirteenthAnswer', 'fourteenthAnswer', 'fifteenthAnswer', 'sixteenthAnswer'
-            ]);
-            document.getElementById('fifthQuestion').style.display = 'block';
-        });
-
-        document.getElementById('yesForthBtn').addEventListener('click', () => {
-            hideSubsequentQuestions(['fifthQuestion', 'sixthQuestion']);
-
-            const elementsToShow = [
-                'twelfthQuestion',
-                'thirteenthQuestion',
-                'fourteenthQuestion',
-                'fifteenthQuestion',
-                'therapyInfo'
-            ];
-
-            elementsToShow.forEach(id => {
-                document.getElementById(id).style.display = 'block';
-            });
-        });
-
-     function openModal() {
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('popupModal').style.display = 'block';
-
-        // Set the default text in the modal
-        document.getElementById('modalHeader').innerText = 'LifeAI';
-        document.getElementById('popupText').innerText = 'Здравейте! Аз съм LifeAI – вашият личен асистент в борбата с рака на гърдата. Специално обучен изкуствен интелект, който предоставя точна и полезна информация, за да ви подкрепи на всяка стъпка от вашето пътуване. Чувствайте се свободни да задавате въпроси относно рака на гърдата, и аз ще се постарая да ви предоставя необходимата помощ и насоки.';
+      // Reset animation on each open
+      overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
+      modal.style.animation = 'slideInFromRight 0.3s ease-out forwards';
     }
 
     function closeModal() {
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('popupModal').style.display = 'none';
+      const overlay = document.getElementById('overlay');
+      const modal = document.getElementById('popupModal');
+
+      // Hide the modal and the overlay
+      overlay.style.display = 'none';
+      modal.style.display = 'none';
     }
 
     document.getElementById('overlay').addEventListener('click', function() {

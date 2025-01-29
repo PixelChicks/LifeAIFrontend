@@ -11,40 +11,41 @@
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
 
-        .search-box {
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
-        }
+    .search-box {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+    }
 
-        .search-box input[type="text"] {
-            border-radius: 50px 0 0 50px;
-            padding-left: 20px;
-            border-right: none;
-        }
+    .search-box input[type="text"] {
+        border-radius: 50px 0 0 50px;
+        padding-left: 20px;
+        border-right: none;
+    }
 
-        .search-box button {
-            border-radius: 0 50px 50px 0;
-        }
+    .search-box button {
+        border-radius: 0 50px 50px 0;
+    }
 
-        .search-box .input-group {
-            flex-grow: 1;
-        }
+    .search-box .input-group {
+        flex-grow: 1;
+    }
 
-        .search-box .btn {
-            background-color: #007bff;
-            color: white;
-        }
+    .search-box .btn {
+        background-color: #007bff;
+        color: white;
+    }
 
     .btn-danger {
-    width: 100%;
-    max-width: 500px;  /* Adjust as per your layout */
-    padding: 15px 20px;
-    font-size: 18px;  /* Adjust font size if needed */
-    text-align: center;
-    border-radius: 50px;}
+        width: 100%;
+        max-width: 500px;  /* Adjust as per your layout */
+        padding: 15px 20px;
+        font-size: 18px;  /* Adjust font size if needed */
+        text-align: center;
+        border-radius: 50px;
+    }
 
-.chat-container {
+    .chat-container {
         max-width: 600px;
         margin: 0 auto;
         border: 1px solid #ddd;
@@ -70,6 +71,7 @@
         text-align: left;
         margin-right: auto;
     }
+
      #loadingText {font-size: 14px;
             color: #888;
             font-style: italic;
@@ -108,47 +110,48 @@
             transform: scale(1);
         }
     }
-        .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #F8F8F8;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-}
 
-.nav-item {
-    text-align: center;
-    font-size: 14px;
-    color: #8E8E93; /* Default gray */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: color 0.3s ease-in-out;
-}
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #F8F8F8;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+    }
 
-.nav-item i {
-    font-size: 24px; /* Adjust icon size */
-    margin-bottom: 5px;
-}
+    .nav-item {
+        text-align: center;
+        font-size: 14px;
+        color: #8E8E93; /* Default gray */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: color 0.3s ease-in-out;
+    }
 
-.nav-item p {
-    margin: 0;
-    font-size: 12px;
-}
+    .nav-item i {
+        font-size: 24px; /* Adjust icon size */
+        margin-bottom: 5px;
+    }
 
-/* Active Item */
-.nav-item.active {
-    color: #2E1E46; /* Dark purple */
-    font-weight: bold;
-}
+    .nav-item p {
+        margin: 0;
+        font-size: 12px;
+    }
 
-.nav-item.active i {
-    color: #2E1E46;
-}
+    /* Active Item */
+    .nav-item.active {
+        color: #2E1E46; /* Dark purple */
+        font-weight: bold;
+    }
+
+    .nav-item.active i {
+        color: #2E1E46;
+    }
     </style>
 </head>
 
@@ -168,7 +171,7 @@
 
 <div class="container-fluid p-0">
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0">
-        <a href="javascript:history.back()" class="back-icon" id="backButton" style="margin-top: 10px;">
+        <a href="/recommendedStudies" class="back-icon" id="backButton" style="margin-top: 10px;">
             <!-- Back Icon SVG -->
             <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left"
                  viewBox="0 0 16 16">

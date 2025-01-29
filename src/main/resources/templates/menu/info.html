@@ -10,55 +10,55 @@
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
-        .search-box {
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
-        }
+    .search-box {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+    }
 
-        .search-box input[type="text"] {
-            border-radius: 50px 0 0 50px;
-            padding-left: 20px;
-            border-right: none;
-        }
+    .search-box input[type="text"] {
+        border-radius: 50px 0 0 50px;
+        padding-left: 20px;
+        border-right: none;
+    }
 
-        .search-box button {
-            border-radius: 0 50px 50px 0;
-        }
+    .search-box button {
+        border-radius: 0 50px 50px 0;
+    }
 
-        .search-box .input-group {
-            flex-grow: 1;
-        }
+    .search-box .input-group {
+        flex-grow: 1;
+    }
 
-        .search-box .btn {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-danger {
-            width: 100%;
-            max-width: 500px;  /* Adjust as per your layout */
-            padding: 15px 20px;
-            font-size: 18px;  /* Adjust font size if needed */
-            text-align: center;
-            border-radius: 50px;
-        }
+    .search-box .btn {
+        background-color: #007bff;
+        color: white;
+    }
+    .btn-danger {
+        width: 100%;
+        max-width: 500px;  /* Adjust as per your layout */
+        padding: 15px 20px;
+        font-size: 18px;  /* Adjust font size if needed */
+        text-align: center;
+        border-radius: 50px;
+    }
 
+    .responsive-image {
+        width: 80%; /* Default width for mobile */
+        max-width: 400px; /* Limit maximum size */
+    }
+
+    @media (min-width: 768px) { /* Medium screens and up */
         .responsive-image {
-            width: 80%; /* Default width for mobile */
-            max-width: 400px; /* Limit maximum size */
+        width: 60%;
         }
+    }
 
-        @media (min-width: 768px) { /* Medium screens and up */
-            .responsive-image {
-            width: 60%;
-            }
+    @media (min-width: 992px) { /* Large screens and up */
+         .responsive-image {
+         width: 40%;
         }
-
-        @media (min-width: 992px) { /* Large screens and up */
-             .responsive-image {
-             width: 40%;
-            }
-        }
+    }
     </style>
 </head>
 
