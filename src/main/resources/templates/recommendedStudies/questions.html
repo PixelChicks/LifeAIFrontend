@@ -188,7 +188,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-height: 85vh; /* Adjust height as needed */
+            max-height: 80vh; /* Adjust height as needed */
             overflow-y: auto; /* Enables scrolling */
         }
 
@@ -636,26 +636,30 @@
     }
 
     document.querySelectorAll('strong[style*="background-color: #e9ecf2"]')
-        .forEach(function (element) {
-            element.addEventListener('click', function () {
-                var clickedWord = this.innerHTML.toLowerCase();
+    .forEach(function (element) {
+        element.addEventListener('click', function () {
+            var clickedWord = this.innerHTML.toLowerCase();
 
-                var definitionKey = Object.keys(wordDefinitions)
-                    .find(key => clickedWord.toLowerCase().includes(key.toLowerCase()));
+            var definitionKey = Object.keys(wordDefinitions)
+                .find(key => clickedWord.toLowerCase().includes(key.toLowerCase()));
 
+            // Set the modal header and text
+            modalHeader.innerHTML = this.innerHTML;
 
-                modalHeader.innerHTML = this.innerHTML;
+            if (definitionKey) {
+                popupText.innerHTML = wordDefinitions[definitionKey];
+            } else {
+                popupText.innerHTML = 'За съжаление все още нямаме дефиниция за този термин.';
+            }
 
-                if (definitionKey) {
-                    popupText.innerHTML = wordDefinitions[definitionKey];
-                } else {
-                    popupText.innerHTML = 'За съжаление все още нямаме дефиниция за този термин.';
-                }
+            // Show the modal and overlay
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
 
-                modal.style.display = 'block';
-                overlay.style.display = 'block';
-            });
+            // Disable scrolling on the body
+            document.body.style.overflow = 'hidden';
         });
+    });
 
 
     closeBtn.onclick = function () {
