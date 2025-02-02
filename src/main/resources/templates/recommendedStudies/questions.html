@@ -659,9 +659,12 @@
 
 
     closeBtn.onclick = function () {
-        modal.style.display = 'none';
+        const overlay = document.getElementById('overlay');
         overlay.style.display = 'none';
+
+        closeModal();
     };
+
 
     window.onclick = function (event) {
         if (event.target == modal || event.target == overlay) {
@@ -782,21 +785,19 @@
         const chatContainer = document.getElementById("chat-messages");
         const messageInput = document.getElementById("message");
         const conversationContextElement = document.getElementById("conversationContext");
-        const popupTextElement = document.getElementById("popupText"); // Get popupText div
+        const popupTextElement = document.getElementById("popupText");
         const loadingText = document.getElementById("loadingText");
 
         const userMessage = messageInput.value;
         let conversationContext = conversationContextElement.value;
-        const popupText = popupTextElement ? popupTextElement.innerText.trim() : ""; // Read popupText content
+        const popupText = popupTextElement ? popupTextElement.innerText.trim() : "";
 
         if (!userMessage.trim()) return;
 
-        // If popupText is not already in context, add it once
         if (popupText && !conversationContext.includes(popupText)) {
             conversationContext = popupText + "\n" + conversationContext;
         }
 
-        // Display user message
         const userBubble = document.createElement("div");
         userBubble.classList.add("chat-bubble", "user-message");
         userBubble.innerHTML = `<p>${userMessage}</p>`;
@@ -805,7 +806,6 @@
         chatContainer.scrollTop = chatContainer.scrollHeight;
         loadingText.style.display = "block";
 
-        // Send AJAX request
         fetch("/explainTermsChat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -818,13 +818,11 @@
         .then(data => {
             loadingText.style.display = "none";
 
-            // Display AI response
             const aiBubble = document.createElement("div");
             aiBubble.classList.add("chat-bubble", "response-message");
             aiBubble.innerHTML = `<p>${data.response}</p>`;
             chatContainer.appendChild(aiBubble);
 
-            // Update conversation context in the hidden input
             conversationContextElement.value = data.conversationContext;
 
             chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -991,35 +989,40 @@
     });
 
     function closeModal() {
-      const modal = document.getElementById('popupModal');
-      modal.style.display = 'none';
+        const modal = document.getElementById('popupModal');
+        const overlay = document.getElementById('overlay');
+        const modalHeader = document.getElementById('modalHeader');
+        const popupText = document.getElementById('popupText');
+        const chatMessages = document.getElementById('chat-messages');
+
+        overlay.style.display = 'none';
+
+        modal.style.display = 'none';
+
+        modalHeader.innerHTML = null;
+        popupText.innerHTML = null;
+        chatMessages.innerHTML = null;
+
+        const conversationContext = document.getElementById('conversationContext');
+        conversationContext.value = null;
+
+        const chatForm = document.getElementById('chatForm');
+        chatForm.reset();
     }
 
     function openModal() {
       const overlay = document.getElementById('overlay');
       const modal = document.getElementById('popupModal');
 
-      // Show the overlay and the modal
       overlay.style.display = 'block';
       modal.style.display = 'block';
 
-     // Set the default text in the modal
             document.getElementById('modalHeader').innerText = 'LifeAI';
             document.getElementById('popupText').innerText = 'Здравейте! Аз съм LifeAI – вашият личен асистент в борбата с рака на гърдата. Специално обучен изкуствен интелект, който предоставя точна и полезна информация, за да ви подкрепи на всяка стъпка от вашето пътуване. Чувствайте се свободни да задавате въпроси относно рака на гърдата, и аз ще се постарая да ви предоставя необходимата помощ и насоки.';
 
 
-      // Reset animation on each open
       overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
       modal.style.animation = 'slideInFromRight 0.3s ease-out forwards';
-    }
-
-    function closeModal() {
-      const overlay = document.getElementById('overlay');
-      const modal = document.getElementById('popupModal');
-
-      // Hide the modal and the overlay
-      overlay.style.display = 'none';
-      modal.style.display = 'none';
     }
 
     document.getElementById('overlay').addEventListener('click', function() {
