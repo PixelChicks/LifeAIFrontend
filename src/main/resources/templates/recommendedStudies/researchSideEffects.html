@@ -10,6 +10,28 @@
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
+    .spinner {
+        opacity: 80%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 5px solid #ff91b6;
+        border-bottom: 5px solid #b81d53;
+        animation: spin 2s linear infinite;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg); /* Start at 0 degrees */
+        }
+        100% {
+            transform: rotate(360deg); /* Rotate to 360 degrees */
+        }
+    }
+
     .search-box {
         display: flex;
         align-items: center;
@@ -238,23 +260,19 @@
                     <p id="response-message" th:utext="${response}">Отговорът на вашето търсене ще се появи тук...</p>
                 </div>
             </div><br>
-            <div id="typing-indicator" class="typing-bubble" style="display: none;">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
             <form id="chat-form" class="search-box" method="post" th:action="@{/researchSideEffects}">
-                <div class="input-group">
+                <div class="input-group" id="input-container">
                     <input class="form-control" id="message" name="message" placeholder="Попитайте LifeAI..." required type="text">
                 </div>
                 <button class="btn btn-search" type="submit">
                     <img src="/img/pink-send.png" alt="Search" width="30px" height="30px">
                 </button>
             </form>
-            <!-- Loading text (initially hidden) -->
+            <!-- Loading Indicator -->
             <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
                 <div class="spinner"></div>
-                Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от LifeAI.
+                Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор
+                от LifeAI.
             </div>
             <input type="hidden" id="popupText" value="">
 
@@ -327,6 +345,11 @@
                         typingIndicator.style.display = "none"; // Hide the typing bubble
                     }, 15000); // Simulate 15-second wait just in case
                 });
+
+                 document.getElementById("chat-form").addEventListener("submit", function (event) {
+                    // Clear the input field after submitting
+                    document.getElementById("message").value = "";
+                 });
             </script>
 
 
