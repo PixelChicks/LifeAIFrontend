@@ -833,47 +833,47 @@
     });
 
     document.getElementById("chatForm").addEventListener("submit", function(event) {
-        event.preventDefault();
+    event.preventDefault();
 
-        const chatContainer = document.getElementById("chat-messages");
-        const messageInput = document.getElementById("message");
-        const conversationContextElement = document.getElementById("conversationContext");
-        const popupTextElement = document.getElementById("popupText");
-        const loadingText = document.getElementById("loadingText");
+    const chatContainer = document.getElementById("chat-messages");
+    const messageInput = document.getElementById("message");
+    const conversationContextElement = document.getElementById("conversationContext");
+    const popupTextElement = document.getElementById("popupText");
+    const loadingText = document.getElementById("loadingText");
 
-        const userMessage = messageInput.value;
-        let conversationContext = conversationContextElement.value;
-        const popupText = popupTextElement ? popupTextElement.innerText.trim() : "";
+    const userMessage = messageInput.value.trim();
+    let conversationContext = conversationContextElement.value;
+    const popupText = popupTextElement ? popupTextElement.innerText.trim() : "";
 
-        if (!userMessage.trim()) return;
+    if (!userMessage) return;
 
-        if (popupText && !conversationContext.includes(popupText)) {
-            conversationContext = popupText + "\n" + conversationContext;
-        }
+    if (popupText && !conversationContext.includes(popupText)) {
+        conversationContext = popupText + "\n" + conversationContext;
+    }
 
-        const userBubble = document.createElement("div");
-        userBubble.classList.add("chat-bubble", "user-message");
-        userBubble.innerHTML = `<p>${userMessage}</p>`;
-        chatContainer.appendChild(userBubble);
+    const userBubble = document.createElement("div");
+    userBubble.classList.add("chat-bubble", "user-message");
+    userBubble.innerHTML = `<p><strong>ВИЕ:</strong> ${userMessage}</p>`;
+    chatContainer.appendChild(userBubble);
 
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-        loadingText.style.display = "block";
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    loadingText.style.display = "block";
 
-        fetch("/explainTermsChat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                message: userMessage,
-                conversationContext: conversationContext
-            }),
-        })
+    fetch("/explainTermsChat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            message: userMessage,
+            conversationContext: conversationContext
+        }),
+    })
         .then(response => response.json())
         .then(data => {
             loadingText.style.display = "none";
 
             const aiBubble = document.createElement("div");
             aiBubble.classList.add("chat-bubble", "response-message");
-            aiBubble.innerHTML = `<p>${data.response}</p>`;
+            aiBubble.innerHTML = `<p><strong>LifeAI:</strong> ${data.response}</p>`;
             chatContainer.appendChild(aiBubble);
 
             conversationContextElement.value = data.conversationContext;
@@ -885,8 +885,9 @@
             loadingText.style.display = "none";
         });
 
-        messageInput.value = "";
+        messageInput.value = ""; // Clear input field after sending message
     });
+
 
     document.getElementById('ninthQuestion').addEventListener('click', () => {
         const tenthAnswer = document.getElementById('tenthAnswer');
