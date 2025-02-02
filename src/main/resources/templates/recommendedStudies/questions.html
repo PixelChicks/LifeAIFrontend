@@ -166,20 +166,39 @@
 
         @keyframes slideInFromRight {
             0% {
-                transform: translate3d(100%, 0, 0); /* Start off-screen */
+                transform: translate3d(100%, 0, 0);
             }
             100% {
-                transform: translate3d(-50%, 0, 0); /* Slide to final position */
+                transform: translate3d(-50%, 0, 0);
             }
         }
 
         @keyframes fadeIn {
-          0% {
-            opacity: 0; /* Start with no visibility */
-          }
-          100% {
-            opacity: 1; /* Fade in to full visibility */
-          }
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Close Animations */
+        @keyframes slideOutToRight {
+            0% {
+                transform: translate3d(-50%, 0, 0);
+            }
+            100% {
+                transform: translate3d(100%, 0, 0);
+            }
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
         }
 
 
@@ -391,7 +410,7 @@
                 <div id="popupText" th:text="${popupText}"></div>
 
                 <!-- Hidden input to hold and update conversation context -->
-                <input type="hidden" id="conversationContext" name="conversationContext" th:value="${popupText}">
+                <input id="conversationContext" name="conversationContext" th:value="${popupText}" type="hidden">
 
 
                 <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -424,7 +443,8 @@
                 <!-- Loading Indicator -->
                 <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
                     <div class="spinner"></div>
-                    Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от LifeAI.
+                    Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор
+                    от LifeAI.
                 </div>
             </div>
         </div>
@@ -502,22 +522,26 @@
                 Препоръчителните изследвания зависят от терапията, която провеждате:
             </p>
 
-            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none" data-bs-toggle="dropdown"
+            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
+                    data-bs-toggle="dropdown"
                     id="twelfthQuestion" style="display:none;" type="button">
                 При ХИМИОТЕРАПИЯ
             </button>
             <div id="thirteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[12].text}"></div>
-            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none" data-bs-toggle="dropdown"
+            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
+                    data-bs-toggle="dropdown"
                     id="thirteenthQuestion" style="display:none;" type="button">
                 При ТАРГЕТНА ТЕРАПИЯ
             </button>
             <div id="fourteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[13].text}"></div>
-            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none" data-bs-toggle="dropdown"
+            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
+                    data-bs-toggle="dropdown"
                     id="fourteenthQuestion" style="display:none;" type="button">
                 При ЕНДОКРИННА ТЕРАПИЯ
             </button>
             <div id="fifteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[14].text}"></div>
-            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none" data-bs-toggle="dropdown"
+            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
+                    data-bs-toggle="dropdown"
                     id="fifteenthQuestion" style="display:none;" type="button">
                 При ИМУНОТЕРАПИЯ
             </button>
@@ -538,27 +562,32 @@
         <div id="seventhAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[6].text}"></div>
         <br>
         <left>
-            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none" data-bs-toggle="dropdown"
+            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
+                    data-bs-toggle="dropdown"
                     id="seventhQuestion" style="display:none;" type="button">
                 Размер на тумора: ПОД 2см
             </button>
             <div id="eighthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[7].text}"></div>
-            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none" data-bs-toggle="dropdown"
+            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
+                    data-bs-toggle="dropdown"
                     id="eighthQuestion" style="display:none;" type="button">
                 Размер на тумора: НАД 2см
             </button>
             <div id="ninthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[8].text}"></div>
-            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none" data-bs-toggle="dropdown"
+            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
+                    data-bs-toggle="dropdown"
                     id="ninthQuestion" style="display:none;" type="button">
                 При ВЪЗРАСТ ПОД 40г.
             </button>
             <div id="tenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[9].text}"></div>
-            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none" data-bs-toggle="dropdown"
+            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
+                    data-bs-toggle="dropdown"
                     id="tenthQuestion" style="display:none;" type="button">
                 При ВЪЗРАСТ 40-50г.
             </button>
             <div id="eleventhAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[10].text}"></div>
-            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none" data-bs-toggle="dropdown"
+            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
+                    data-bs-toggle="dropdown"
                     id="eleventhQuestion" style="display:none;" type="button">
                 При ВЪЗРАСТ НАД 50г.
             </button>
@@ -643,18 +672,27 @@
             var definitionKey = Object.keys(wordDefinitions)
                 .find(key => clickedWord.toLowerCase().includes(key.toLowerCase()));
 
-            // Set the modal header and text
-            modalHeader.innerHTML = this.innerHTML;
+            const modal = document.getElementById('popupModal');
+            const overlay = document.getElementById('overlay');
+            const modalHeader = document.getElementById('modalHeader');
+            const popupText = document.getElementById('popupText');
 
-            if (definitionKey) {
-                popupText.innerHTML = wordDefinitions[definitionKey];
-            } else {
-                popupText.innerHTML = 'За съжаление все още нямаме дефиниция за този термин.';
-            }
+            // Reset animations before applying new ones
+            modal.style.animation = 'none';
+            overlay.style.animation = 'none';
+            void modal.offsetWidth; // Force reflow
+
+            // Set modal content
+            modalHeader.innerHTML = this.innerHTML;
+            popupText.innerHTML = definitionKey ? wordDefinitions[definitionKey] : 'За съжаление все още нямаме дефиниция за този термин.';
 
             // Show the modal and overlay
             modal.style.display = 'block';
             overlay.style.display = 'block';
+
+            // Apply animations
+            modal.style.animation = 'slideInFromRight 0.3s ease-out forwards';
+            overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
 
             // Disable scrolling on the body
             document.body.style.overflow = 'hidden';
@@ -670,10 +708,21 @@
     };
 
 
-    window.onclick = function (event) {
+   window.onclick = function (event) {
+        const modal = document.getElementById('popupModal');
+        const overlay = document.getElementById('overlay');
+
         if (event.target == modal || event.target == overlay) {
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
+            // Apply closing animations
+            modal.style.animation = 'slideOutToRight 0.3s ease-out forwards';
+            overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
+
+            // Wait for animation to complete before hiding
+            setTimeout(() => {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }, 300); // Match animation duration
         }
     };
 
@@ -996,46 +1045,68 @@
         const modal = document.getElementById('popupModal');
         const overlay = document.getElementById('overlay');
 
-        modal.style.display = 'none';
-        overlay.style.display = 'none';
+        // Apply animations before hiding
+         modal.style.animation = 'slideOutToRight 0.3s ease-out forwards';
+         overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
 
-        document.body.style.overflow = 'auto';
+         setTimeout(() => {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
 
-        const modalHeader = document.getElementById('modalHeader');
-        const popupText = document.getElementById('popupText');
-        const chatMessages = document.getElementById('chat-messages');
-        const conversationContext = document.getElementById('conversationContext');
+                document.body.style.overflow = 'auto';
 
-        modalHeader.innerHTML = null;
-        popupText.innerHTML = null;
-        chatMessages.innerHTML = null;
+                const modalHeader = document.getElementById('modalHeader');
+                const popupText = document.getElementById('popupText');
+                const chatMessages = document.getElementById('chat-messages');
+                const conversationContext = document.getElementById('conversationContext');
 
-        conversationContext.value = null;
+                modalHeader.innerHTML = null;
+                popupText.innerHTML = null;
+                chatMessages.innerHTML = null;
 
-        const chatForm = document.getElementById('chatForm');
-        chatForm.reset();
-    }
+                conversationContext.value = null;
+
+                const chatForm = document.getElementById('chatForm');
+                chatForm.reset();
+            }, 300); // 300ms matches animation duration
+         }
 
     function openModal() {
-      const overlay = document.getElementById('overlay');
-      const modal = document.getElementById('popupModal');
+        const overlay = document.getElementById('overlay');
+        const modal = document.getElementById('popupModal');
 
-      overlay.style.display = 'block';
-      modal.style.display = 'block';
+        // Reset animations before displaying
+        modal.style.animation = 'none';
+        overlay.style.animation = 'none';
 
-            document.getElementById('modalHeader').innerText = 'LifeAI';
-            document.getElementById('popupText').innerText = 'Здравейте! Аз съм LifeAI – вашият личен асистент в борбата с рака на гърдата. Специално обучен изкуствен интелект, който предоставя точна и полезна информация, за да ви подкрепи на всяка стъпка от вашето пътуване. Чувствайте се свободни да задавате въпроси относно рака на гърдата, и аз ще се постарая да ви предоставя необходимата помощ и насоки.';
+        // Force reflow to reset animation state
+        void modal.offsetWidth;
 
+        overlay.style.display = 'block';
+        modal.style.display = 'block';
 
-      overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
-      modal.style.animation = 'slideInFromRight 0.3s ease-out forwards';
+        document.getElementById('modalHeader').innerText = 'LifeAI';
+        document.getElementById('popupText').innerText = 'Здравейте! Аз съм LifeAI – вашият личен асистент в борбата с рака на гърдата. Специално обучен изкуствен интелект, който предоставя точна и полезна информация, за да ви подкрепи на всяка стъпка от вашето пътуване. Чувствайте се свободни да задавате въпроси относно рака на гърдата, и аз ще се постарая да ви предоставя необходимата помощ и насоки.';
 
-      document.body.style.overflow = 'hidden';
-      modal.style.transform = 'translateX(0)';
+        // Reapply animations
+        overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
+        modal.style.animation = 'slideInFromRight 0.3s ease-out forwards';
+
+        document.body.style.overflow = 'hidden';
     }
 
-    document.getElementById('overlay').addEventListener('click', function() {
-        closeModal();
+    document.getElementById('overlay').addEventListener('click', function () {
+        const modal = document.getElementById('popupModal');
+        const overlay = document.getElementById('overlay');
+
+        // Apply closing animations
+        modal.style.animation = 'slideOutToRight 0.3s ease-out forwards';
+        overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
+
+        // Wait for animation to complete before hiding elements
+        setTimeout(() => {
+            closeModal();
+        }, 300); // 300ms to match the animation duration
     });
 
     function addPopupTextToForm() {
