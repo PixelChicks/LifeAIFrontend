@@ -75,54 +75,70 @@ public class ChatController {
     }
 
     @PostMapping("/explainTerms")
-    public String explainTerms(
-            @RequestParam(value = "message", required = false) String message,
-            @RequestParam(value = "popupTextContent", required = false) String popupTextContent,
-            @RequestParam(value = "file", required = false) MultipartFile file,
-            Model model) {
-
-        if (!(message.isEmpty())) {
-            model.addAttribute("plainMessage", message);
-        } else {
-            message = "Каква е целта ти?";
-        }
-
-        if (popupTextContent != null && !(popupTextContent.contains("Здравейте! Аз съм LifeAI"))) {
-            message = message + " " + popupTextContent;
-            model.addAttribute("popupText", popupTextContent);
-        }
-
-        ResponseEntity<String> response = chatClient.chat(message, file);
-        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
-
-        model.addAttribute("response", formattedResponse);
-        model.addAttribute("message", message);
-
-        return "recommendedStudies/chat";
-    }
-
-    @PostMapping("/explainTermsChat")
     @ResponseBody
-    public Map<String, String> explainTermsChat(
+    public Map<String, String> explainTerms(
             @RequestBody Map<String, String> payload) {
 
         String message = payload.get("message");
         String conversationContext = payload.get("conversationContext");
 
-        String updatedContext = (conversationContext == null ? "" : conversationContext) +
-                "\nUser: " + message;
+        if (message == null || message.isEmpty()) {
+            message = "Каква е целта ти?";
+        }
 
+        if (conversationContext == null) {
+            conversationContext = "";
+        }
+
+        // Append message to conversation context
+        String updatedContext = conversationContext + "\nUser: " + message;
+
+        // Send request to AI chatbot
         ResponseEntity<String> response = chatClient.chat(updatedContext, null);
         String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
 
         updatedContext += "\nAssistant: " + formattedResponse;
 
+        // Prepare JSON response
         Map<String, String> responseBody = new HashMap<>();
         responseBody.put("response", formattedResponse);
         responseBody.put("conversationContext", updatedContext);
 
         return responseBody;
     }
+
+
+    @PostMapping("/explainTermsChat")
+    @ResponseBody
+    public Map<String, String> explainTermsChat(@RequestBody Map<String, String> payload) {
+
+        String message = payload.get("message");
+        String conversationContext = payload.get("conversationContext");
+
+        // Ensure conversationContext is initialized
+        if (conversationContext == null) {
+            conversationContext = "";
+        }
+
+        // Append user message
+        String updatedContext = conversationContext + "\nUser: " + message;
+        System.out.println(conversationContext);
+
+        // Call AI service
+        ResponseEntity<String> response = chatClient.chat(updatedContext, null);
+        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
+
+        // Append AI response to context
+        updatedContext += "\nAssistant: " + formattedResponse;
+
+        // Prepare JSON response
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("response", formattedResponse);
+        responseBody.put("conversationContext", updatedContext);
+
+        return responseBody;
+    }
+
 
     private String formatResponse(String response) {
         // Replace newline characters with <br> for HTML line breaks
