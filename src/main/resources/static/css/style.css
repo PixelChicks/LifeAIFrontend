@@ -94,15 +94,15 @@
     color: var(--bs-dark) !important;
 }
 
-.btn.btn-search{
-    background-color: #f2739e !important;
-    border-width: 1.5px;
+.btn.btn-search {
+    background-color: #fbfbfb !important; /* Retain the pink background */
+    border: 3.5px solid #f2739e; /* Set the border to pink */
     transition: background-color 0.3s ease;
 }
 
 .btn.btn-search:hover {
     background: var(--bs-white) !important;
-    border-width: 4px;
+    border-width: 3.5px;
     border-color: #ffbad1 !important;
 }
 
