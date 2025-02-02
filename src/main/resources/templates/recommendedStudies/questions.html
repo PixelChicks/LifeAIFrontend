@@ -991,19 +991,21 @@
     function closeModal() {
         const modal = document.getElementById('popupModal');
         const overlay = document.getElementById('overlay');
+
+        modal.style.display = 'none';
+        overlay.style.display = 'none';
+
+        document.body.style.overflow = 'auto';
+
         const modalHeader = document.getElementById('modalHeader');
         const popupText = document.getElementById('popupText');
         const chatMessages = document.getElementById('chat-messages');
-
-        overlay.style.display = 'none';
-
-        modal.style.display = 'none';
+        const conversationContext = document.getElementById('conversationContext');
 
         modalHeader.innerHTML = null;
         popupText.innerHTML = null;
         chatMessages.innerHTML = null;
 
-        const conversationContext = document.getElementById('conversationContext');
         conversationContext.value = null;
 
         const chatForm = document.getElementById('chatForm');
@@ -1023,6 +1025,9 @@
 
       overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
       modal.style.animation = 'slideInFromRight 0.3s ease-out forwards';
+
+      document.body.style.overflow = 'hidden';
+      modal.style.transform = 'translateX(0)';
     }
 
     document.getElementById('overlay').addEventListener('click', function() {
