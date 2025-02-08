@@ -35,27 +35,24 @@
         .search-box {
             display: flex;
             align-items: center;
-            margin-top: 20px;
+            border: 3px solid #6ec4b0;
+            border-radius: 55px;
+            padding: 3px 3px;
+            background: white;
         }
-
-        .search-box input[type="text"] {
-            border-radius: 50px 0 0 50px;
-            padding-left: 20px;
-            border-right: none;
+        .search-box input {
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 8px;
+            flex: 1;
         }
-
         .search-box button {
-            border-radius: 0 50px 50px 0;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
 
-        .search-box .input-group {
-            flex-grow: 1;
-        }
-
-        .search-box .btn {
-            background-color: #007bff;
-            color: white;
-        }
 
         .btn-primary {
             width: 90%;
@@ -255,16 +252,12 @@
             <!--                </div>-->
             <!--            </center>-->
             <form class="search-box" id="chatForm" method="post" th:action="@{/chat}">
-                <input class="form-control" id="message" name="message"
-                       placeholder="Задайте въпрос, търсете информация в LifeAI..."
-                       required type="text">
-                <button class="btn btn-search" type="submit">
-                    <img alt="Search" src="https://img.icons8.com/?size=26&id=112468&format=png&color=F25081">
+                <input type="text" name="message" placeholder="Задайте въпрос, търсете информация..." required="" style="background-color: transparent;">
+                <button type="submit">
+                    <img src="/img/search.svg" alt="Search">
                 </button>
-                <br>
             </form>
             <!-- Loading text (initially hidden) -->
-
             <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
                 <div class="spinner"></div>
                 Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от
