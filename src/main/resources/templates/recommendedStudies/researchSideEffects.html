@@ -83,15 +83,15 @@
     }
 
     .user-message {
-        background-color: #35a970;
+        background-color: #5fd2bf; // a little darker than #69D0BF
         color: #ffffff;
         text-align: left;
         margin-left: auto;
     }
 
     .response-message {
-        background-color: #df7596;
-        color: #ffffff;
+        background-color: #e7ebf9;
+        color: #40464b;
         text-align: left;
         margin-right: auto;
     }
@@ -247,7 +247,10 @@
         <li></li>
     </ul>
     <div class="container text-center py-5" style="max-width: 900px;">
-        <h1 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Чат с LifeAI</h1>
+        <h1 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Отговори от LifeAI</h1>
+        <h5 class="mb-3" style="margin: 0 auto; max-width: 300px; text-align: center;">
+            Само от научно-базирани източници
+        </h5>
     </div>
 </div>
 <!-- Header End -->
@@ -256,6 +259,9 @@
 <div class="container py-0">
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="container mt-5" style="max-width: 650px;">
+            <div class="d-flex align-items-center mb-4">
+                <h2 class="display-6 mb-1" style="text-align: left; margin-left: 15px;">СПРАВЯНЕ СЪС СТРАНИЧНИ ЕФЕКТИ</h2>
+            </div><br>
             <div id="chat-container">
                 <div class="chat-bubble response-message">
                     <p id="response-message" th:utext="${response}">Отговорът на вашето търсене ще се появи тук...</p>
@@ -296,7 +302,7 @@
                     // Append the user's message to the chat container
                     const userMessage = document.createElement("div");
                     userMessage.classList.add("chat-bubble", "user-message");
-                    userMessage.innerHTML = `<p>${message}</p>`;
+                    userMessage.innerHTML = `<p style="color: white;">${message}</p>`;
                     chatContainer.appendChild(userMessage);
 
                     // Update conversation context with user's message

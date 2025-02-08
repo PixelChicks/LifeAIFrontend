@@ -25,9 +25,7 @@ public class ChatController {
 
     @GetMapping("/researchSideEffects")
     public String researchSideEffects(Model model) {
-        model.addAttribute("response", "Здравейте! Аз съм LifeAI, вашият персонализиран асистент. " +
-                "Моля, напишете какви странични ефекти изпитвате, за да мога да ви предоставя полезна информация и решения " +
-                "за облекчаване на симптомите.");
+        model.addAttribute("response", "Моля, опишете какви странични ефекти изпитвате.");
         return "recommendedStudies/researchSideEffects";
     }
 
