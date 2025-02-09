@@ -34,29 +34,25 @@
     }
 
     .search-box {
-        display: flex;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-    .search-box input[type="text"] {
-        border-radius: 50px 0 0 50px;
-        padding-left: 20px;
-        border-right: none;
-    }
-
-    .search-box button {
-        border-radius: 0 50px 50px 0;
-    }
-
-    .search-box .input-group {
-        flex-grow: 1;
-    }
-
-    .search-box .btn {
-        background-color: #007bff;
-        color: white;
-    }
+            display: flex;
+            align-items: center;
+            border: 3px solid #6ec4b0;
+            border-radius: 55px;
+            padding: 3px 3px;
+            background: white;
+        }
+        .search-box input {
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 8px;
+            flex: 1;
+        }
+        .search-box button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
 
     .btn-danger {
         width: 100%;
@@ -83,7 +79,7 @@
     }
 
     .user-message {
-        background-color: #5fd2bf; // a little darker than #69D0BF
+        background-color: #56bdac; // a little darker than #69D0BF
         color: #ffffff;
         text-align: left;
         margin-left: auto;
@@ -268,11 +264,9 @@
                 </div>
             </div><br>
             <form id="chat-form" class="search-box" method="post" th:action="@{/researchSideEffects}">
-                <div class="input-group" id="input-container">
-                    <input class="form-control" id="message" name="message" placeholder="Попитайте LifeAI..." required type="text">
-                </div>
-                <button class="btn btn-search" type="submit">
-                    <img src="/img/pink-send.png" alt="Search" width="30px" height="30px">
+                <input id="message" type="text" name="message" placeholder="Попитайте ни..." required="" style="background-color: transparent;">
+                <button type="submit">
+                    <img src="/img/search.svg" alt="Search">
                 </button>
             </form>
             <!-- Loading Indicator -->

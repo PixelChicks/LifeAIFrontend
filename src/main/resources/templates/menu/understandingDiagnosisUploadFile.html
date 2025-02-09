@@ -90,9 +90,35 @@
 
     .upload-message {
         display: none;
-        color: green;
+        color: #3FC09D;
         margin-top: 10px;
-        font-size: 14px;
+        font-size: 18px;
+    }
+    .upload-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .upload-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 20px;
+        border: 3px solid #786C8C;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        background: white;
+        width: 250px;
+        height: 60px;
+        color: #190f21d1;
+        text-align: centre;
+    }
+
+    .icon {
+        width: 34px;
     }
 
     #loadingText {
@@ -111,9 +137,7 @@
 <div class="container py-6" style="max-width: 650px;">
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
         <div class="d-flex align-items-center mb-4">
-            <img alt="person-male--v2" height="58" src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png"
-                 width="58"/>
-            <h2 class="display-7 mb-1" style="text-align: left;">Разбиране на диагнозата</h2>
+            <h2 class="display-6 mb-1" style="text-align: centre;">Разбиране на диагнозата</h2>
         </div>
         <p class="instruction">
             Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
@@ -121,31 +145,26 @@
 
         <form enctype="multipart/form-data" id="chatForm" method="post" th:action="@{/understandingDiagnosis}">
             <div class="upload-section">
-                <label class="btn btn-secondary" for="file">
-                    <img alt="Camera Icon" src="https://img.icons8.com/ios/50/000000/upload--v1.png"
-                         style="width:24px;">
+                <label class="upload-btn" for="file">
+                    <img alt="Upload Icon" src="/img/image.svg" class="icon">
                     Качи снимка
                 </label>
-                <input accept="image/*" class="file-input" id="file" name="file" style="display: none;" type="file">
+                <input accept="image/*" class="file-input" id="file" onchange="enableButton()" name="file" type="file" style="display: none;">
 
-                <!-- New button for capturing photo with back camera -->
-                <label class="btn btn-secondary" for="camera-input">
-                    <img alt="Camera Icon" src="https://img.icons8.com/ios/50/000000/camera--v1.png"
-                         style="width:24px;">
+                <label class="upload-btn" for="camera-input">
+                    <img alt="Camera Icon" src="/img/camera.svg" class="icon">
                     Направи снимка
                 </label>
-                <input accept="image/*" capture="environment" class="file-input" id="camera-input" name="camera-file"
-                       style="display: none;" type="file">
-
+                <input accept="image/*" capture="environment" class="file-input" id="camera-input" onchange="enableButton2()" name="camera-file" type="file" style="display: none;">
                 <span class="upload-message" id="upload-message"></span>
             </div>
 
             <div class="mt-3">
         <textarea class="form-control wide-textarea" id="message" name="message"
                   placeholder="Моля да обясниш значението на медицинските термини в документа на разбираем език..."
-                  rows="5"></textarea>
+                  rows="1" hidden></textarea>
                 <br>
-                <button class="btn btn-primary" type="submit">Изпрати</button>
+                <button class="btn btn-primary" type="submit" id="submitButton" disabled>Изпрати</button>
             </div>
         </form>
         <!-- Loading text (initially hidden) -->
@@ -179,6 +198,18 @@
         }
     });
 
+    document.getElementById("camera-input").addEventListener("change", function() {
+    const uploadMessage = document.getElementById("upload-message");
+
+    // Check if a file was selected
+    if (this.files && this.files.length > 0) {
+            uploadMessage.textContent = "Файлът е качен успешно!"; // Success message in Bulgarian
+            uploadMessage.style.display = "inline"; // Show the message
+        } else {
+            uploadMessage.style.display = "none"; // Hide the message if no file is selected
+        }
+    });
+
     const form = document.getElementById("chatForm");
     const loadingText = document.getElementById("loadingText");
 
@@ -188,6 +219,27 @@
         // disable the submit button to prevent multiple submissions
         form.querySelector("button[type='submit']").disabled = true;
     });
+
+    function enableButton() {
+        var fileInput = document.getElementById("file");
+        var submitButton = document.getElementById("submitButton");
+            // Check if a file has been selected
+        if (fileInput.files.length > 0) {
+            submitButton.disabled = false; // Enable the button
+        } else {
+            submitButton.disabled = true; // Disable the button
+        }
+    }
+
+    function enableButton2() {
+        var fileInput = document.getElementById("camera-input");
+        var submitButton = document.getElementById("submitButton");
+        if (fileInput.files.length > 0) {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    }
 </script>
 </body>
 </html>

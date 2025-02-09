@@ -60,8 +60,7 @@ public class ChatController {
     public String understandingDiagnosis(@RequestParam String message, Model model,
                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         if (message.isEmpty()) {
-            message = "Моля да опишеш на разбираем език, без медицинските термини какво е заболяването описано във файла. " +
-                    "Обясни значението на всеки термин.";
+            message = "Моля да обясниш значението на медицинските термини, които срещнати във файла.";
         }
 
         ResponseEntity<String> response = chatClient.chat(message, file);
