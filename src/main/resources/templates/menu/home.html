@@ -156,27 +156,49 @@
         }
 
     .card {
-        position: relative;
-        width: 350px;
-        height: 161px;
-        border-radius: 20px; /* Same as SVG's rx */
-        padding-bottom: 20px;
-    }
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 376px; /* Matches SVG dimensions */
+    height: 171px; /* Matches SVG dimensions */
+    border-radius: 20px; /* Matches SVG rx */
+    padding-bottom: 20px;
+    background-color: #FFE5E5; /* Fallback for when the image isn't loaded */
+}
+
+.card img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures it scales correctly */
+}
+
 
      .text {
-        position: absolute;
-        top: 35px; /* Adjust for padding from the top */
-        left: 50px; /* Add some horizontal padding */
-        right: 50px; /* Ensure it doesn't overflow */
-        font-family: 'Inter', sans-serif;
-        font-size: 16px; /* Reduce font size to fit the container */
-        font-weight: 700; /* Bold */
-        font-style: italic; /* Italic */
-        color: #A557A0;
-        text-align: center;
-        line-height: 1.4; /* Add some spacing between lines */
-        overflow-wrap: break-word; /* Break text to avoid overflow */
-    }
+    position: absolute;
+    top: 35px;
+    left: 35px;
+    right: 35px;
+    bottom: 35px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: italic;
+    color: #7A437E;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    max-width: calc(100% - 70px);
+    word-wrap: normal;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
     </style>
 </head>
 
@@ -187,8 +209,7 @@
     <div style="max-width: 600px;">
         <div class="card">
             <!-- Background Rectangle -->
-            <img alt="Rectangle Background" src="/img/rectangle.svg"
-                 style="position: absolute; width: 100%; height: 100%;">
+            <img alt="Rectangle Background" src="/img/rectangle.svg">
 
             <!-- Heart Shapes -->
             <img alt="Hearts" src="/img/upHearts.svg"
