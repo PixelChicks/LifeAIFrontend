@@ -518,36 +518,42 @@
             <button class="btn btn-question" id="noForthBtn">НЕ</button>
         </div>
         <br>
-        <center>
-            <p id="therapyInfo" style="display: none; margin-bottom: 15px">
-                Препоръчителните изследвания зависят от терапията, която провеждате:
-            </p>
 
+        <p id="therapyInfo" style="display: none; margin-bottom: 15px">
+            Препоръчителните изследвания зависят от терапията, която провеждате:
+        </p>
+        <div style="display: flex; justify-content: center;">
             <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
                     data-bs-toggle="dropdown"
                     id="twelfthQuestion" style="display:none;" type="button">
                 При ХИМИОТЕРАПИЯ
             </button>
-            <div id="thirteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[12].text}"></div>
+        </div>
+        <div id="thirteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[12].text}"></div>
+        <div style="display: flex; justify-content: center;">
             <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
                     data-bs-toggle="dropdown"
                     id="thirteenthQuestion" style="display:none;" type="button">
                 При ТАРГЕТНА ТЕРАПИЯ
             </button>
-            <div id="fourteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[13].text}"></div>
+        </div>
+        <div id="fourteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[13].text}"></div>
+        <div style="display: flex; justify-content: center;">
             <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
                     data-bs-toggle="dropdown"
                     id="fourteenthQuestion" style="display:none;" type="button">
                 При ЕНДОКРИННА ТЕРАПИЯ
             </button>
-            <div id="fifteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[14].text}"></div>
+        </div>
+        <div id="fifteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[14].text}"></div>
+        <div style="display: flex; justify-content: center;">
             <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
                     data-bs-toggle="dropdown"
                     id="fifteenthQuestion" style="display:none;" type="button">
                 При ИМУНОТЕРАПИЯ
             </button>
-            <div id="sixteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[15].text}"></div>
-        </center>
+        </div>
+        <div id="sixteenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[15].text}"></div>
     </div>
     <br>
     <!-- FIFTH QUESTION-->
@@ -562,38 +568,46 @@
         <div id="sixthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[5].text}"></div>
         <div id="seventhAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[6].text}"></div>
         <br>
-        <center>
+        <div style="display: flex; justify-content: center;">
             <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
                     data-bs-toggle="dropdown"
                     id="seventhQuestion" style="display:none;" type="button">
                 Размер на тумора: ПОД 2см
             </button>
-            <div id="eighthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[7].text}"></div>
+        </div>
+        <div id="eighthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[7].text}"></div>
+        <div style="display: flex; justify-content: center;">
             <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
                     data-bs-toggle="dropdown"
                     id="eighthQuestion" style="display:none;" type="button">
                 Размер на тумора: НАД 2см
             </button>
+        </div>
+        <div style="display: flex; justify-content: center;">
             <div id="ninthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[8].text}"></div>
             <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
                     data-bs-toggle="dropdown"
                     id="ninthQuestion" style="display:none;" type="button">
                 При ВЪЗРАСТ ПОД 40г.
             </button>
-            <div id="tenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[9].text}"></div>
+        </div>
+        <div id="tenthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[9].text}"></div>
+        <div style="display: flex; justify-content: center;">
             <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
                     data-bs-toggle="dropdown"
                     id="tenthQuestion" style="display:none;" type="button">
                 При ВЪЗРАСТ 40-50г.
             </button>
+        </div>
+        <div style="display: flex; justify-content: center;">
             <div id="eleventhAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[10].text}"></div>
             <button aria-expanded="false" class="btn btn-secondary dropdown-toggle shadow-none"
                     data-bs-toggle="dropdown"
                     id="eleventhQuestion" style="display:none;" type="button">
                 При ВЪЗРАСТ НАД 50г.
             </button>
-            <div id="twelfthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[11].text}"></div>
-        </center>
+        </div>
+        <div id="twelfthAnswer" style="display: none; margin-top: 20px;" th:utext="${answers[11].text}"></div>
     </div>
     <!-- SIXTH QUESTION-->
     <div id="sixthQuestion" style="display:none;">
