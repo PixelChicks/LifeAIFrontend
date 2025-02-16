@@ -1,12 +1,11 @@
-<div style="text-align: center; font-family: Arial, sans-serif;" xmlns:th="http://www.w3.org/1999/xhtml">
-
-    <form th:action="@{/feedback}" th:object="${feedback}" method="post" style="display: inline-block; text-align: center; margin-top: 10px;">
+<div style="text-align: center; font-family: Arial, sans-serif;">
+    <form action="/feedback" method="post" style="display: inline-block; text-align: center; margin-top: 10px;">
         <!-- Question Text -->
         <p style="font-size: 18px; font-weight: bold;">Намирате ли тази информация за полезна?</p>
 
         <!-- Thumbs Up -->
         <div style="display: inline-block; margin-right: 20px;">
-            <input type="radio" id="thumbsUp" th:field="*{thumbsUp}" value="true" style="display: none;" />
+            <input type="radio" id="thumbsUp" name="feedback" value="true" style="display: none;" />
             <label for="thumbsUp" class="feedback-icon thumbs-up" style="cursor: pointer;">
                 <img src="/img/thumb-up.png" alt="Thumbs Up" style="width: 70px; height: 70px;" />
             </label>
@@ -14,7 +13,7 @@
 
         <!-- Thumbs Down -->
         <div style="display: inline-block;">
-            <input type="radio" id="thumbsDown" th:field="*{thumbsUp}" value="false" style="display: none;" />
+            <input type="radio" id="thumbsDown" name="feedback" value="false" style="display: none;" />
             <label for="thumbsDown" class="feedback-icon thumbs-down" style="cursor: pointer;">
                 <img src="/img/thumb-down.png" alt="Thumbs Down" style="width: 70px; height: 70px;" />
             </label>
@@ -24,13 +23,12 @@
         <!-- Comment Box -->
         <p style="font-size: 18px; font-weight: bold;">Оставете коментар, ако желаете</p>
         <div style="margin-top: 20px;">
-        <textarea name="comment" th:field="*{comment}" id="commentBox"
-                  style="width: 100%; height: 100px; padding: 10px; font-size: 20px; border: 1px solid #ccc; border-radius: 4px; resize: both;"></textarea>
+            <textarea name="comment" id="commentBox" style="width: 100%; height: 100px; padding: 10px; font-size: 20px; border: 1px solid #ccc; border-radius: 4px; resize: both;"></textarea>
         </div>
 
         <!-- Submit Button -->
         <div style="margin-top: 15px;">
-            <input type="hidden" name="url" th:value="${currentUrl}" />
+            <input type="hidden" name="url" value="/current-url" />
             <div style="margin-top: 15px; text-align: right;">
                 <button type="submit" id="submitButton" disabled
                         style="background-color: #a9c7c0; color: white; font-size: 16px; padding: 10px 20px; border: none; border-radius: 20px; cursor: not-allowed;">
@@ -39,33 +37,70 @@
             </div>
         </div>
     </form>
-    <script>
-        // Get references to the comment box and submit button
-        const commentBox = document.getElementById('commentBox');
-        const submitButton = document.getElementById('submitButton');
-
-        // Add an event listener to the comment box
-        commentBox.addEventListener('input', function () {
-            if (commentBox.value.trim() !== '') {
-                // Enable the button if there is content in the comment box
-                submitButton.disabled = false;
-                submitButton.style.backgroundColor = '#69c2ae'; // Green background
-                submitButton.style.cursor = 'pointer'; // Change cursor to pointer
-            } else {
-                // Disable the button if the comment box is empty
-                submitButton.disabled = true;
-                submitButton.style.backgroundColor = '#a9c7c0'; // Gray background
-                submitButton.style.cursor = 'not-allowed'; // Change cursor to not allowed
-            }
-        });
-    </script>
 </div>
 
+<script>
+    const thumbsUp = document.getElementById('thumbsUp');
+    const thumbsDown = document.getElementById('thumbsDown');
+    const submitButton = document.getElementById('submitButton');
+    const commentBox = document.getElementById('commentBox');
+    const labels = document.querySelectorAll('.feedback-icon');
+
+    function resetButtonStyles() {
+        labels.forEach(label => {
+            label.classList.remove('selected');  // Remove selected class
+            label.querySelector('img').style.transform = 'scale(1)';
+            label.querySelector('img').style.filter = 'brightness(1)';
+            label.querySelector('img').style.border = '3px solid transparent';
+            label.querySelector('img').style.boxShadow = 'none';
+        });
+    }
+
+    function toggleSubmitButton() {
+        if (commentBox.value.trim() !== '') {
+            submitButton.disabled = false;
+            submitButton.style.backgroundColor = '#69c2ae';
+            submitButton.style.cursor = 'pointer';
+        } else {
+            submitButton.disabled = true;
+            submitButton.style.backgroundColor = '#a9c7c0';
+            submitButton.style.cursor = 'not-allowed';
+        }
+    }
+
+    thumbsUp.addEventListener('change', function () {
+        resetButtonStyles();
+        const label = thumbsUp.nextElementSibling;
+        label.classList.add('selected');
+        label.querySelector('img').style.transform = 'scale(1.1)';
+        label.querySelector('img').style.filter = 'brightness(1.2)';
+        label.querySelector('img').style.border = '3px solid #4CAF50';
+        label.querySelector('img').style.boxShadow = '0 0 10px #4CAF50';
+    });
+
+    thumbsDown.addEventListener('change', function () {
+        resetButtonStyles();
+        const label = thumbsDown.nextElementSibling;
+        label.classList.add('selected');
+        label.querySelector('img').style.transform = 'scale(1.1)';
+        label.querySelector('img').style.filter = 'brightness(1.2)';
+        label.querySelector('img').style.border = '3px solid #f44336';
+        label.querySelector('img').style.boxShadow = '0 0 10px #f44336';
+    });
+
+    commentBox.addEventListener('input', toggleSubmitButton);
+</script>
+
 <style>
+    .selected img {
+        transform: scale(1.3);
+        box-shadow: 0 0 10px;
+    }
+
     .feedback-icon img {
         transition: transform 0.2s ease, opacity 0.2s ease, filter 0.2s ease, border 0.2s ease;
         border: 3px solid transparent; /* Default border */
-        border-radius: 8px; /* Rounded border */
+        border-radius: 62px; /* Rounded border */
     }
 
     .feedback-icon img:active {
