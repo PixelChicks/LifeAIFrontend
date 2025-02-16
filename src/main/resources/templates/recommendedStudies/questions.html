@@ -294,6 +294,26 @@
         .nav-item.active i {
             color: #2E1E46;
         }
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 3px solid #6ec4b0;
+            border-radius: 55px;
+            padding: 1px 3px;
+            background: white;
+        }
+        .search-box input {
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 8px;
+            flex: 1;
+        }
+        .search-box button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -431,13 +451,10 @@
                 </div>
 
                 <!-- Chat Form -->
-                <form class="search-box" id="chatForm">
-                    <div class="input-group">
-                        <input class="form-control" id="message" name="message" placeholder="Попитайте LifeAI..."
-                               required type="text">
-                    </div>
-                    <button class="btn btn-search" type="submit">
-                        <img alt="Search" height="30px" src="/img/pink-send.png" width="28px">
+                <form  id="chatForm" class="search-box" method="post">
+                    <input id="message" type="text" name="message" placeholder="Попитайте ни..." required="" style="background-color: transparent;">
+                    <button type="submit">
+                        <img src="/img/search.svg" alt="Search">
                     </button>
                 </form>
 
