@@ -219,7 +219,7 @@
     }
 
     .sticky-top.navbar-light {
-        position: relative;
+        position: sticky;
         background: var(--bs-white) !important;
         padding: 0 20px 20px 20px !important;
     }
@@ -271,7 +271,7 @@
     }
     
     .sticky-top.navbar-light {
-        position: fixed;
+        position: sticky;
         background: var(--bs-light) !important;
     }
 }

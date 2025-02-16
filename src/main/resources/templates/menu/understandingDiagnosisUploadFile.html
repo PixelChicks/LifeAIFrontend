@@ -8,182 +8,183 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
-     .spinner {
-        opacity: 80%;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 5px solid #ff91b6;
-        border-bottom: 5px solid #b81d53;
-        animation: spin 2s linear infinite;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
+        .spinner {
+           opacity: 80%;
+           width: 50px;
+           height: 50px;
+           border-radius: 50%;
+           border: 5px solid #ff91b6;
+           border-bottom: 5px solid #b81d53;
+           animation: spin 2s linear infinite;
+           display: block;
+           margin-left: auto;
+           margin-right: auto;
+       }
 
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 30px;
-    }
+       @keyframes spin {
+           0% {
+               transform: rotate(0deg);
+           }
+           100% {
+               transform: rotate(360deg);
+           }
+       }
+       .container1 {
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           margin-top: 30px;
+       }
 
-    .instruction {
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 18px;
-        color: #555;
-    }
+       .instruction {
+           text-align: center;
+           margin-bottom: 20px;
+           font-size: 18px;
+           color: #555;
+       }
 
-    .upload-section {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-    }
+       .upload-section {
+           display: flex;
+           justify-content: center;
+           gap: 20px;
+       }
 
-    .upload-section button {
-        background-color: #6c757d;
-        color: white;
-        border-radius: 50px;
-        padding: 15px 20px;
-        font-size: 16px;
-        text-align: center;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+       .upload-section button {
+           background-color: #6c757d;
+           color: white;
+           border-radius: 50px;
+           padding: 15px 20px;
+           font-size: 16px;
+           text-align: center;
+           border: none;
+           cursor: pointer;
+           transition: background-color 0.3s ease;
+           display: flex;
+           align-items: center;
+           gap: 10px;
+       }
 
-    .upload-section button:hover {
-        background-color: #5a6268;
-    }
+       .upload-section button:hover {
+           background-color: #5a6268;
+       }
 
-    .file-input {
-        display: none;
-    }
+       .file-input {
+           display: none;
+       }
 
-    .btn-primary {
-        width: 90%;
-        max-width: 500px;
-        padding: 15px 20px;
-        font-size: 18px;
-        text-align: center;
-        border-radius: 50px;
-    }
+       .btn-primary {
+           width: 90%;
+           max-width: 500px;
+           padding: 15px 20px;
+           font-size: 18px;
+           text-align: center;
+           border-radius: 50px;
+       }
 
-    .response-section {
-        margin-top: 30px;
-        text-align: center;
-        font-size: 18px;
-        color: #333;
-    }
+       .response-section {
+           margin-top: 30px;
+           text-align: center;
+           font-size: 18px;
+           color: #333;
+       }
 
-    .upload-message {
-        display: none;
-        color: #3FC09D;
-        margin-top: 10px;
-        font-size: 18px;
-    }
-    .upload-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
+       .upload-message {
+           display: none;
+           color: #3FC09D;
+           margin-top: 10px;
+           font-size: 18px;
+       }
+       .upload-section {
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           gap: 10px;
+       }
 
-    .upload-btn {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 20px;
-        border: 3px solid #786C8C;
-        border-radius: 30px;
-        font-weight: bold;
-        cursor: pointer;
-        background: white;
-        width: 250px;
-        height: 60px;
-        color: #190f21d1;
-        text-align: centre;
-    }
+       .upload-btn {
+           display: flex;
+           align-items: center;
+           gap: 10px;
+           padding: 10px 20px;
+           border: 3px solid #786C8C;
+           border-radius: 30px;
+           font-weight: bold;
+           cursor: pointer;
+           background: white;
+           width: 250px;
+           height: 60px;
+           color: #190f21d1;
+           text-align: centre;
+       }
 
-    .icon {
-        width: 34px;
-    }
+       .icon {
+           width: 34px;
+       }
 
-    #loadingText {
-        font-size: 14px;
-        color: #888;
-        font-style: italic;
-        text-align: center;
-        margin-top: 10px;
-    }
+       #loadingText {
+           font-size: 14px;
+           color: #888;
+           font-style: italic;
+           text-align: center;
+           margin-top: 10px;
+       }
     </style>
 </head>
 
 <body>
 <th:block th:insert="~{fragments/header}"></th:block>
+<div class="container1">
+    <div class="container py-6" style="max-width: 650px;">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+                <div class="d-flex align-items-center mb-4">
+                    <h2 class="display-6 mb-1" style="text-align: centre;">Разбиране на диагнозата</h2>
+                </div>
+            <p class="instruction">
+                Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
+            </p>
 
-<div class="container py-6" style="max-width: 650px;">
-    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
-        <div class="d-flex align-items-center mb-4">
-            <h2 class="display-6 mb-1" style="text-align: centre;">Разбиране на диагнозата</h2>
-        </div>
-        <p class="instruction">
-            Качете диагнозата си, за да получите персонализирано разчитане и да можете да поискате мнение от лекар
-        </p>
+            <form enctype="multipart/form-data" id="chatForm" method="post" th:action="@{/understandingDiagnosis}">
+                <div class="upload-section">
+                    <label class="upload-btn" for="file">
+                        <img alt="Upload Icon" class="icon" src="/img/image.svg">
+                        Качи снимка
+                    </label>
+                    <input accept="image/*" class="file-input" id="file" name="file" onchange="enableButton()"
+                           style="display: none;" type="file">
 
-        <form enctype="multipart/form-data" id="chatForm" method="post" th:action="@{/understandingDiagnosis}">
-            <div class="upload-section">
-                <label class="upload-btn" for="file">
-                    <img alt="Upload Icon" src="/img/image.svg" class="icon">
-                    Качи снимка
-                </label>
-                <input accept="image/*" class="file-input" id="file" onchange="enableButton()" name="file" type="file" style="display: none;">
+                    <label class="upload-btn" for="camera-input">
+                        <img alt="Camera Icon" class="icon" src="/img/camera.svg">
+                        Направи снимка
+                    </label>
+                    <input accept="image/*" capture="environment" class="file-input" id="camera-input"
+                           name="camera-file" onchange="enableButton2()" style="display: none;" type="file">
+                    <span class="upload-message" id="upload-message"></span>
+                </div>
 
-                <label class="upload-btn" for="camera-input">
-                    <img alt="Camera Icon" src="/img/camera.svg" class="icon">
-                    Направи снимка
-                </label>
-                <input accept="image/*" capture="environment" class="file-input" id="camera-input" onchange="enableButton2()" name="camera-file" type="file" style="display: none;">
-                <span class="upload-message" id="upload-message"></span>
-            </div>
-
-            <div class="mt-3">
-        <textarea class="form-control wide-textarea" id="message" name="message"
+                <div class="mt-3">
+        <textarea class="form-control wide-textarea" hidden id="message"
+                  name="message"
                   placeholder="Моля да обясниш значението на медицинските термини в документа на разбираем език..."
-                  rows="1" hidden></textarea>
-                <br>
-                <button class="btn btn-primary" type="submit" id="submitButton" disabled>Изпрати</button>
+                  rows="1"></textarea>
+                    <br>
+                    <button class="btn btn-primary" disabled id="submitButton" type="submit">Изпрати</button>
+                </div>
+            </form>
+            <!-- Loading text (initially hidden) -->
+            <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
+                <div class="spinner"></div>
+                Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от
+                LifeAI.
             </div>
-        </form>
-        <!-- Loading text (initially hidden) -->
-        <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
-            <div class="spinner"></div>
-            Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от
-            LifeAI.
         </div>
+        <!-- Display the response if available -->
+        <div class="response-section" th:if="${response}">
+            <h4>Резултат:</h4>
+            <p th:text="${response}">Тук ще се появи отговорът на ИИ...</p>
+        </div>
+        <br> <br>
     </div>
-
-    <!-- Display the response if available -->
-    <div class="response-section" th:if="${response}">
-        <h4>Резултат:</h4>
-        <p th:text="${response}">Тук ще се появи отговорът на ИИ...</p>
-    </div>
-    <th:block th:insert="~{fragments/feedback}"></th:block>
-    <br> <br>
 </div>
-
 <th:block th:insert="~{fragments/footer}"></th:block>
 <script>
     document.getElementById("file").addEventListener("change", function() {
