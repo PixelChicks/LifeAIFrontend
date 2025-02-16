@@ -28,7 +28,7 @@
 
         <!-- Submit Button -->
         <div style="margin-top: 15px;">
-            <input type="hidden" name="url" value="/current-url" />
+            <input type="hidden" name="url" id="currentUrl" />
             <div style="margin-top: 15px; text-align: right;">
                 <button type="submit" id="submitButton" disabled
                         style="background-color: #a9c7c0; color: white; font-size: 16px; padding: 10px 20px; border: none; border-radius: 20px; cursor: not-allowed;">
@@ -40,6 +40,7 @@
 </div>
 
 <script>
+    document.getElementById('currentUrl').value = window.location.href;
     const thumbsUp = document.getElementById('thumbsUp');
     const thumbsDown = document.getElementById('thumbsDown');
     const submitButton = document.getElementById('submitButton');
