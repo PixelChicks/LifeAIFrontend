@@ -116,6 +116,16 @@
         </script>
 
         <button id="install-btn" onclick="installApp()" style="display: none;">Install App</button>
+        <script>
+            window.addEventListener('beforeinstallprompt', (event) => {
+              event.preventDefault();
+              deferredPrompt = event;
+
+              alert("You can install this app! Click the Install button.");
+
+              document.getElementById("install-btn").style.display = "block";
+            });
+        </script>
 
         <br><br><br>
     </div>
