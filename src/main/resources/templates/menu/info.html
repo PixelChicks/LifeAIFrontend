@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Life AI Info</title>
+    <title>LifeAI</title>
     <link href="https://life.bbca.bg/img/Group-1629.svg" rel="icon">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
@@ -88,6 +88,7 @@
                 Благодарим за участието!
             </h5>
             <br>
+            <button id="addToHomeScreenButton" style="display:none;">Add to Home Screen</button>
             <center>
                 <a class="btn btn-danger rounded-pill py-3 px-5" href="/home">Към теста</a>
             </center>
@@ -98,5 +99,56 @@
 <!-- About End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
 </body>
+<script>
+    let deferredPrompt; // Will store the event
+    const addToHomeScreenButton = document.getElementById('addToHomeScreenButton');
 
+    // Listen for the 'beforeinstallprompt' event
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent the default prompt
+      e.preventDefault();
+
+      // Store the event to trigger later
+      deferredPrompt = e;
+
+      // Show the "Add to Home Screen" button
+      addToHomeScreenButton.style.display = 'block';
+
+      // Add click event to the button
+      addToHomeScreenButton.addEventListener('click', () => {
+        // Hide the button
+        addToHomeScreenButton.style.display = 'none';
+
+        // Show the prompt
+        deferredPrompt.prompt();
+
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User added the app to home screen');
+          } else {
+            console.log('User did not add the app to home screen');
+          }
+          deferredPrompt = null;
+        });
+      });
+    });
+</script>
+<style>
+    #addToHomeScreenButton {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+</style>
 </html>
