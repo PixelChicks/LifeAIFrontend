@@ -91,41 +91,6 @@
                 <a class="btn btn-danger rounded-pill py-3 px-5" href="/home">Към теста</a>
             </center>
         </div>
-        <script>
-            let deferredPrompt;
-
-            window.addEventListener('beforeinstallprompt', (event) => {
-              event.preventDefault();
-              deferredPrompt = event;
-
-              document.getElementById("install-btn").style.display = "block";
-            });
-
-            function installApp() {
-              if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                  if (choiceResult.outcome === "accepted") {
-                    console.log("User accepted the install");
-                  }
-                  deferredPrompt = null;
-                });
-              }
-            }
-        </script>
-
-        <button id="install-btn" onclick="installApp()" style="display: none;">Install App</button>
-        <script>
-            window.addEventListener('beforeinstallprompt', (event) => {
-              event.preventDefault();
-              deferredPrompt = event;
-
-              alert("You can install this app! Click the Install button.");
-
-              document.getElementById("install-btn").style.display = "block";
-            });
-        </script>
-
         <br><br><br>
     </div>
 </div>
