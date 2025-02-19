@@ -314,6 +314,26 @@
             border: none;
             cursor: pointer;
         }
+            .chat-bubble {
+        padding: 10px 15px;
+        border-radius: 20px;
+        margin: 10px 0;
+        max-width: 90%;
+    }
+
+    .user-message {
+        background-color: #56bdac; // a little darker than #69D0BF
+        color: #ffffff;
+        text-align: left;
+        margin-left: auto;
+    }
+
+    .response-message {
+        background-color: #e7ebf9;
+        color: #40464b;
+        text-align: left;
+        margin-right: auto;
+    }
     </style>
 </head>
 
@@ -885,7 +905,7 @@
 
     const userBubble = document.createElement("div");
     userBubble.classList.add("chat-bubble", "user-message");
-    userBubble.innerHTML = `<p><strong>ВИЕ:</strong> ${userMessage}</p>`;
+    userBubble.innerHTML = `<p style="color:white;">${userMessage}</p>`;
     chatContainer.appendChild(userBubble);
 
     chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -905,7 +925,7 @@
 
             const aiBubble = document.createElement("div");
             aiBubble.classList.add("chat-bubble", "response-message");
-            aiBubble.innerHTML = `<p><strong>LifeAI:</strong> ${data.response}</p>`;
+            aiBubble.innerHTML = `<p>${data.response}</p>`;
             chatContainer.appendChild(aiBubble);
 
             conversationContextElement.value = data.conversationContext;
