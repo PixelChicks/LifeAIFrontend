@@ -12,9 +12,15 @@ public class MenuController {
 
     private final ChatClient chatClient;
 
+    @GetMapping
+    public String redirectHome(Model model) {
+        model.addAttribute("dailyReminder", chatClient.receiveDailyReminder());
+        return "menu/home";
+    }
+
     @GetMapping("/home")
     public String home(Model model) {
-        model.addAttribute("dailyReminder",chatClient.receiveDailyReminder());
+        model.addAttribute("dailyReminder", chatClient.receiveDailyReminder());
         return "menu/home";
     }
 
@@ -24,12 +30,12 @@ public class MenuController {
     }
 
     @GetMapping("/organPreservingSurgery")
-    public String organPreservingSurgery(){
+    public String organPreservingSurgery() {
         return "menu/organPreservingSurgery";
     }
 
     @GetMapping("/menopause")
-    public String menopause(){
+    public String menopause() {
         return "menu/menopause";
     }
 
