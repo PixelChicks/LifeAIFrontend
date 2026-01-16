@@ -1,44 +1,46 @@
 <!-- Footer Start -->
-<div class="bottom-nav">
+<div th:if="${session.ACCESS_TOKEN != null}" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="bottom-nav">
-        <a class="nav-item" href="https://life-app.bbca.bg/articles">
-            <i class="fa-solid fa-glasses"></i>
-            <p>Статии</p>
-        </a>
-        <a class="nav-item" href="https://life-app.bbca.bg/patients/diary">
-            <i class="fa-solid fa-book"></i>
-            <p>Дневник</p>
-        </a>
-        <a class="nav-item" id="calendar-link">
-            <i class="fa-solid fa-calendar-days"></i>
-            <p>Календар</p>
-        </a>
+        <div class="bottom-nav">
+            <a class="nav-item" href="https://life-app.bbca.bg/articles">
+                <i class="fa-solid fa-glasses"></i>
+                <p>Статии</p>
+            </a>
+            <a class="nav-item" href="https://life-app.bbca.bg/patients/diary">
+                <i class="fa-solid fa-book"></i>
+                <p>Дневник</p>
+            </a>
+            <a class="nav-item" id="calendar-link">
+                <i class="fa-solid fa-calendar-days"></i>
+                <p>Календар</p>
+            </a>
 
-        <script>
-            // Function to get the formatted date (dd/MM/yyyy)
-            function formatDate(date) {
-                let day = String(date.getDate()).padStart(2, '0');
-                let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-                let year = date.getFullYear();
-                return `${day}/${month}/${year}`;
-            }
+            <script>
+                // Function to get the formatted date (dd/MM/yyyy)
+                function formatDate(date) {
+                    let day = String(date.getDate()).padStart(2, '0');
+                    let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+                    let year = date.getFullYear();
+                    return `${day}/${month}/${year}`;
+                }
 
-            // Get today's date and one month later
-            let today = new Date();
-            let nextMonth = new Date();
-            nextMonth.setMonth(nextMonth.getMonth() + 1);
+                // Get today's date and one month later
+                let today = new Date();
+                let nextMonth = new Date();
+                nextMonth.setMonth(nextMonth.getMonth() + 1);
 
-            // Construct the URL dynamically
-            let calendarURL = `https://life-app.bbca.bg/events?date=${formatDate(today)}&last_date=${formatDate(nextMonth)}`;
+                // Construct the URL dynamically
+                let calendarURL = `https://life-app.bbca.bg/events?date=${formatDate(today)}&last_date=${formatDate(nextMonth)}`;
 
-            // Set the href attribute of the calendar link
-            document.getElementById("calendar-link").setAttribute("href", calendarURL);
-        </script>
+                // Set the href attribute of the calendar link
+                document.getElementById("calendar-link").setAttribute("href", calendarURL);
+            </script>
 
-        <a class="nav-item" href="https://life-app.bbca.bg/patients/profile/profile">
-            <i class="fa-solid fa-user"></i>
-            <p>Профил</p>
-        </a>
+            <a class="nav-item" href="https://life-app.bbca.bg/patients/profile/profile">
+                <i class="fa-solid fa-user"></i>
+                <p>Профил</p>
+            </a>
+        </div>
     </div>
 </div>
 <div class="container-fluid footer py-2 wow fadeIn" data-wow-delay="0.2s">
@@ -63,7 +65,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-xl-3">
-                <img src="/img/teva.png" alt="TEVA Logo" class="img-fluid mb-2" style="max-width: 100px; height: auto;">
+                <img alt="TEVA Logo" class="img-fluid mb-2" src="/img/teva.png" style="max-width: 100px; height: auto;">
                 <p class="text-dark mb-4">Проектът е подкрепен от дарителската програма „Заедно за здраве“ на TEVA</p>
             </div>
 

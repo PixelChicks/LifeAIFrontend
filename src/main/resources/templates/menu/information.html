@@ -62,7 +62,7 @@
             text-align: center;
             border-radius: 50px;
         }
-        .btn-danger {
+                .btn-danger {
             width: 100%;
             max-width: 500px;  /* Adjust as per your layout */
             padding: 15px 20px;
@@ -198,46 +198,6 @@
     align-items: center;
     text-align: center;
 }
-
-    /* Challenge Item Styles */
-     .challenge-item {
-        background: white;
-        border-radius: 40px;
-        padding: 18px 20px;
-        margin-bottom: -5px;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 15px;
-        border: 2px solid #70707082;
-        cursor: pointer;
-        text-decoration: none;
-    }
-
-    .challenge-number {
-        background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 100%);
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 18px;
-        flex-shrink: 0;
-    }
-
-    .challenge-text {
-        flex: 1;
-        font-size: 16px;
-        color: #2E1E46;
-        font-weight: 500;
-    }
-
-    .content-spacer {
-        height: 80px;
-    }
     </style>
 </head>
 
@@ -395,67 +355,118 @@
                 </div>
 
                 <div class="d-flex align-items-center mb-4">
-                    <h2 class="display-6 mb-1" style="text-align: center; margin-left: 15px;">ПРЕДИЗВИКАТЕСТВА НА ДЕНЯ</h2>
+                    <h2 class="display-6 mb-1" style="text-align: left; margin-left: 15px;">ПЕРСОНАЛИЗИРАНА
+                        ИНФОРМАЦИЯ</h2>
                 </div>
             </div>
             <div class="row g-5 align-items-center">
                 <div class="wow fadeInLeft" data-wow-delay="0.1s">
                     <center>
                         <div class="row g-3">
-                            <!-- Challenge 1: Mood Selector -->
                             <div class="col-12">
-                                <div class="challenge-item" id="moodChallenge">
-                                    <div class="challenge-number">1</div>
-                                    <div class="challenge-text">Как си днес?</div>
-
-                                    <div class="mood-selector" style="display: flex; justify-content: space-between; margin-top: 10px;">
-                                        <img src="/img/mood5.svg" alt="mood 5">
-                                        <img src="/img/mood1.svg" alt="mood 1">
-                                        <img src="/img/mood2.svg" alt="mood 2">
-                                        <img src="/img/mood3.svg" alt="mood 3">
-                                        <img src="/img/mood4.svg" alt="mood 4">
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <!-- Challenge 2 -->
-                            <div class="col-12">
-                                <a href="/exercises" style="text-decoration: none;">
-                                    <div class="challenge-item">
-                                        <div class="challenge-number">2</div>
-                                        <div class="challenge-text">Направи упражнения</div>
-                                    </div>
+                                <a href="/recommendedStudies">
+                                    <button class="btn btn-danger w-100 py-3">Препоръчителни изследвания</button>
                                 </a>
                             </div>
-
-                            <!-- Challenge 3 -->
                             <div class="col-12">
-                                <a href="/articles" style="text-decoration: none;">
-                                    <div class="challenge-item">
-                                        <div class="challenge-number">3</div>
-                                        <div class="challenge-text">Сготви нещо полезно</div>
-                                    </div>
+                                <a href="/diagnosisUploadFile">
+                                    <button class="btn btn-danger w-100 py-3">Разбиране на диагнозата</button>
                                 </a>
                             </div>
-
-                            <!-- Challenge 4 -->
+                            <div class="col-12" style="display: none;">
+                                <button class="btn btn-danger w-100 py-3">Вече направена операция</button>
+                            </div>
+                            <div class="col-12" style="display: none;">
+                                <button class="btn btn-danger w-100 py-3">Предписано лечение</button>
+                            </div>
                             <div class="col-12">
-                                <a href="/" style="text-decoration: none;">
-                                    <div class="challenge-item">
-                                        <div class="challenge-number">4</div>
-                                        <div class="challenge-text">Разбери повече за...</div>
-                                    </div>
+                                <a href="researchSideEffects">
+                                    <button class="btn btn-danger w-100 py-3">Справяне със странични ефекти</button>
                                 </a>
                             </div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5" style="max-width: 600px;">
 
-                            <!-- Challenge 5 -->
+            <!--            <center>-->
+            <!--                <div class="input-group">-->
+            <!--                    <div class="typing-bubble" id="typing-indicator" style="display: none;">-->
+            <!--                        <span></span>-->
+            <!--                        <span></span>-->
+            <!--                        <span></span>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </center>-->
+            <form class="search-box" id="chatForm" method="post" th:action="@{/chat}">
+                <input name="message" placeholder="Задайте въпрос, търсете информация..." required="" style="background-color: transparent;"
+                       type="text">
+                <button type="submit">
+                    <img alt="Search" src="/img/search.svg">
+                </button>
+            </form>
+            <!-- Loading text (initially hidden) -->
+            <div id="loadingText" style="display:none; margin-top: 10px; font-size: 14px; color: #888;">
+                <div class="spinner"></div>
+                Моля, изчакайте, резултатът се обработва. Това може да отнеме няколко секунди... Очаквайте отговор от
+                LifeAI.
+            </div>
+
+
+            <!-- The response section that will appear on the new page -->
+            <div class="mt-5" th:if="${response}">
+                <h4>Response:</h4>
+                <p th:text="${response}">AI Response will appear here...</p>
+            </div>
+        </div>
+        <div class="container py-5">
+            <div class="alert alert-success" role="alert" th:if="${successMessage}">
+                <span th:text="${successMessage}"></span>
+            </div>
+
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <div class="d-flex align-items-center mb-4">
+                    <h2 class="display-6 mb-1" style="text-align: left; margin-left: 15px;">ОБЩА ИНФОРМАЦИЯ</h2>
+                </div>
+            </div>
+            <div class="row g-5 align-items-center">
+                <div class="wow fadeInLeft" data-wow-delay="0.1s">
+                    <center>
+                        <div class="row g-3">
                             <div class="col-12">
-                                <a href="/" style="text-decoration: none;">
-                                    <div class="challenge-item">
-                                        <div class="challenge-number">5</div>
-                                        <div class="challenge-text">Въпрос/анкета на деня</div>
-                                    </div>
+                                <a href="/limfedem">
+                                    <button class="btn btn-primary w-100 py-3">Лимфедем</button>
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <a href="/organPreservingSurgery">
+                                    <button class="btn btn-primary w-100 py-3">Органосъхраняваща операция</button>
+                                </a>
+                            </div>
+                            <div class="col-12" style="display: none;">
+                                <button class="btn btn-primary w-100 py-3">Лекарства</button>
+                            </div>
+                            <div class="col-12">
+                                <a href="/menopause">
+                                    <button class="btn btn-primary w-100 py-3">Предизвикана менопауза</button>
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <a href="/recipes">
+                                    <button class="btn btn-primary w-100 py-3">Рецепти и диета</button>
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <a href="/exercises">
+                                    <button class="btn btn-primary w-100 py-3">Упражнения</button>
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <a href="/alternativeMedicine">
+                                    <button class="btn btn-primary w-100 py-3">Допълнителни терапии
+                                    </button>
                                 </a>
                             </div>
                         </div>
@@ -465,29 +476,19 @@
         </div>
     </div>
 </center>
-
-<div class="content-spacer"></div>
-
 <!-- Contact End -->
 <th:block th:insert="~{fragments/footer}"></th:block>
-
 <script>
-    // Mood selector functionality
-    document.querySelectorAll('.mood-emoji').forEach(emoji => {
-        emoji.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+    const form = document.getElementById("chatForm");
+    const loadingText = document.getElementById("loadingText");
 
-            // Remove selected class from all
-            document.querySelectorAll('.mood-emoji').forEach(e => e.classList.remove('selected'));
-            // Add to clicked
-            this.classList.add('selected');
 
-            const mood = this.getAttribute('data-mood');
-            console.log('Selected mood:', mood);
-            // Here you can send the mood to your backend
-            // Example: fetch('/api/mood', { method: 'POST', body: JSON.stringify({ mood }) })
-        });
+    form.addEventListener("submit", function(event) {
+        loadingText.style.display = "block";
+
+
+        // disable the submit button to prevent multiple submissions
+        form.querySelector("button[type='submit']").disabled = true;
     });
 </script>
 </body>

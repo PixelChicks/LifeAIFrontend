@@ -1,6 +1,9 @@
 package com.lifeAIFrontend.LifeAIFrontend.controller;
 
 import com.lifeAIFrontend.LifeAIFrontend.client.ChatClient;
+import com.lifeAIFrontend.LifeAIFrontend.model.auth.PublicUserDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +22,12 @@ public class MenuController {
     }
 
     @GetMapping("/home")
-    public String home(Model model) {
+    public String home(HttpSession session, Model model) {
         model.addAttribute("dailyReminder", chatClient.receiveDailyReminder());
+        PublicUserDTO user = (PublicUserDTO) session.getAttribute("AUTH_USER");
+        if (user != null) {
+            model.addAttribute("userName", user.getFirstName());
+        }
         return "menu/home";
     }
 
