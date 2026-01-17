@@ -1,177 +1,153 @@
 <!DOCTYPE html>
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рецепти - Life</title>
     <link href="/img/file.svg" rel="icon">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
-        .spinner {
-            opacity: 80%;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 5px solid #ff91b6;
-            border-bottom: 5px solid #b81d53;
-            animation: spin 2s linear infinite;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         * {
             box-sizing: border-box;
         }
 
-        html, body {
+        body {
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f8f8f8;
         }
 
         /* Filter buttons styling */
         .filter-container {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 20px 15px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 20px;
             max-width: 600px;
             margin: 0 auto;
+            background: white;
         }
 
         .filter-btn {
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px;
-            padding: 12px 25px;
-            font-size: 15px;
+            background: #faebeb;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 14px;
             font-weight: 500;
             color: #2E1E46;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            justify-content: flex-start;
             text-decoration: none;
         }
 
         .filter-btn:hover {
-            border-color: #ff6b9d;
-            background: #fff5f8;
-            transform: translateY(-2px);
+            background: #ffe8f2;
         }
 
         .filter-btn.active {
             background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 100%);
-            border-color: #ff4081;
             color: white;
         }
 
         .filter-btn svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
         }
 
         /* Recipe card styling */
         .recipe-card {
             background: white;
-            border-radius: 20px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 15px;
+            transition: transform 0.2s ease;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
-            display: block;
+            display: flex;
+            flex-direction: row;
         }
 
         .recipe-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .recipe-card.hidden {
-            display: none;
-        }
-
-        .recipe-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 100%);
+            transform: translateY(-2px);
         }
 
         .recipe-content {
-            padding: 20px;
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .recipe-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 100%);
+            border-radius: 8px;
+            margin: 10px;
         }
 
         .recipe-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
             color: #2E1E46;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             line-height: 1.4;
         }
 
         .recipe-description {
-            font-size: 14px;
-            color: #666;
+            font-size: 12px;
+            color: #888;
             line-height: 1.6;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            word-break: break-word;
         }
 
         .recipe-meta {
             display: flex;
-            gap: 20px;
-            font-size: 13px;
-            color: #888;
+            gap: 15px;
+            font-size: 11px;
+            color: #999;
         }
 
         .recipe-meta-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
 
         .recipes-container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 0 15px 100px 15px;
-        }
-
-        .content-spacer {
-            height: 80px;
+            padding: 0 20px 100px 20px;
         }
 
         .section-title {
-            text-align: center;
-            font-size: 24px;
+            text-align: left;
+            font-size: 16px;
             font-weight: 600;
             color: #2E1E46;
-            margin: 20px 0;
-            padding: 0 15px;
+            margin: 20px 0 15px 0;
         }
 
         .no-recipes {
             text-align: center;
             padding: 40px 20px;
             color: #888;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         /* Pagination */
@@ -206,6 +182,7 @@
         .pagination-btn.disabled {
             opacity: 0.3;
             cursor: not-allowed;
+            pointer-events: none;
         }
 
         .page-info {
@@ -270,95 +247,76 @@
         <li></li><li></li><li></li><li></li><li></li>
     </ul>
     <div class="container text-center py-5" style="max-width: 900px;">
-        <h1 class="display-3 mb-4 wow fadeInDown">Предложения за Рецепти</h1>
-        <p class="mb-0 wow fadeInUp" style="color: #666;">Тук ще откриете изпитани и полезни рецепти</p>
+        <h1 class="display-3 mb-4 wow fadeInDown">Рецепти</h1>
     </div>
 </div>
 <!-- Header End -->
 
 <!-- Filter Buttons -->
-<div class="filter-container">
-    <button class="filter-btn active" data-category="all" onclick="filterRecipes('all')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-        </svg>
-        Всички
-    </button>
-
-    <button class="filter-btn" data-category="Закуска" onclick="filterRecipes('Закуска')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
-            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-            <line x1="6" y1="1" x2="6" y2="4"/>
-            <line x1="10" y1="1" x2="10" y2="4"/>
-            <line x1="14" y1="1" x2="14" y2="4"/>
-        </svg>
+<div class="filter-container" style="margin-top: -70px;">
+    <a th:href="${currentCategory == 'Закуска'} ? @{/articles(page=0, size=10)} : @{/articles(page=0, size=10, category='Закуска')}"
+       class="filter-btn"
+       th:classappend="${currentCategory == 'Закуска'} ? 'active' : ''">
+        <img src="https://life-app.bbca.bg/img/recipes/breakfast.png" class="first-r-ico" alt="ico" style="margin-top: -20px;">
         Закуска
-    </button>
+    </a>
 
-    <button class="filter-btn" data-category="Обяд" onclick="filterRecipes('Обяд')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 6v6l4 2"/>
-        </svg>
+    <a th:href="${currentCategory == 'Обяд'} ? @{/articles(page=0, size=10)} : @{/articles(page=0, size=10, category='Обяд')}"
+       class="filter-btn"
+       th:classappend="${currentCategory == 'Обяд'} ? 'active' : ''">
+        <img src="https://life-app.bbca.bg/img/recipes/lunch.png" class="" alt="ico">
         Обяд
-    </button>
+    </a>
 
-    <button class="filter-btn" data-category="Вечеря" onclick="filterRecipes('Вечеря')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M2.27 2.27L20 20M2 12C2 17.5 6.5 22 12 22s10-4.5 10-10S17.5 2 12 2"/>
-        </svg>
+    <a th:href="${currentCategory == 'Вечеря'} ? @{/articles(page=0, size=10)} : @{/articles(page=0, size=10, category='Вечеря')}"
+       class="filter-btn"
+       th:classappend="${currentCategory == 'Вечеря'} ? 'active' : ''">
+        <img src="https://life-app.bbca.bg/img/recipes/dinner.png" class="" alt="ico">
         Вечеря
-    </button>
+    </a>
 
-    <button class="filter-btn" data-category="Снаксове" onclick="filterRecipes('Снаксове')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <circle cx="12" cy="8" r="6"/>
-            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
-        </svg>
+    <a th:href="${currentCategory == 'Снаксове'} ? @{/articles(page=0, size=10)} : @{/articles(page=0, size=10, category='Снаксове')}"
+       class="filter-btn"
+       th:classappend="${currentCategory == 'Снаксове'} ? 'active' : ''">
+        <img src="https://life-app.bbca.bg/img/recipes/snacks.png" class="" alt="ico">
         Снаксове
-    </button>
+    </a>
 </div>
 
-<!-- Recipes List -->
 <div class="recipes-container">
+    <h2 class="section-title">Предложения за Рецепти</h2>
+
     <div id="recipesGrid">
+        <!-- Thymeleaf Recipe Cards -->
         <a th:each="article : ${articles}"
            th:href="@{/articles/{id}(id=${article.id})}"
-           class="recipe-card"
-           th:attr="data-category=${article.subCategory}">
-            <img th:src="@{/img/{file}(file=${article.thumbnailPicture})}"
-                 th:alt="${article.title}"
-                 class="recipe-image">
+           class="recipe-card">
             <div class="recipe-content">
-                <div class="recipe-title" th:text="${article.title}">Ципура с картофи на фурна...</div>
-                <div class="recipe-description" th:text="${article.description}">
-                    Необходими продукти: 1 ципура около 600г или 2х 300г първ...
+                <div>
+                    <div class="recipe-title" th:text="${article.title}">Ципура с картофи на фурна...</div>
                 </div>
                 <div class="recipe-meta">
                     <div class="recipe-meta-item" th:if="${article.calories != null and article.calories > 0}">
-                        <span>🔥</span>
-                        <span th:text="${article.calories + ' kcal'}">0 kcal</span>
+                        <span th:text="'калории: ' + ${article.calories} + ' kcal'">калории: 0 kcal</span>
                     </div>
                     <div class="recipe-meta-item" th:if="${article.hours != null and article.hours > 0 or article.minutes != null and article.minutes > 0}">
-                        <span>⏱️</span>
-                        <span th:text="${(article.hours != null and article.hours > 0 ? article.hours + ' ч. ' : '') + (article.minutes != null and article.minutes > 0 ? article.minutes + ' мин.' : '')}">35 мин.</span>
+                        <span th:text="'време: ' + ${(article.hours != null and article.hours > 0 ? article.hours + ' ч. ' : '') + (article.minutes != null and article.minutes > 0 ? article.minutes + ' мин.' : '')}">време: 35 мин.</span>
                     </div>
                 </div>
             </div>
+            <img th:src="@{/img/{file}(file=${article.thumbnailPicture})}"
+                 th:alt="${article.title}"
+                 class="recipe-image">
         </a>
     </div>
 
-    <div id="noRecipesMessage" class="no-recipes" style="display: none;">
+    <div id="noRecipesMessage" class="no-recipes" th:if="${#lists.isEmpty(articles)}">
         <p>Все още няма добавени рецепти в тази категория.</p>
     </div>
 
     <!-- Pagination -->
     <div class="pagination-container" th:if="${totalPages > 1}">
-        <a th:href="@{/articles(page=${currentPage - 1}, size=10)}"
+        <a th:href="@{/articles(page=${currentPage - 1}, size=10, category=${currentCategory})}"
            class="pagination-btn"
            th:classappend="${currentPage == 0} ? 'disabled' : ''">
             ‹
@@ -368,7 +326,7 @@
             Страница <span th:text="${currentPage + 1}">1</span> от <span th:text="${totalPages}">1</span>
         </span>
 
-        <a th:href="@{/articles(page=${currentPage + 1}, size=10)}"
+        <a th:href="@{/articles(page=${currentPage + 1}, size=10, category=${currentCategory})}"
            class="pagination-btn"
            th:classappend="${currentPage >= totalPages - 1} ? 'disabled' : ''">
             ›
@@ -376,52 +334,71 @@
     </div>
 </div>
 
-<div class="content-spacer"></div>
+<div class="content-spacer" style="height: 80px;"></div>
+<style>
+    .navbar {
+        justify-content: center; /* Center the navbar content */
+        position: relative; /* Allows absolute positioning for the back icon */
+    }
+    .navbar-brand {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .back-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
 
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #F8F8F8;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        z-index: 10;
+    }
+
+    .nav-item {
+        text-align: center;
+        font-size: 14px;
+        color: #8E8E93; /* Default gray */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .nav-item i {
+        font-size: 24px; /* Adjust icon size */
+        margin-bottom: 5px;
+    }
+
+    .nav-item p {
+        margin: 0;
+        font-size: 12px;
+    }
+
+    /* Active Item */
+    .nav-item.active {
+        color: #2E1E46; /* Dark purple */
+        font-weight: bold;
+    }
+
+    .nav-item.active i {
+        color: #2E1E46;
+    }
+
+</style>
 <th:block th:insert="~{fragments/footer}"></th:block>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-<script>
-    function filterRecipes(category) {
-        // Update active button
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        event.target.closest('.filter-btn').classList.add('active');
-
-        // Filter recipe cards
-        const cards = document.querySelectorAll('.recipe-card');
-        let visibleCount = 0;
-
-        cards.forEach(card => {
-            const cardCategory = card.getAttribute('data-category');
-
-            if (category === 'all' || cardCategory === category) {
-                card.classList.remove('hidden');
-                visibleCount++;
-            } else {
-                card.classList.add('hidden');
-            }
-        });
-
-        // Show/hide no recipes message
-        const noRecipesMsg = document.getElementById('noRecipesMessage');
-        if (visibleCount === 0) {
-            noRecipesMsg.style.display = 'block';
-        } else {
-            noRecipesMsg.style.display = 'none';
-        }
-    }
-
-    // Initialize - check if there are any recipes
-    document.addEventListener('DOMContentLoaded', function() {
-        const cards = document.querySelectorAll('.recipe-card');
-        const noRecipesMsg = document.getElementById('noRecipesMessage');
-
-        if (cards.length === 0) {
-            noRecipesMsg.style.display = 'block';
-        }
-    });
-</script>
 </body>
 </html>
