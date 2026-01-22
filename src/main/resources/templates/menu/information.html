@@ -35,7 +35,7 @@
         .search-box {
             display: flex;
             align-items: center;
-            border: 3px solid #6ec4b0;
+            border: 3px solid #EF647C;
             border-radius: 55px;
             padding: 3px 3px;
             background: white;
@@ -198,6 +198,18 @@
     align-items: center;
     text-align: center;
 }
+
+                .quick-links-section {
+            margin: 30px auto;
+            max-width: 600px;
+            padding: 0 15px;
+        }
+
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
     </style>
 </head>
 
@@ -320,24 +332,8 @@
     </ul>
     <div class="container text-center py-5" style="max-width: 900px;">
         <h1 class="display-3 mb-4 wow fadeInDown"
-            th:text="${userName != null} ? 'Здравей, ' + ${userName} + '!' : 'Life'">Life</h1>
+            th:text="Информация">Life</h1>
     </div>
-    <div class="d-flex justify-content-center">
-        <div class="card">
-            <!-- Background Rectangle -->
-            <img alt="Rectangle Background" src="/img/rectangle.svg" style="border-radius: 25px;">
-
-            <!-- Heart Shapes -->
-            <img alt="Hearts" src="/img/upHearts.svg" style="position: absolute; top: 15px; left: 25px; width: 50px; height: auto; z-index: 1;">
-
-            <!-- Text -->
-            <div class="text" th:text="${dailyReminder}"></div>
-
-            <!-- Heart Shapes -->
-            <img alt="Hearts" src="/img/bottomHearts.svg" style="position: absolute; top: 110px; left: 315px; width: 50px; height: auto; z-index: 1;">
-        </div>
-    </div>
-
     <script async src="https://scripts.gktab.com/appkey=4429d9c6-a362-4c9c-8709-2313a4bc5b00"></script>
     <script async src="https://api.gktab.com/script?appkey=28733e48-feeb-445b-8038-ad69e9817c36"></script>
 </div>
@@ -355,7 +351,7 @@
                 </div>
 
                 <div class="d-flex align-items-center mb-4">
-                    <h2 class="display-6 mb-1" style="text-align: left; margin-left: 15px;">ПЕРСОНАЛИЗИРАНА
+                    <h2 class="display-6 mb-1" style="text-align: center; margin-left: 15px;">ПЕРСОНАЛИЗИРАНА
                         ИНФОРМАЦИЯ</h2>
                 </div>
             </div>
@@ -421,6 +417,22 @@
                 <p th:text="${response}">AI Response will appear here...</p>
             </div>
         </div>
+        <div class="quick-links-section">
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <a href="/articles" style="text-decoration: none; width: 50%;">
+                    <div style="width: 100%; height: 140px; background: #FAF0FF; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+                        <img style="width: 60px; height: 80px; object-fit: contain;" src="img/recepies 1.png" alt="Рецепти">
+                        <div style="text-align: center; color: #34254B; font-size: 19px; font-weight: 700; text-transform: uppercase; word-wrap: break-word">Рецепти</div>
+                    </div>
+                </a>
+                <a href="/exercises" style="text-decoration: none; width: 50%;">
+                    <div style="width: 100%; height: 140px; background: #FAF0FF; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+                        <img style="width: 60px; height: 80px; object-fit: contain;" src="img/exercise0 1.png" alt="Упражнения">
+                        <div style="text-align: center; color: #34254B; font-size: 19px; font-weight: 700; text-transform: uppercase; word-wrap: break-word">Упражнения</div>
+                    </div>
+                </a>
+            </div>
+        </div>
         <div class="container py-5">
             <div class="alert alert-success" role="alert" th:if="${successMessage}">
                 <span th:text="${successMessage}"></span>
@@ -428,7 +440,7 @@
 
             <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                 <div class="d-flex align-items-center mb-4">
-                    <h2 class="display-6 mb-1" style="text-align: left; margin-left: 15px;">ОБЩА ИНФОРМАЦИЯ</h2>
+                    <h2 class="display-6 mb-1" style="text-align: center; margin-left: 15px;">YOUTUBE ВИДЕА</h2>
                 </div>
             </div>
             <div class="row g-5 align-items-center">

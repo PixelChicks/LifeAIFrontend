@@ -10,7 +10,6 @@
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
-
         .spinner {
             opacity: 80%;
             width: 50px;
@@ -26,12 +25,13 @@
 
         @keyframes spin {
             0% {
-                transform: rotate(0deg); /* Start at 0 degrees */
+                transform: rotate(0deg);
             }
             100% {
-                transform: rotate(360deg); /* Rotate to 360 degrees */
+                transform: rotate(360deg);
             }
         }
+
         .search-box {
             display: flex;
             align-items: center;
@@ -40,6 +40,7 @@
             padding: 3px 3px;
             background: white;
         }
+
         .search-box input {
             border: none;
             outline: none;
@@ -47,31 +48,32 @@
             padding: 8px;
             flex: 1;
         }
+
         .search-box button {
             background: none;
             border: none;
             cursor: pointer;
         }
 
-
         .btn-primary {
             width: 90%;
-            max-width: 500px;  /* Adjust as per your layout */
+            max-width: 500px;
             padding: 15px 20px;
-            font-size: 18px;  /* Adjust font size if needed */
-            text-align: center;
-            border-radius: 50px;
-        }
-        .btn-danger {
-            width: 100%;
-            max-width: 500px;  /* Adjust as per your layout */
-            padding: 15px 20px;
-            font-size: 18px;  /* Adjust font size if needed */
+            font-size: 18px;
             text-align: center;
             border-radius: 50px;
         }
 
-         #loadingText {
+        .btn-danger {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 50px;
+        }
+
+        #loadingText {
             font-size: 14px;
             color: #888;
             font-style: italic;
@@ -80,14 +82,14 @@
         }
 
         * {
-             box-sizing: border-box;
+            box-sizing: border-box;
         }
 
-         html, body {
-             margin: 0;
-             padding: 0;
-             overflow-x: hidden;
-         }
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
 
         .typing-bubble {
             display: flex;
@@ -117,10 +119,11 @@
             0%, 80%, 100% {
                 transform: scale(0);
             }
-        40% {
+            40% {
                 transform: scale(1);
             }
         }
+
         .quote-box {
             position: relative;
             background: url('/img/ribbon.png') no-repeat center center;
@@ -137,7 +140,6 @@
             margin: 20px auto;
         }
 
-        /* Overlay Effect */
         .quote-box::before {
             content: "";
             position: absolute;
@@ -149,95 +151,262 @@
             border-radius: 20px;
         }
 
-        /* Text should be on top of the overlay */
         .quote-text {
             position: relative;
             z-index: 1;
         }
 
-    .card {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 376px; /* Matches SVG dimensions */
-    height: 171px; /* Matches SVG dimensions */
-    border-radius: 20px; /* Matches SVG rx */
-    padding-bottom: 20px;
-    background-color: #FFE5E5; /* Fallback for when the image isn't loaded */
-}
+        .card {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 376px;
+            height: 171px;
+            border-radius: 20px;
+            padding-bottom: 20px;
+            background-color: #FFE5E5;
+        }
 
-.card img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures it scales correctly */
-}
+        .card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
+        .text {
+            position: absolute;
+            top: 35px;
+            left: 35px;
+            right: 35px;
+            bottom: 35px;
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-style: italic;
+            color: #fff;
+            line-height: 1.4;
+            overflow-wrap: break-word;
+            max-width: calc(100% - 70px);
+            word-wrap: normal;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
 
-     .text {
-    position: absolute;
-    top: 35px;
-    left: 35px;
-    right: 35px;
-    bottom: 35px;
-    font-family: 'Inter', sans-serif;
-    font-size: 18px;
-    font-style: italic;
-    color: #fff;
-    line-height: 1.4;
-    overflow-wrap: break-word;
-    max-width: calc(100% - 70px);
-    word-wrap: normal;
+        .challenge-item {
+            background: white;
+            border-radius: 40px;
+            padding: 18px 20px;
+            margin-bottom: -5px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+            border: 2px solid #70707082;
+            cursor: pointer;
+            text-decoration: none;
+        }
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
+        .challenge-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
 
-    /* Challenge Item Styles */
-     .challenge-item {
-        background: white;
-        border-radius: 40px;
-        padding: 18px 20px;
-        margin-bottom: -5px;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 15px;
-        border: 2px solid #70707082;
-        cursor: pointer;
-        text-decoration: none;
-    }
+        .challenge-number {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
 
-    .challenge-number {
-        background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 100%);
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 18px;
-        flex-shrink: 0;
-    }
+        .challenge-number.completed {
+            background: #8D78AD;
+        }
 
-    .challenge-text {
-        flex: 1;
-        font-size: 16px;
-        color: #2E1E46;
-        font-weight: 500;
-    }
+        .challenge-number .number-text {
+            display: block;
+        }
 
-    .content-spacer {
-        height: 80px;
-    }
+        .challenge-number .check-icon {
+            display: none;
+            font-size: 22px;
+        }
+
+        .challenge-number.completed .number-text {
+            display: none;
+        }
+
+        .challenge-number.completed .check-icon {
+            display: block;
+        }
+
+        .challenge-text {
+            flex: 1;
+            font-size: 18px;
+            text-align: left;
+            color: #2E1E46;
+            font-weight: 500;
+        }
+
+        .mood-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .mood-selector img {
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            opacity: 0.6;
+        }
+
+        .mood-selector img:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+
+        .mood-selector {
+            position: relative;
+        }
+
+        .mood-selector img {
+            position: relative;
+        }
+
+        /* Selected emoji base style */
+        .mood-selector img.selected {
+            opacity: 1;
+        }
+
+        .mood-wrapper {
+            position: relative;
+            width: 45px;
+            height: 45px;
+        }
+
+        .mood-wrapper.selected::after {
+            content: "";
+            position: absolute;
+            top: -6px;
+            right: -6px;
+
+            width: 18px;
+            height: 18px;
+
+            background-color: #7b3fe4;
+            background-image: url("/icons/check.svg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 10px 10px;
+
+            border-radius: 50%;
+
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        }
+
+        .mood-success-message {
+            text-align: center;
+            color: #28a745;
+            font-size: 14px;
+            margin-top: 10px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .mood-success-message.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .content-spacer {
+            height: 80px;
+        }
+
+        .navbar {
+            justify-content: center;
+            position: relative;
+        }
+
+        .navbar-brand {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .back-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #F8F8F8;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 10;
+        }
+
+        .nav-item {
+            text-align: center;
+            font-size: 14px;
+            color: #8E8E93;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .nav-item i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .nav-item p {
+            margin: 0;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #2E1E46;
+            font-weight: bold;
+        }
+
+        .nav-item.active i {
+            color: #2E1E46;
+        }
     </style>
 </head>
 
@@ -253,12 +422,10 @@
 </div>
 <!-- Spinner End -->
 
-
 <!-- Navbar & Hero Start -->
 <div class="container-fluid p-0">
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0 sticky-top">
         <a class="back-icon" href="javascript:history.back()" id="backButton" style="margin-top: 10px;">
-            <!-- Back Icon SVG -->
             <svg class="bi bi-arrow-left" fill="currentColor" height="35" viewBox="0 0 16 16" width="35"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"
@@ -266,7 +433,6 @@
             </svg>
         </a>
         <a class="navbar-brand p-0" href="/home">
-            <!-- Centered Logo -->
             <img alt="Life AI Logo" src="/img/logo.png" style="margin-top: 50px;">
         </a>
     </nav>
@@ -274,75 +440,11 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Check if the current URL path includes "info"
     if (window.location.pathname.includes('info')) {
-        // Hide the back button if "info" is part of the URL path
         document.getElementById('backButton').style.display = 'none';
     }
 </script>
 <!-- Navbar & Hero End -->
-<style>
-    .navbar {
-        justify-content: center; /* Center the navbar content */
-        position: relative; /* Allows absolute positioning for the back icon */
-    }
-    .navbar-brand {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    .back-icon {
-        position: absolute;
-        left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-    }
-
-    .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: #F8F8F8;
-        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-        display: flex;
-        justify-content: space-around;
-        padding: 10px 0;
-        z-index: 10;
-    }
-
-    .nav-item {
-        text-align: center;
-        font-size: 14px;
-        color: #8E8E93; /* Default gray */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        transition: color 0.3s ease-in-out;
-    }
-
-    .nav-item i {
-        font-size: 24px; /* Adjust icon size */
-        margin-bottom: 5px;
-    }
-
-    .nav-item p {
-        margin: 0;
-        font-size: 12px;
-    }
-
-    /* Active Item */
-    .nav-item.active {
-        color: #2E1E46; /* Dark purple */
-        font-weight: bold;
-    }
-
-    .nav-item.active i {
-        color: #2E1E46;
-    }
-
-</style>
 
 <!-- Header Start -->
 <div class="container-fluid bg-breadcrumb">
@@ -364,17 +466,12 @@
     </div>
     <div class="d-flex justify-content-center">
         <div class="card">
-            <!-- Background Rectangle -->
             <img alt="Rectangle Background" src="/img/rectangle.svg" style="border-radius: 25px;">
-
-            <!-- Heart Shapes -->
-            <img alt="Hearts" src="/img/upHearts.svg" style="position: absolute; top: 15px; left: 25px; width: 50px; height: auto; z-index: 1;">
-
-            <!-- Text -->
+            <img alt="Hearts" src="/img/upHearts.svg"
+                 style="position: absolute; top: 15px; left: 25px; width: 50px; height: auto; z-index: 1;">
             <div class="text" th:text="${dailyReminder}"></div>
-
-            <!-- Heart Shapes -->
-            <img alt="Hearts" src="/img/bottomHearts.svg" style="position: absolute; top: 110px; left: 315px; width: 50px; height: auto; z-index: 1;">
+            <img alt="Hearts" src="/img/bottomHearts.svg"
+                 style="position: absolute; top: 110px; left: 315px; width: 50px; height: auto; z-index: 1;">
         </div>
     </div>
 
@@ -395,7 +492,8 @@
                 </div>
 
                 <div class="d-flex align-items-center mb-4">
-                    <h2 class="display-6 mb-1" style="text-align: center; margin-left: 15px;">ПРЕДИЗВИКАТЕСТВА НА ДЕНЯ</h2>
+                    <h2 class="display-6 mb-1" style="text-align: center; margin-left: 15px;">ПРЕДИЗВИКАТЕСТВА НА
+                        ДЕНЯ</h2>
                 </div>
             </div>
             <div class="row g-5 align-items-center">
@@ -405,56 +503,98 @@
                             <!-- Challenge 1: Mood Selector -->
                             <div class="col-12">
                                 <div class="challenge-item" id="moodChallenge">
-                                    <div class="challenge-number">1</div>
-                                    <div class="challenge-text">Как си днес?</div>
-
-                                    <div class="mood-selector" style="display: flex; justify-content: space-between; margin-top: 10px;">
-                                        <img src="/img/mood5.svg" alt="mood 5">
-                                        <img src="/img/mood1.svg" alt="mood 1">
-                                        <img src="/img/mood2.svg" alt="mood 2">
-                                        <img src="/img/mood3.svg" alt="mood 3">
-                                        <img src="/img/mood4.svg" alt="mood 4">
+                                    <div class="challenge-row">
+                                        <div class="challenge-number" data-challenge="1">
+                                            <span class="number-text">1</span>
+                                            <img alt="check" class="check-icon" src="/icons/check.svg">
+                                        </div>
+                                        <div class="challenge-text">Как си днес?</div>
                                     </div>
 
+                                    <div class="mood-selector">
+                                        <div class="mood-wrapper">
+                                            <img class="mood-emoji" data-mood="5" src="/img/mood5.svg">
+                                        </div>
+                                        <div class="mood-wrapper">
+                                            <img alt="Щастлив" class="mood-emoji" data-mood="4" src="/img/mood1.svg">
+                                        </div>
+                                        <div class="mood-wrapper">
+                                            <img alt="Неутрален" class="mood-emoji" data-mood="3" src="/img/mood2.svg">
+                                        </div>
+                                        <div class="mood-wrapper">
+                                            <img alt="Тъжен" class="mood-emoji" data-mood="2" src="/img/mood3.svg">
+                                        </div>
+                                        <div class="mood-wrapper">
+                                            <img alt="Много тъжен" class="mood-emoji" data-mood="1"
+                                                 src="/img/mood4.svg">
+                                        </div>
+                                    </div>
+
+                                    <div class="mood-success-message" id="moodSuccessMsg">
+                                        ✓ Твоето настроение е запазено!
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Challenge 2 -->
                             <div class="col-12">
-                                <a href="/exercises" style="text-decoration: none;">
+                                <a class="challenge-link" data-challenge="2" href="/exercises"
+                                   style="text-decoration: none;">
                                     <div class="challenge-item">
-                                        <div class="challenge-number">2</div>
-                                        <div class="challenge-text">Направи упражнения</div>
+                                        <div class="challenge-row">
+                                            <div class="challenge-number" data-challenge="2">
+                                                <span class="number-text">2</span>
+                                                <img alt="check" class="check-icon" src="/icons/check.svg">
+                                            </div>
+                                            <div class="challenge-text">Направи упражнения</div>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
 
                             <!-- Challenge 3 -->
                             <div class="col-12">
-                                <a href="/articles" style="text-decoration: none;">
+                                <a class="challenge-link" data-challenge="3" href="/articles"
+                                   style="text-decoration: none;">
                                     <div class="challenge-item">
-                                        <div class="challenge-number">3</div>
-                                        <div class="challenge-text">Сготви нещо полезно</div>
+                                        <div class="challenge-row">
+                                            <div class="challenge-number" data-challenge="3">
+                                                <span class="number-text">3</span>
+                                                <img alt="check" class="check-icon" src="/icons/check.svg">
+                                            </div>
+                                            <div class="challenge-text">Сготви нещо полезно</div>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
 
                             <!-- Challenge 4 -->
                             <div class="col-12">
-                                <a href="/" style="text-decoration: none;">
+                                <a class="challenge-link" data-challenge="4" href="/information"
+                                   style="text-decoration: none;">
                                     <div class="challenge-item">
-                                        <div class="challenge-number">4</div>
-                                        <div class="challenge-text">Разбери повече за...</div>
+                                        <div class="challenge-row">
+                                            <div class="challenge-number" data-challenge="4">
+                                                <span class="number-text">4</span>
+                                                <img alt="check" class="check-icon" src="/icons/check.svg">
+                                            </div>
+                                            <div class="challenge-text">Разбери повече за...</div>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
 
                             <!-- Challenge 5 -->
                             <div class="col-12">
-                                <a href="/" style="text-decoration: none;">
+                                <a class="challenge-link" data-challenge="5" href="/" style="text-decoration: none;">
                                     <div class="challenge-item">
-                                        <div class="challenge-number">5</div>
-                                        <div class="challenge-text">Въпрос/анкета на деня</div>
+                                        <div class="challenge-row">
+                                            <div class="challenge-number" data-challenge="5">
+                                                <span class="number-text">5</span>
+                                                <img alt="check" class="check-icon" src="/icons/check.svg">
+                                            </div>
+                                            <div class="challenge-text">Въпрос/анкета на деня</div>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
@@ -472,22 +612,133 @@
 <th:block th:insert="~{fragments/footer}"></th:block>
 
 <script>
+    // Load today's progress on page load
+    async function loadTodaysProgress() {
+        try {
+            const response = await fetch('/api/progress/today');
+            if (response.ok) {
+                const progressData = await response.json();
+                if (progressData && progressData.completedChallenges) {
+                    // Mark completed challenges
+                    progressData.completedChallenges.forEach(challengeNum => {
+                        markChallengeComplete(challengeNum, false);
+                    });
+                }
+            }
+        } catch (error) {
+            console.log('No progress data for today yet');
+        }
+    }
+
+    // Load today's mood on page load
+    async function loadTodaysMood() {
+        try {
+            const response = await fetch('/api/mood/today');
+            if (response.ok) {
+                const moodData = await response.json();
+                if (moodData && moodData.moodLevel) {
+                    const moodEmoji = document.querySelector(`.mood-emoji[data-mood="${moodData.moodLevel}"]`);
+                    if (moodEmoji) {
+                        moodEmoji.classList.add('selected');
+                        moodEmoji.parentElement.classList.add('selected');
+                    }
+                }
+            }
+        } catch (error) {
+            console.log('No mood saved for today yet');
+        }
+    }
+
+    // Mark a challenge as complete
+    function markChallengeComplete(challengeNumber, animate = true) {
+        const challengeElement = document.querySelector(`.challenge-number[data-challenge="${challengeNumber}"]`);
+        if (challengeElement && !challengeElement.classList.contains('completed')) {
+            if (animate) {
+                challengeElement.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    challengeElement.style.transform = 'scale(1)';
+                }, 300);
+            }
+            challengeElement.classList.add('completed');
+        }
+    }
+
+    // Save challenge completion to backend
+    async function saveChallengeComplete(challengeNumber) {
+        try {
+            const response = await fetch('/api/progress/complete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ challengeNumber: challengeNumber })
+            });
+
+            if (response.ok) {
+                markChallengeComplete(challengeNumber, true);
+                console.log(`Challenge ${challengeNumber} marked complete`);
+            }
+        } catch (error) {
+            console.error('Error saving challenge completion:', error);
+        }
+    }
+
     // Mood selector functionality
     document.querySelectorAll('.mood-emoji').forEach(emoji => {
-        emoji.addEventListener('click', function(e) {
+        emoji.addEventListener('click', async function(e) {
             e.preventDefault();
             e.stopPropagation();
 
-            // Remove selected class from all
-            document.querySelectorAll('.mood-emoji').forEach(e => e.classList.remove('selected'));
-            // Add to clicked
-            this.classList.add('selected');
+            const mood = parseInt(this.getAttribute('data-mood'));
 
-            const mood = this.getAttribute('data-mood');
-            console.log('Selected mood:', mood);
-            // Here you can send the mood to your backend
-            // Example: fetch('/api/mood', { method: 'POST', body: JSON.stringify({ mood }) })
+            // Clear previous selections
+            document.querySelectorAll('.mood-emoji').forEach(e => {
+                e.classList.remove('selected');
+                e.parentElement.classList.remove('selected');
+            });
+
+            // Select current
+            this.classList.add('selected');
+            this.parentElement.classList.add('selected');
+
+            try {
+                const response = await fetch('/api/mood', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ moodLevel: mood })
+                });
+
+                if (response.ok) {
+                    const successMsg = document.getElementById('moodSuccessMsg');
+                    successMsg.classList.add('show');
+
+                    markChallengeComplete(1, true);
+
+                    setTimeout(() => {
+                        successMsg.classList.remove('show');
+                    }, 3000);
+                } else {
+                    alert('Не успяхме да запазим твоето настроение.');
+                }
+            } catch (error) {
+                alert('Грешка при запазване.');
+            }
         });
+    });
+
+    // Handle challenge link clicks
+    document.querySelectorAll('.challenge-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const challengeNum = parseInt(this.getAttribute('data-challenge'));
+            // Mark as complete before navigating
+            saveChallengeComplete(challengeNum);
+        });
+    });
+
+    // Load progress and mood when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        loadTodaysProgress();
+        loadTodaysMood();
     });
 </script>
 </body>
