@@ -3,6 +3,7 @@ package com.lifeAIFrontend.LifeAIFrontend.controller;
 import com.lifeAIFrontend.LifeAIFrontend.client.ArticleClient;
 import com.lifeAIFrontend.LifeAIFrontend.model.Article;
 import com.lifeAIFrontend.LifeAIFrontend.model.dto.ArticleCardDTO;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,11 @@ public class ArticleController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String category,
-            Model model) {
+            Model model, HttpSession session) {
+
+        if (session.getAttribute("ACCESS_TOKEN") == null) {
+            return "redirect:/login";
+        }
 
         Page<ArticleCardDTO> articlePage;
 
@@ -41,7 +46,11 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public String showArticleDetail(@PathVariable Long id, Model model) {
+    public String showArticleDetail(@PathVariable Long id, Model model, HttpSession session) {
+        if (session.getAttribute("ACCESS_TOKEN") == null) {
+            return "redirect:/login";
+        }
+
         Article article = articleClient.getArticleById(id);
         model.addAttribute("article", article);
         return "/articles/article-detail";

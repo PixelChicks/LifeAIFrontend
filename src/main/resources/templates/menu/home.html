@@ -424,7 +424,7 @@
 
 <!-- Navbar & Hero Start -->
 <div class="container-fluid p-0">
-    <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0 sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0">
         <a class="back-icon" href="javascript:history.back()" id="backButton" style="margin-top: 10px;">
             <svg class="bi bi-arrow-left" fill="currentColor" height="35" viewBox="0 0 16 16" width="35"
                  xmlns="http://www.w3.org/2000/svg">
@@ -433,7 +433,8 @@
             </svg>
         </a>
         <a class="navbar-brand p-0" href="/home">
-            <img alt="Life AI Logo" src="/img/logo.png" style="margin-top: 50px;">
+            <!-- Centered Logo -->
+            <img alt="Life AI Logo" src="https://life-app.bbca.bg/img/Group-1629.svg" style="margin-top: 50px;">
         </a>
     </nav>
 </div>
@@ -460,7 +461,7 @@
         <li></li>
         <li></li>
     </ul>
-    <div class="container text-center py-5" style="max-width: 900px;">
+    <div class="container text-center py-5" style="max-width: 900px; margin-bottom: -20px; margin-top: -20px;">
         <h1 class="display-3 mb-4 wow fadeInDown"
             th:text="${userName != null} ? 'Здравей, ' + ${userName} + '!' : 'Life'">Life</h1>
     </div>

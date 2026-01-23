@@ -1,6 +1,7 @@
 package com.lifeAIFrontend.LifeAIFrontend.controller;
 
 import com.lifeAIFrontend.LifeAIFrontend.client.ChatClient;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,11 @@ public class ChatController {
     }
 
     @GetMapping("/researchSideEffects")
-    public String researchSideEffects(Model model) {
+    public String researchSideEffects(HttpSession session, Model model) {
+        if (session.getAttribute("ACCESS_TOKEN") == null) {
+            return "redirect:/login";
+        }
+
         model.addAttribute("response", "Моля, опишете какви странични ефекти изпитвате.");
         return "recommendedStudies/researchSideEffects";
     }

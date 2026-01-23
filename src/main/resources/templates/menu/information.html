@@ -210,6 +210,97 @@
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
+
+        /* YouTube Random Videos Styles */
+        .youtube-section {
+            margin: 40px auto;
+            max-width: 600px;
+            padding: 0 15px;
+        }
+
+        .youtube-section-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #34254B;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .video-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-embed {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2E1E46;
+            margin: 0 0 8px 0;
+            line-height: 1.4;
+        }
+
+        .video-description {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .refresh-button {
+            display: block;
+            margin: 30px auto 0;
+            padding: 12px 30px;
+            background: #EF647C;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .refresh-button:hover {
+            background: #d94d67;
+        }
     </style>
 </head>
 
@@ -228,9 +319,8 @@
 
 <!-- Navbar & Hero Start -->
 <div class="container-fluid p-0">
-    <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0 sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0">
         <a class="back-icon" href="javascript:history.back()" id="backButton" style="margin-top: 10px;">
-            <!-- Back Icon SVG -->
             <svg class="bi bi-arrow-left" fill="currentColor" height="35" viewBox="0 0 16 16" width="35"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"
@@ -239,11 +329,10 @@
         </a>
         <a class="navbar-brand p-0" href="/home">
             <!-- Centered Logo -->
-            <img alt="Life AI Logo" src="/img/logo.png" style="margin-top: 50px;">
+            <img alt="Life AI Logo" src="https://life-app.bbca.bg/img/Group-1629.svg" style="margin-top: 50px;">
         </a>
     </nav>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script>
     // Check if the current URL path includes "info"
@@ -346,9 +435,6 @@
         <div class="container py-0">
             <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                 <br>
-                <div th:if="${session.ACCESS_TOKEN != null}">
-                    <a th:href="@{/logout}">Logout</a>
-                </div>
 
                 <div class="d-flex align-items-center mb-4">
                     <h2 class="display-6 mb-1" style="text-align: center; margin-left: 15px;">ПЕРСОНАЛИЗИРАНА
@@ -447,40 +533,12 @@
                 <div class="wow fadeInLeft" data-wow-delay="0.1s">
                     <center>
                         <div class="row g-3">
-                            <div class="col-12">
-                                <a href="/limfedem">
-                                    <button class="btn btn-primary w-100 py-3">Лимфедем</button>
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <a href="/organPreservingSurgery">
-                                    <button class="btn btn-primary w-100 py-3">Органосъхраняваща операция</button>
-                                </a>
-                            </div>
-                            <div class="col-12" style="display: none;">
-                                <button class="btn btn-primary w-100 py-3">Лекарства</button>
-                            </div>
-                            <div class="col-12">
-                                <a href="/menopause">
-                                    <button class="btn btn-primary w-100 py-3">Предизвикана менопауза</button>
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <a href="/recipes">
-                                    <button class="btn btn-primary w-100 py-3">Рецепти и диета</button>
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <a href="/exercises">
-                                    <button class="btn btn-primary w-100 py-3">Упражнения</button>
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <a href="/alternativeMedicine">
-                                    <button class="btn btn-primary w-100 py-3">Допълнителни терапии
-                                    </button>
-                                </a>
-                            </div>
+                            <div class="videos-grid" id="videosContainer"></div>
+                            <a href="https://www.youtube.com/@bbcancerassociation"
+                               target="_blank"
+                               class="btn btn-primary w-100 py-3">
+                                Покажи всички
+                            </a>
                         </div>
                     </center>
                 </div>
@@ -502,6 +560,64 @@
         // disable the submit button to prevent multiple submissions
         form.querySelector("button[type='submit']").disabled = true;
     });
+</script>
+
+<!-- Random YouTube Videos Script -->
+<script>
+    // Array of 10 YouTube videos - Just add the video IDs
+    const allVideos = [
+        { id: 'rsZWQ17gLLA' },
+        { id: 'HdxxclvDD9g' },
+        { id: 'PzosmFgF_L8' },
+        { id: '8bCNUNqsYIU' },
+        { id: 'FgZH5nFdpwQ' },
+        { id: 'PzosmFgF_L8' },
+        { id: 'QJtw9dwPQfk' },
+        { id: 'K5LjEL_q6xk' },
+        { id: 'y7jGJJc1dhY' },
+        { id: 'XQz5gSPTRHE' }
+    ];
+
+    function getYouTubeThumbnail(videoId) {
+        return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+    }
+
+    function shuffleArray(array) {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+    }
+
+    function loadRandomVideos() {
+        const shuffled = shuffleArray(allVideos);
+        const selectedVideos = shuffled.slice(0, 3);
+        const container = document.getElementById('videosContainer');
+
+        container.innerHTML = selectedVideos.map(video => `
+            <div class="video-card">
+                <div class="video-embed">
+                    <iframe
+                        src="https://www.youtube.com/embed/${video.id}"
+                        title="${video.title || 'YouTube video'}"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                ${video.title || video.description ? `
+                <div class="video-info">
+                    ${video.title ? `<h3 class="video-title">${video.title}</h3>` : ''}
+                    ${video.description ? `<p class="video-description">${video.description}</p>` : ''}
+                </div>
+                ` : ''}
+            </div>
+        `).join('');
+    }
+
+    // Load initial random videos when page loads
+    loadRandomVideos();
 </script>
 </body>
 
