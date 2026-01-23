@@ -1,5 +1,6 @@
 package com.lifeAIFrontend.LifeAIFrontend.controller;
 
+import com.lifeAIFrontend.LifeAIFrontend.client.ArticleClient;
 import com.lifeAIFrontend.LifeAIFrontend.client.ChatClient;
 import com.lifeAIFrontend.LifeAIFrontend.model.auth.PublicUserDTO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MenuController {
 
     private final ChatClient chatClient;
+    private final ArticleClient articleClient;
 
     @GetMapping
     public String redirectHome(HttpSession session, Model model) {
@@ -55,6 +57,7 @@ public class MenuController {
             return "redirect:/login";
         }
 
+        model.addAttribute("randomArticles", articleClient.getRandomArticlesWithNoSubCategory());
         model.addAttribute("activeTab", "info");
         return "menu/information";
     }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @FeignClient(name = "life-ai-articles", url = "${backend.base-url}/articles", configuration = FeignClientConfiguration.class)
 public interface ArticleClient {
 
@@ -27,4 +29,7 @@ public interface ArticleClient {
 
     @GetMapping("/{id}")
     Article getArticleById(@PathVariable(name = "id") Long id);
+
+    @GetMapping("/random/no-subcategory")
+    List<ArticleCardDTO> getRandomArticlesWithNoSubCategory();
 }

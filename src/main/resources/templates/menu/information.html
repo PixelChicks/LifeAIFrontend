@@ -10,297 +10,367 @@
     <meta content="" name="description">
     <th:block th:insert="~{fragments/links}"></th:block>
     <style>
+        .recipe-card {
+          background: #ffffff;
+          border-radius: 12px;
+          overflow: hidden;
+          margin-bottom: 15px;
+          transition: transform 0.2s ease;
+          cursor: pointer;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          width: 95%;
+          flex-direction: row;
+          box-shadow: 0 4px 8px rgb(0 0 0 / 22%);
+      }
+          .recipe-card:hover {
+              transform: translateY(-2px);
+          }
+          .recipe-image {
+              width: 100px;
+              height: 100px;
+              object-fit: cover;
+              flex-shrink: 0;
+              background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 100%);
+              border-radius: 8px;
+              margin: 10px;
+          }
+          .recipe-content {
+              flex: 1;
+              padding: 15px;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+          }
 
-        .spinner {
-            opacity: 80%;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 5px solid #ff91b6;
-            border-bottom: 5px solid #b81d53;
-            animation: spin 2s linear infinite;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg); /* Start at 0 degrees */
-            }
-            100% {
-                transform: rotate(360deg); /* Rotate to 360 degrees */
-            }
-        }
-        .search-box {
-            display: flex;
-            align-items: center;
-            border: 3px solid #EF647C;
-            border-radius: 55px;
-            padding: 3px 3px;
-            background: white;
-        }
-        .search-box input {
-            border: none;
-            outline: none;
-            font-size: 16px;
-            padding: 8px;
-            flex: 1;
-        }
-        .search-box button {
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-
-        .btn-primary {
-            width: 90%;
-            max-width: 500px;  /* Adjust as per your layout */
-            padding: 15px 20px;
-            font-size: 18px;  /* Adjust font size if needed */
-            text-align: center;
-            border-radius: 50px;
-        }
-                .btn-danger {
-            width: 100%;
-            max-width: 500px;  /* Adjust as per your layout */
-            padding: 15px 20px;
-            font-size: 18px;  /* Adjust font size if needed */
-            text-align: center;
-            border-radius: 50px;
-        }
-
-         #loadingText {
-            font-size: 14px;
-            color: #888;
-            font-style: italic;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        * {
-             box-sizing: border-box;
-        }
-
-         html, body {
-             margin: 0;
-             padding: 0;
-             overflow-x: hidden;
-         }
-
-        .typing-bubble {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-            justify-content: center;
-            margin-top: 6px;
-        }
-
-        .typing-bubble span {
-            width: 15px;
-            height: 15px;
-            background-color: #ff6f91;
-            border-radius: 50%;
-            animation: typing 1.5s infinite;
-        }
-
-        .typing-bubble span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-bubble span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes typing {
-            0%, 80%, 100% {
-                transform: scale(0);
-            }
-        40% {
-                transform: scale(1);
-            }
-        }
-        .quote-box {
-            position: relative;
-            background: url('/img/ribbon.png') no-repeat center center;
-            background-size: cover;
-            padding: 20px;
-            border-radius: 20px;
-            text-align: center;
-            font-size: 1.2em;
-            font-style: italic;
-            color: white;
-            font-weight: bold;
-            width: 80%;
-            max-width: 500px;
-            margin: 20px auto;
-        }
-
-        /* Overlay Effect */
-        .quote-box::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgb(47 27 86 / 56%);
-            border-radius: 20px;
-        }
-
-        /* Text should be on top of the overlay */
-        .quote-text {
-            position: relative;
-            z-index: 1;
-        }
-
-    .card {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 376px; /* Matches SVG dimensions */
-    height: 171px; /* Matches SVG dimensions */
-    border-radius: 20px; /* Matches SVG rx */
-    padding-bottom: 20px;
-    background-color: #FFE5E5; /* Fallback for when the image isn't loaded */
-}
-
-.card img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures it scales correctly */
-}
-
-
-     .text {
-    position: absolute;
-    top: 35px;
-    left: 35px;
-    right: 35px;
-    bottom: 35px;
-    font-family: 'Inter', sans-serif;
-    font-size: 18px;
-    font-style: italic;
-    color: #fff;
-    line-height: 1.4;
-    overflow-wrap: break-word;
-    max-width: calc(100% - 70px);
-    word-wrap: normal;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-                .quick-links-section {
-            margin: 30px auto;
-            max-width: 600px;
-            padding: 0 15px;
-        }
-
-        .quick-links-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        /* YouTube Random Videos Styles */
-        .youtube-section {
-            margin: 40px auto;
-            max-width: 600px;
-            padding: 0 15px;
-        }
-
-        .youtube-section-title {
-            text-align: center;
-            font-size: 24px;
-            font-weight: 700;
-            color: #34254B;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        .videos-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        .video-card {
-            background: #fff;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: block;
-            margin-bottom: 20px;
-        }
-
-        .video-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .video-embed {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            overflow: hidden;
-            background: #000;
-        }
-
-        .video-embed iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .video-info {
-            padding: 15px;
-        }
-
-        .video-title {
-            font-size: 16px;
+        .recipe-title {
+            font-size: 20px;
             font-weight: 600;
             color: #2E1E46;
-            margin: 0 0 8px 0;
+            margin-bottom: 8px;
             line-height: 1.4;
+
+            display: -webkit-box;             /* Needed for multi-line truncation */
+            -webkit-line-clamp: 2;            /* Number of lines to show */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .video-description {
-            font-size: 14px;
-            color: #666;
-            margin: 0;
-            line-height: 1.5;
-        }
+          .recipe-description {
+              font-size: 12px;
+              color: #888;
+              line-height: 1.6;
+              margin-bottom: 10px;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              word-break: break-word;
+          }
+          .recipe-meta {
+              display: flex;
+              gap: 15px;
+              font-size: 11px;
+              color: #999;
+          }
+          .recipe-meta-item {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+          }
 
-        .refresh-button {
-            display: block;
-            margin: 30px auto 0;
-            padding: 12px 30px;
-            background: #EF647C;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
+                  .spinner {
+                      opacity: 80%;
+                      width: 50px;
+                      height: 50px;
+                      border-radius: 50%;
+                      border: 5px solid #ff91b6;
+                      border-bottom: 5px solid #b81d53;
+                      animation: spin 2s linear infinite;
+                      display: block;
+                      margin-left: auto;
+                      margin-right: auto;
+                  }
 
-        .refresh-button:hover {
-            background: #d94d67;
-        }
+                  @keyframes spin {
+                      0% {
+                          transform: rotate(0deg); /* Start at 0 degrees */
+                      }
+                      100% {
+                          transform: rotate(360deg); /* Rotate to 360 degrees */
+                      }
+                  }
+                  .search-box {
+                      display: flex;
+                      align-items: center;
+                      border: 3px solid #EF647C;
+                      border-radius: 55px;
+                      padding: 3px 3px;
+                      background: white;
+                  }
+                  .search-box input {
+                      border: none;
+                      outline: none;
+                      font-size: 16px;
+                      padding: 8px;
+                      flex: 1;
+                  }
+                  .search-box button {
+                      background: none;
+                      border: none;
+                      cursor: pointer;
+                  }
+
+
+                  .btn-primary {
+                      width: 90%;
+                      max-width: 500px;  /* Adjust as per your layout */
+                      padding: 15px 20px;
+                      font-size: 18px;  /* Adjust font size if needed */
+                      text-align: center;
+                      border-radius: 50px;
+                  }
+                          .btn-danger {
+                      width: 100%;
+                      max-width: 500px;  /* Adjust as per your layout */
+                      padding: 15px 20px;
+                      font-size: 18px;  /* Adjust font size if needed */
+                      text-align: center;
+                      border-radius: 50px;
+                  }
+
+                   #loadingText {
+                      font-size: 14px;
+                      color: #888;
+                      font-style: italic;
+                      text-align: center;
+                      margin-top: 10px;
+                  }
+
+                  * {
+                       box-sizing: border-box;
+                  }
+
+                   html, body {
+                       margin: 0;
+                       padding: 0;
+                       overflow-x: hidden;
+                   }
+
+                  .typing-bubble {
+                      display: flex;
+                      gap: 5px;
+                      align-items: center;
+                      justify-content: center;
+                      margin-top: 6px;
+                  }
+
+                  .typing-bubble span {
+                      width: 15px;
+                      height: 15px;
+                      background-color: #ff6f91;
+                      border-radius: 50%;
+                      animation: typing 1.5s infinite;
+                  }
+
+                  .typing-bubble span:nth-child(2) {
+                      animation-delay: 0.2s;
+                  }
+
+                  .typing-bubble span:nth-child(3) {
+                      animation-delay: 0.4s;
+                  }
+
+                  @keyframes typing {
+                      0%, 80%, 100% {
+                          transform: scale(0);
+                      }
+                  40% {
+                          transform: scale(1);
+                      }
+                  }
+                  .quote-box {
+                      position: relative;
+                      background: url('/img/ribbon.png') no-repeat center center;
+                      background-size: cover;
+                      padding: 20px;
+                      border-radius: 20px;
+                      text-align: center;
+                      font-size: 1.2em;
+                      font-style: italic;
+                      color: white;
+                      font-weight: bold;
+                      width: 80%;
+                      max-width: 500px;
+                      margin: 20px auto;
+                  }
+
+                  /* Overlay Effect */
+                  .quote-box::before {
+                      content: "";
+                      position: absolute;
+                      top: 0;
+                      left: 0;
+                      width: 100%;
+                      height: 100%;
+                      background: rgb(47 27 86 / 56%);
+                      border-radius: 20px;
+                  }
+
+                  /* Text should be on top of the overlay */
+                  .quote-text {
+                      position: relative;
+                      z-index: 1;
+                  }
+
+              .card {
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 376px; /* Matches SVG dimensions */
+              height: 171px; /* Matches SVG dimensions */
+              border-radius: 20px; /* Matches SVG rx */
+              padding-bottom: 20px;
+              background-color: #FFE5E5; /* Fallback for when the image isn't loaded */
+          }
+
+          .card img {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover; /* Ensures it scales correctly */
+          }
+
+
+               .text {
+              position: absolute;
+              top: 35px;
+              left: 35px;
+              right: 35px;
+              bottom: 35px;
+              font-family: 'Inter', sans-serif;
+              font-size: 18px;
+              font-style: italic;
+              color: #fff;
+              line-height: 1.4;
+              overflow-wrap: break-word;
+              max-width: calc(100% - 70px);
+              word-wrap: normal;
+
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              text-align: center;
+          }
+
+                          .quick-links-section {
+                      margin: 30px auto;
+                      max-width: 600px;
+                      padding: 0 15px;
+                  }
+
+                  .quick-links-grid {
+                      display: grid;
+                      grid-template-columns: 1fr 1fr;
+                      gap: 15px;
+                  }
+
+                  /* YouTube Random Videos Styles */
+                  .youtube-section {
+                      margin: 40px auto;
+                      max-width: 600px;
+                      padding: 0 15px;
+                  }
+
+                  .youtube-section-title {
+                      text-align: center;
+                      font-size: 24px;
+                      font-weight: 700;
+                      color: #34254B;
+                      margin-bottom: 30px;
+                      text-transform: uppercase;
+                  }
+
+                  .videos-grid {
+                      display: grid;
+                      grid-template-columns: 1fr;
+                      gap: 20px;
+                  }
+
+                  .video-card {
+                      background: #fff;
+                      border-radius: 15px;
+                      overflow: hidden;
+                      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                      transition: transform 0.3s ease, box-shadow 0.3s ease;
+                      display: block;
+                      margin-bottom: 20px;
+                  }
+
+                  .video-card:hover {
+                      transform: translateY(-5px);
+                      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+                  }
+
+                  .video-embed {
+                      position: relative;
+                      width: 100%;
+                      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+                      overflow: hidden;
+                      background: #000;
+                  }
+
+                  .video-embed iframe {
+                      position: absolute;
+                      top: 0;
+                      left: 0;
+                      width: 100%;
+                      height: 100%;
+                      border: none;
+                  }
+
+                  .video-info {
+                      padding: 15px;
+                  }
+
+                  .video-title {
+                      font-size: 16px;
+                      font-weight: 600;
+                      color: #2E1E46;
+                      margin: 0 0 8px 0;
+                      line-height: 1.4;
+                  }
+
+                  .video-description {
+                      font-size: 14px;
+                      color: #666;
+                      margin: 0;
+                      line-height: 1.5;
+                  }
+
+                  .refresh-button {
+                      display: block;
+                      margin: 30px auto 0;
+                      padding: 12px 30px;
+                      background: #EF647C;
+                      color: white;
+                      border: none;
+                      border-radius: 50px;
+                      font-size: 16px;
+                      font-weight: 600;
+                      cursor: pointer;
+                      transition: background 0.3s ease;
+                  }
+
+                  .refresh-button:hover {
+                      background: #d94d67;
+                  }
     </style>
 </head>
 
@@ -483,7 +553,8 @@
             <!--                </div>-->
             <!--            </center>-->
             <form class="search-box" id="chatForm" method="post" th:action="@{/chat}">
-                <input name="message" placeholder="Задайте въпрос, търсете информация..." required="" style="background-color: transparent;"
+                <input name="message" placeholder="Задайте въпрос, търсете информация..." required=""
+                       style="background-color: transparent;"
                        type="text">
                 <button type="submit">
                     <img alt="Search" src="/img/search.svg">
@@ -507,14 +578,20 @@
             <div style="display: flex; gap: 15px; justify-content: center;">
                 <a href="/articles" style="text-decoration: none; width: 50%;">
                     <div style="width: 100%; height: 140px; background: #FAF0FF; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
-                        <img style="width: 60px; height: 80px; object-fit: contain;" src="img/recepies 1.png" alt="Рецепти">
-                        <div style="text-align: center; color: #34254B; font-size: 19px; font-weight: 700; text-transform: uppercase; word-wrap: break-word">Рецепти</div>
+                        <img alt="Рецепти" src="img/recepies 1.png"
+                             style="width: 60px; height: 80px; object-fit: contain;">
+                        <div style="text-align: center; color: #34254B; font-size: 19px; font-weight: 700; text-transform: uppercase; word-wrap: break-word">
+                            Рецепти
+                        </div>
                     </div>
                 </a>
                 <a href="/exercises" style="text-decoration: none; width: 50%;">
                     <div style="width: 100%; height: 140px; background: #FAF0FF; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
-                        <img style="width: 60px; height: 80px; object-fit: contain;" src="img/exercise0 1.png" alt="Упражнения">
-                        <div style="text-align: center; color: #34254B; font-size: 19px; font-weight: 700; text-transform: uppercase; word-wrap: break-word">Упражнения</div>
+                        <img alt="Упражнения" src="img/exercise0 1.png"
+                             style="width: 60px; height: 80px; object-fit: contain;">
+                        <div style="text-align: center; color: #34254B; font-size: 19px; font-weight: 700; text-transform: uppercase; word-wrap: break-word">
+                            Упражнения
+                        </div>
                     </div>
                 </a>
             </div>
@@ -525,23 +602,45 @@
             </div>
 
             <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-                <div class="d-flex align-items-center mb-4">
-                    <h2 class="display-6 mb-1" style="text-align: center; margin-left: 15px;">YOUTUBE ВИДЕА</h2>
-                </div>
+                <h2 class="display-6 mb-1" style="text-align: center; margin-left: 15px;">YOUTUBE ВИДЕА</h2><br>
             </div>
             <div class="row g-5 align-items-center">
                 <div class="wow fadeInLeft" data-wow-delay="0.1s">
                     <center>
                         <div class="row g-3">
                             <div class="videos-grid" id="videosContainer"></div>
-                            <a href="https://www.youtube.com/@bbcancerassociation"
-                               target="_blank"
-                               class="btn btn-primary w-100 py-3">
+                            <a class="btn btn-primary w-100 py-3"
+                               href="https://www.youtube.com/@bbcancerassociation"
+                               target="_blank">
                                 Покажи всички
                             </a>
                         </div>
                     </center>
                 </div>
+            </div>
+        </div>
+        <div class="container py-5" style="margin-top:-40px;">
+
+            <h2 class="display-6 mb-1" style="text-align: center; margin-left: 15px;">СТАТИИ</h2><br>
+
+            <div id="recipesGrid">
+                <!-- Thymeleaf Article Cards -->
+                <a class="recipe-card"
+                   th:each="article : ${randomArticles}"
+                   th:href="@{/articles/{id}(id=${article.id})}">
+                    <div class="recipe-content">
+                        <div class="recipe-title" th:text="${article.title}">Article Title</div>
+                    </div>
+                    <img class="recipe-image"
+                         th:alt="${article.title}"
+                         th:src="@{/img/{file}(file=${article.thumbnailPicture})}">
+                </a>
+            </div>
+            <div class="text-center mt-3">
+                <a class="btn btn-primary py-3" href="https://life-app.bbca.bg/articles"
+                   style="border-radius: 50px; width: 200px;">
+                    Покажи всички
+                </a>
             </div>
         </div>
     </div>
