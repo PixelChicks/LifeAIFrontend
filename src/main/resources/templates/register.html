@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Създай Статия</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Import your site-wide links and styles -->
+    <th:block th:insert="~{/fragments/links}"></th:block>
+</head>
+
+<body>
+<!-- Navbar -->
+<th:block th:insert="~{fragments/navbar}"></th:block>
+
+<!-- Page Header -->
+<div class="container-fluid page-header py-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container text-center py-5">
+        <h1 class="display-2 text-white mb-4">Създай статия</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/home">Начало</a></li>
+                <li class="breadcrumb-item"><a href="/blog">Блог</a></li>
+                <li class="breadcrumb-item text-white" aria-current="page">Създай</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Form Section -->
+<div class="container py-5 wow fadeIn" data-wow-delay="0.2s">
+    <div class="mx-auto" style="max-width: 800px;">
+        <form th:action="@{/auth/register}" th:object="${registerRequest}" method="post">
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <div class="mb-3">
+                <label class="form-label">Имейл</label>
+                <input type="email" th:field="*{email}" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Парола</label>
+                <input type="password" th:field="*{password}" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Име</label>
+                <input type="text" th:field="*{firstName}" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Фамилия</label>
+                <input type="text" th:field="*{lastName}" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">ЕГН</label>
+                <input type="text" th:field="*{nationalIdNumber}" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Град (ID)</label>
+                <input type="number" th:field="*{cityId}" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Пол</label>
+                <select th:field="*{gender}" class="form-select">
+                    <option value="">Изберете</option>
+                    <option value="MALE">Мъж</option>
+                    <option value="FEMALE">Жена</option>
+                    <option value="OTHER">Друг</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Телефон</label>
+                <input type="text" th:field="*{phoneNumber}" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Дата на раждане</label>
+                <input type="date" th:field="*{birthDate}" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Роля</label>
+                <input type="text" th:field="*{role}" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Провайдър (напр. LOCAL)</label>
+                <input type="text" th:field="*{provider}" class="form-control"/>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-5">Регистрация</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<!-- Footer and scripts -->
+<th:block th:insert="~{fragments/footer}"></th:block>
+<th:block th:insert="~{fragments/copyright}"></th:block>
+<th:block th:insert="~{fragments/backToTop}"></th:block>
+<th:block th:insert="~{fragments/jsLibraries}"></th:block>
+<th:block th:insert="~{fragments/footer}"></th:block>
+<th:block th:insert="~{fragments/jsLibraries}"></th:block>
+<script src="js/main.js"></script>
+</body>
+
+<script src="js/main.js"></script>
+</body>
+
+</html>
