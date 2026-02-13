@@ -42,7 +42,7 @@ public class ArticleController {
         model.addAttribute("totalPages", articlePage.getTotalPages());
         model.addAttribute("currentCategory", category != null ? category : "all");
 
-        return "/articles/list";
+        return "articles/list";
     }
 
     @GetMapping("/articles/{id}")
@@ -53,6 +53,6 @@ public class ArticleController {
 
         Article article = articleClient.getArticleById(id);
         model.addAttribute("article", article);
-        return "/articles/article-detail";
+        return "articles/article-detail";
     }
 }
