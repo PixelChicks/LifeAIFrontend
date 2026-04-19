@@ -674,7 +674,6 @@
 
     form.addEventListener("submit", function(event) {
         loadingText.style.display = "block";
-
     });
 
     var modal = document.getElementById('popupModal');
@@ -712,6 +711,13 @@
     "Хормонална терапия" : document.getElementById('hormonalTherapy').textContent
     };
 
+    function markdownToHtml(text) {
+        return text
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')  // **bold**
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')               // *italic*
+            .replace(/^\* /gm, '• ')                             // * list items → bullets
+            .replace(/\n/g, '<br>');                             // newlines → <br>
+    }
      function addPopupTextToForm() {
         const popupText = document.getElementById('popupText').textContent;
         document.getElementById('popupTextContent').value = popupText.trim();
@@ -738,6 +744,11 @@
             // Set modal content
             modalHeader.innerHTML = this.innerHTML;
             popupText.innerHTML = definitionKey ? wordDefinitions[definitionKey] : 'За съжаление все още нямаме дефиниция за този термин.';
+
+            // Reset chat history and seed context with the term definition
+            chatHistory.length = 0;
+            pageContext = definitionKey ? wordDefinitions[definitionKey] : '';
+            document.getElementById('chat-messages').innerHTML = '';
 
             // Show the modal and overlay
             modal.style.display = 'block';
@@ -867,7 +878,6 @@
 
     document.getElementById('seventhQuestion').addEventListener('click', () => {
         const eighthAnswer = document.getElementById('eighthAnswer');
-
         if (eighthAnswer.style.display === 'block') {
             eighthAnswer.style.display = 'none';
         } else {
@@ -877,7 +887,6 @@
 
     document.getElementById('eighthQuestion').addEventListener('click', () => {
         const ninthAnswer = document.getElementById('ninthAnswer');
-
         if (ninthAnswer.style.display === 'block') {
             ninthAnswer.style.display = 'none';
         } else {
@@ -885,66 +894,103 @@
         }
     });
 
-    document.getElementById("chatForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+    // ─────────────────────────────────────────────────────────────────
+    // CHANGED: replaced /explainTermsChat with /chat/message
+    // Everything else (HTML, styles, question flow) is untouched
+    // ─────────────────────────────────────────────────────────────────
+    const chatHistory = [];
+    let pageContext = '';
 
-    const chatContainer = document.getElementById("chat-messages");
-    const messageInput = document.getElementById("message");
-    const conversationContextElement = document.getElementById("conversationContext");
-    const popupTextElement = document.getElementById("popupText");
-    const loadingText = document.getElementById("loadingText");
-
-    const userMessage = messageInput.value.trim();
-    let conversationContext = conversationContextElement.value;
-    const popupText = popupTextElement ? popupTextElement.innerText.trim() : "";
-
-    if (!userMessage) return;
-
-    if (popupText && !conversationContext.includes(popupText)) {
-        conversationContext = popupText + "\n" + conversationContext;
+    function collectVisibleContext() {
+        const answerIds = [
+            'firstAnswer','secondAnswer','thirdAnswer','forthAnswer','fifthAnswer',
+            'sixthAnswer','seventhAnswer','eighthAnswer','ninthAnswer','tenthAnswer',
+            'eleventhAnswer','twelfthAnswer','thirteenthAnswer','fourteenthAnswer',
+            'fifteenthAnswer','sixteenthAnswer'
+        ];
+        const parts = [];
+        answerIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && el.style.display === 'block') {
+                const text = el.innerText.trim();
+                if (text) parts.push(text);
+            }
+        });
+        return parts.length > 0
+            ? 'Следните препоръки са показани на потребителя:\n\n' + parts.join('\n\n')
+            : '';
     }
 
-    const userBubble = document.createElement("div");
-    userBubble.classList.add("chat-bubble", "user-message");
-    userBubble.innerHTML = `<p style="color:white;">${userMessage}</p>`;
-    chatContainer.appendChild(userBubble);
+    document.getElementById("chatForm").addEventListener("submit", function(event) {
+        event.preventDefault();
 
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-    loadingText.style.display = "block";
+        const chatContainer = document.getElementById("chat-messages");
+        const messageInput = document.getElementById("message");
+        const loadingText = document.getElementById("loadingText");
+        const typingIndicator = document.getElementById("typing-indicator");
 
-    fetch("/explainTermsChat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            message: userMessage,
-            conversationContext: conversationContext
-        }),
-    })
+        const userMessage = messageInput.value.trim();
+        if (!userMessage) return;
+
+        // On the first message, prepend the visible page context
+        const isFirstMessage = chatHistory.length === 0;
+        const context = isFirstMessage ? (pageContext || collectVisibleContext()) : '';
+        const fullMessage = context ? context + '\n\nВъпрос: ' + userMessage : userMessage;
+
+        // Show user bubble (always show just the typed message, not the full context)
+        const userBubble = document.createElement("div");
+        userBubble.classList.add("chat-bubble", "user-message");
+        userBubble.innerHTML = `<p style="color:white;">${userMessage}</p>`;
+        chatContainer.appendChild(userBubble);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        messageInput.value = "";
+        loadingText.style.display = "block";
+        typingIndicator.style.display = "flex";
+
+        chatHistory.push({ role: "user", content: fullMessage });
+
+        fetch("/chat/message", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                message: fullMessage,
+                history: chatHistory.slice(0, -1)
+            }),
+        })
         .then(response => response.json())
         .then(data => {
             loadingText.style.display = "none";
+            typingIndicator.style.display = "none";
+
+            const reply = data.success && data.reply
+                ? data.reply
+                : (data.error || 'Съжалявам, възникна грешка. Моля, опитайте отново.');
 
             const aiBubble = document.createElement("div");
             aiBubble.classList.add("chat-bubble", "response-message");
-            aiBubble.innerHTML = `<p>${data.response}</p>`;
+            aiBubble.innerHTML = `<p>${markdownToHtml(reply)}</p>`;
             chatContainer.appendChild(aiBubble);
 
-            conversationContextElement.value = data.conversationContext;
-
+            chatHistory.push({ role: "assistant", content: reply });
             chatContainer.scrollTop = chatContainer.scrollHeight;
         })
         .catch(error => {
             console.error("Error:", error);
             loadingText.style.display = "none";
+            typingIndicator.style.display = "none";
+            chatHistory.pop();
+
+            const errBubble = document.createElement("div");
+            errBubble.classList.add("chat-bubble", "response-message");
+            errBubble.innerHTML = '<p>Съжалявам, не успях да се свържа. Моля, опитайте отново.</p>';
+            chatContainer.appendChild(errBubble);
         });
-
-        messageInput.value = ""; // Clear input field after sending message
     });
-
+    // ─────────────────────────────────────────────────────────────────
 
     document.getElementById('ninthQuestion').addEventListener('click', () => {
         const tenthAnswer = document.getElementById('tenthAnswer');
-
         if (tenthAnswer.style.display === 'block') {
             tenthAnswer.style.display = 'none';
         } else {
@@ -954,7 +1000,6 @@
 
     document.getElementById('tenthQuestion').addEventListener('click', () => {
         const eleventhAnswer = document.getElementById('eleventhAnswer');
-
         if (eleventhAnswer.style.display === 'block') {
             eleventhAnswer.style.display = 'none';
         } else {
@@ -964,7 +1009,6 @@
 
     document.getElementById('eleventhQuestion').addEventListener('click', () => {
         const twelfthAnswer = document.getElementById('twelfthAnswer');
-
         if (twelfthAnswer.style.display === 'block') {
             twelfthAnswer.style.display = 'none';
         } else {
@@ -974,7 +1018,6 @@
 
     document.getElementById('twelfthQuestion').addEventListener('click', () => {
         const thirteenthAnswer = document.getElementById('thirteenthAnswer');
-
         if (thirteenthAnswer.style.display === 'block') {
             thirteenthAnswer.style.display = 'none';
         } else {
@@ -984,7 +1027,6 @@
 
     document.getElementById('thirteenthQuestion').addEventListener('click', () => {
         const fourteenthAnswer = document.getElementById('fourteenthAnswer');
-
         if (fourteenthAnswer.style.display === 'block') {
             fourteenthAnswer.style.display = 'none';
         } else {
@@ -994,7 +1036,6 @@
 
     document.getElementById('fourteenthQuestion').addEventListener('click', () => {
         const fifteenthAnswer = document.getElementById('fifteenthAnswer');
-
         if (fifteenthAnswer.style.display === 'block') {
             fifteenthAnswer.style.display = 'none';
         } else {
@@ -1004,7 +1045,6 @@
 
     document.getElementById('fifteenthQuestion').addEventListener('click', () => {
         const sixteenthAnswer = document.getElementById('sixteenthAnswer');
-
         if (sixteenthAnswer.style.display === 'block') {
             sixteenthAnswer.style.display = 'none';
         } else {
@@ -1023,7 +1063,6 @@
 
     if (document.getElementById('yesFifthBtn') && document.getElementById('forthAnswer')) {
         document.getElementById('yesFifthBtn').addEventListener('click', () => {
-            // Show the 'forthAnswer' paragraph
             document.getElementById('forthAnswer').style.display = 'block';
         });
     }
@@ -1099,41 +1138,39 @@
         const modal = document.getElementById('popupModal');
         const overlay = document.getElementById('overlay');
 
-        // Apply animations before hiding
-         modal.style.animation = 'slideOutToRight 0.3s ease-out forwards';
-         overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
+        modal.style.animation = 'slideOutToRight 0.3s ease-out forwards';
+        overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
 
-         setTimeout(() => {
-                modal.style.display = 'none';
-                overlay.style.display = 'none';
+        setTimeout(() => {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
 
-                document.body.style.overflow = 'auto';
+            document.body.style.overflow = 'auto';
 
-                const modalHeader = document.getElementById('modalHeader');
-                const popupText = document.getElementById('popupText');
-                const chatMessages = document.getElementById('chat-messages');
-                const conversationContext = document.getElementById('conversationContext');
+            const modalHeader = document.getElementById('modalHeader');
+            const popupText = document.getElementById('popupText');
+            const chatMessages = document.getElementById('chat-messages');
+            const conversationContext = document.getElementById('conversationContext');
 
-                modalHeader.innerHTML = null;
-                popupText.innerHTML = null;
-                chatMessages.innerHTML = null;
+            modalHeader.innerHTML = null;
+            popupText.innerHTML = null;
+            chatMessages.innerHTML = null;
+            conversationContext.value = null;
 
-                conversationContext.value = null;
+            chatHistory.length = 0;
+            pageContext = '';
 
-                const chatForm = document.getElementById('chatForm');
-                chatForm.reset();
-            }, 300); // 300ms matches animation duration
-         }
+            const chatForm = document.getElementById('chatForm');
+            chatForm.reset();
+        }, 300);
+    }
 
     function openModal() {
         const overlay = document.getElementById('overlay');
         const modal = document.getElementById('popupModal');
 
-        // Reset animations before displaying
         modal.style.animation = 'none';
         overlay.style.animation = 'none';
-
-        // Force reflow to reset animation state
         void modal.offsetWidth;
 
         overlay.style.display = 'block';
@@ -1142,7 +1179,11 @@
         document.getElementById('modalHeader').innerText = 'LifeAI';
         document.getElementById('popupText').innerText = 'Здравейте! Аз съм LifeAI – вашият личен асистент в борбата с рака на гърдата. Специално обучен изкуствен интелект, който предоставя точна и полезна информация, за да ви подкрепи на всяка стъпка от вашето пътуване. Чувствайте се свободни да задавате въпроси относно рака на гърдата, и аз ще се постарая да ви предоставя необходимата помощ и насоки.';
 
-        // Reapply animations
+        // Reset history and collect visible context for this session
+        chatHistory.length = 0;
+        pageContext = collectVisibleContext();
+        document.getElementById('chat-messages').innerHTML = '';
+
         overlay.style.animation = 'fadeIn 0.3s ease-out forwards';
         modal.style.animation = 'slideInFromRight 0.3s ease-out forwards';
 
@@ -1153,14 +1194,12 @@
         const modal = document.getElementById('popupModal');
         const overlay = document.getElementById('overlay');
 
-        // Apply closing animations
         modal.style.animation = 'slideOutToRight 0.3s ease-out forwards';
         overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
 
-        // Wait for animation to complete before hiding elements
         setTimeout(() => {
             closeModal();
-        }, 300); // 300ms to match the animation duration
+        }, 300);
     });
 
     function addPopupTextToForm() {
