@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Вход - Life</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:insert="~{fragments/links}"></th:block>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .login-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, #FFE5E5 0%, #E8F5F3 100%);
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 145, 182, 0.2);
+            border-radius: 50%;
+        }
+
+        .login-card::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(110, 196, 176, 0.2);
+            border-radius: 50%;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-header h1 {
+            color: #7A437E;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .login-header p {
+            color: #888;
+            font-size: 1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #7A437E;
+            font-weight: 600;
+            font-size: 16px;
+            margin-left: 5px;
+        }
+
+        .form-input-wrapper {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 3px solid #6ec4b0;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            border-color: #ff91b6;
+            box-shadow: 0 0 0 3px rgba(255, 145, 182, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #ccc;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #ff91b6 0%, #b81d53 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(184, 29, 83, 0.3);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background: #ffe0e0;
+            border: 2px solid #ff6b6b;
+            color: #d63031;
+            padding: 15px 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .forgot-password a {
+            color: #6ec4b0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #b81d53;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid rgba(110, 196, 176, 0.3);
+            color: #888;
+            position: relative;
+            z-index: 1;
+        }
+
+        .register-link a {
+            color: #ff91b6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .register-link a:hover {
+            color: #b81d53;
+        }
+
+        .icon-wrapper {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6ec4b0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+<th:block th:insert="~{fragments/tagManager}"></th:block>
+<th:block th:insert="~{fragments/header}"></th:block>
+
+<!-- Login Form -->
+<div class="login-container">
+    <div class="login-card wow fadeInUp" data-wow-delay="0.2s">
+        <div class="login-header">
+            <h1>Добре дошли</h1>
+            <p>Влезте в профила си</p>
+        </div>
+
+        <div class="error-message" th:if="${error}" th:text="${error}">
+            Невалидно потребителско име или парола
+        </div>
+
+        <form method="post" th:action="@{/login}">
+            <div class="form-group">
+                <label for="username">Имейл адрес</label>
+                <div class="form-input-wrapper">
+                    <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="example@email.com"
+                            required
+                            autocomplete="email"
+                    />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Парола</label>
+                <div class="form-input-wrapper">
+                    <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="••••••••"
+                            required
+                            autocomplete="current-password"
+                    />
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login">Вход</button>
+        </form>
+
+<!--        <div class="forgot-password">-->
+<!--            <a href="/forgot-password">Забравена парола?</a>-->
+<!--        </div>-->
+
+<!--        <div class="register-link">-->
+<!--            Нямате акаунт? <a href="/register">Регистрирайте се тук</a>-->
+<!--        </div>-->
+    </div>
+</div>
+
+<th:block th:insert="~{fragments/footer}"></th:block>
+<script src="js/main.js"></script>
+</body>
+
+</html>

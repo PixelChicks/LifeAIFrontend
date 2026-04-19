@@ -2,6 +2,7 @@ package com.lifeAIFrontend.LifeAIFrontend.controller;
 
 import com.lifeAIFrontend.LifeAIFrontend.client.FeedbackClient;
 import com.lifeAIFrontend.LifeAIFrontend.model.Feedback;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,11 @@ public class FeedbackController {
     }
 
     @GetMapping("/feedbacksAll")
-    public String getAllFeedbacks(Model model) {
+    public String getAllFeedbacks(HttpSession session, Model model) {
+        if (session.getAttribute("ACCESS_TOKEN") == null) {
+            return "redirect:/login";
+        }
+
         List<Feedback> feedbackList = feedbackClient.getAllFeedbacks();
         model.addAttribute("feedbacks", feedbackList);
         return "feedback/list";

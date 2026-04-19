@@ -1,90 +1,162 @@
 <!-- Footer Start -->
-<div class="bottom-nav">
-    <div class="bottom-nav">
-        <a class="nav-item" href="https://life-app.bbca.bg/articles">
-            <i class="fa-solid fa-glasses"></i>
-            <p>Статии</p>
-        </a>
-        <a class="nav-item" href="https://life-app.bbca.bg/patients/diary">
-            <i class="fa-solid fa-book"></i>
-            <p>Дневник</p>
-        </a>
-        <a class="nav-item" id="calendar-link">
-            <i class="fa-solid fa-calendar-days"></i>
-            <p>Календар</p>
+<!-- Bottom Navigation -->
+<div th:if="${session.ACCESS_TOKEN != null}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="bottom-nav" xmlns:th="http://www.w3.org/1999/xhtml">
+        <a class="nav-item"
+           href="/information"
+           th:classappend="${activeTab == 'info'} ? 'active'">
+            <div class="icon-wrapper">
+                <div class="active-circle"></div>
+                <img alt="Информация" src="/icons/info.svg">
+            </div>
+            <span>Информация</span>
         </a>
 
-        <script>
-            // Function to get the formatted date (dd/MM/yyyy)
-            function formatDate(date) {
-                let day = String(date.getDate()).padStart(2, '0');
-                let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-                let year = date.getFullYear();
-                return `${day}/${month}/${year}`;
-            }
-
-            // Get today's date and one month later
-            let today = new Date();
-            let nextMonth = new Date();
-            nextMonth.setMonth(nextMonth.getMonth() + 1);
-
-            // Construct the URL dynamically
-            let calendarURL = `https://life-app.bbca.bg/events?date=${formatDate(today)}&last_date=${formatDate(nextMonth)}`;
-
-            // Set the href attribute of the calendar link
-            document.getElementById("calendar-link").setAttribute("href", calendarURL);
-        </script>
-
-        <a class="nav-item" href="https://life-app.bbca.bg/patients/profile/profile">
-            <i class="fa-solid fa-user"></i>
-            <p>Профил</p>
+        <a class="nav-item nav-center"
+           href="/home"
+           th:classappend="${activeTab == 'home'} ? 'active'">
+            <div class="icon-wrapper">
+                <div class="active-circle"></div>
+                <img alt="Начало" src="/icons/home.svg">
+            </div>
+            <span>Начало</span>
         </a>
+
+        <a class="nav-item"
+           href="https://life-app.bbca.bg/patients/profile/profile"
+           th:classappend="${activeTab == 'profile'} ? 'active'">
+            <div class="icon-wrapper">
+                <div class="active-circle"></div>
+                <img alt="Профил" src="/icons/profile.svg">
+            </div>
+            <span>Профил</span>
+        </a>
+
     </div>
 </div>
+
+<!-- Footer Content -->
 <div class="container-fluid footer py-2 wow fadeIn" data-wow-delay="0.2s">
     <div class="container py-5">
         <div class="row g-5">
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
                     <h4 class="text-dark mb-4">За Life</h4>
-                    <a href="https://life-app.bbca.bg/?#patients-section"> Как ще ви помогнем?</a>
-                    <a href="https://life-app.bbca.bg/?#doctors-involved-section"> Как да станем лекар в Life?</a>
-                    <a href="https://life-app.bbca.bg/?#about-us-section"> Научете повече за нас</a>
-                    <a href="https://life-app.bbca.bg/terms/conditions"> Общи условия</a>
-                    <a href="https://life-app.bbca.bg/privacy/statement"> Политика за поверителност</a>
+                    <a href="https://life-app.bbca.bg/?#patients-section">Как ще ви помогнем?</a>
+                    <a href="https://life-app.bbca.bg/?#doctors-involved-section">Как да станем лекар в Life?</a>
+                    <a href="https://life-app.bbca.bg/?#about-us-section">Научете повече за нас</a>
+                    <a href="https://life-app.bbca.bg/terms/conditions">Общи условия</a>
+                    <a href="https://life-app.bbca.bg/privacy/statement">Политика за поверителност</a>
                 </div>
             </div>
+
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
                     <h4 class="text-dark mb-4">Контакти</h4>
-                    <a href="https://life-app.bbca.bg/"> https://life-app.bbca.bg/</a>
-                    <a href=""> info@bbca.bg</a>
-                    <a href=""> bbcancerassociation@gmail.com</a>
+                    <a href="https://life-app.bbca.bg/">https://life-app.bbca.bg/</a>
+                    <a href="mailto:info@bbca.bg">info@bbca.bg</a>
+                    <a href="mailto:bbcancerassociation@gmail.com">bbcancerassociation@gmail.com</a>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6 col-xl-3">
-                <img src="/img/teva.png" alt="TEVA Logo" class="img-fluid mb-2" style="max-width: 100px; height: auto;">
-                <p class="text-dark mb-4">Проектът е подкрепен от дарителската програма „Заедно за здраве“ на TEVA</p>
-            </div>
 
+            <div class="col-md-6 col-lg-6 col-xl-3">
+                <img alt="TEVA Logo" class="img-fluid mb-2"
+                     src="/img/teva.png"
+                     style="max-width: 100px; height: auto;">
+                <p class="text-dark mb-4">
+                    Проектът е подкрепен от дарителската програма
+                    „Заедно за здраве" на TEVA
+                </p>
+            </div>
         </div>
     </div>
 </div>
 <!-- Footer End -->
 
-
-<!-- Copyright Start -->
+<!-- Copyright -->
 <div class="container-fluid copyright py-3">
     <div class="container">
         <div class="row g-4 align-items-center">
             <div class="col-md-6 text-center text-md-start mb-md-0">
-                <span class="text-white"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Life</a>, Всички права запазени.</span>
+                <span class="text-white">
+                    <i class="fas fa-copyright text-light me-2"></i>
+                    Life, Всички права запазени.
+                </span>
             </div>
         </div>
     </div>
 </div>
-<!-- Copyright End -->
 
+<style>
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 75px;
+        background: #fff;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        box-shadow: 0px 0px 24px 0px rgb(52 52 52 / 60%);
+        z-index: 100;
+    }
+
+    .nav-item {
+        position: relative;
+        text-decoration: none;
+        color: #9a9a9a;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* icon container */
+    .icon-wrapper {
+        position: relative;
+        width: 26px;
+        height: 26px;
+    }
+
+    /* icon */
+    .nav-item img {
+        width: 30px;
+        height: 30px;
+        position: relative;
+        z-index: 2;
+        opacity: 0.6;
+    }
+
+    /* active circle (OUT of layout flow) */
+    .active-circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 86px;   /* change freely */
+        height: 76px;
+        background: white;
+        border-radius: 50%;
+        z-index: -1;
+        display: none;
+    }
+
+    /* active state */
+    .nav-item.active {
+        color: #6b4eff;
+        font-weight: 600;
+    }
+
+    .nav-item.active img {
+        opacity: 1;
+    }
+
+    .nav-item.active .active-circle {
+        display: block;
+    }
+</style>
 
 <!-- JavaScript Libraries -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -95,7 +167,6 @@
 <script src="lib/counterup/counterup.min.js"></script>
 <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 <script src="lib/lightbox/js/lightbox.min.js"></script>
-
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
