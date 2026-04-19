@@ -27,3 +27,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${BACKEND}
+gemini:
+  api:
+    key: ${GOOGLE_AI}
+    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+knowledge:
+  base:
+    directory: "./knowledge-base"

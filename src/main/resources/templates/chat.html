@@ -1,197 +1,567 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="">
-
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <title>Life</title>
-    <link rel="icon" href="/img/logo.png">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Въпроси за рак на гърдата</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <th:block th:insert="~{fragments/links}"></th:block>
-    <script async src="https://scripts.gktab.com/appkey=4429d9c6-a362-4c9c-8709-2313a4bc5b00"></script>
     <style>
-    .search-box {
-        display: flex;
-        align-items: center;
-        margin-top: 20px;
-    }
+        /* ===== Chat-specific styles ===== */
+        .chat-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-    .search-box input[type="text"] {
-        border-radius: 50px 0 0 50px;
-        padding-left: 20px;
-        border-right: none;
-    }
+        /* ===== Life AI Navbar styles ===== */
+        .navbar {
+            justify-content: center;
+            position: relative;
+        }
 
-    .search-box button {
-        border-radius: 0 50px 50px 0;
-    }
+        .navbar-brand {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
-    .search-box .input-group {
-        flex-grow: 1;
-    }
+        .back-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: inherit;
+            text-decoration: none;
+        }
 
-    .search-box .btn {
-        background-color: #007bff;
-        color: white;
-    }
+        /* ===== Breadcrumb header ===== */
+        .container-fluid.bg-breadcrumb {
+            margin-bottom: 0;
+        }
 
-    .btn-danger {
-        width: 100%;
-        max-width: 500px;  /* Adjust as per your layout */
-        padding: 15px 20px;
-        font-size: 18px;  /* Adjust font size if needed */
-        text-align: center;
-        border-radius: 50px;
-    }
+        .container-fluid.bg-breadcrumb .container {
+            padding-top: 2rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        .container-fluid.bg-breadcrumb h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.25rem !important;
+        }
+
+        .chat-avatar {
+            width: 2.75rem;
+            height: 2.75rem;
+            background: #A8A4C1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            min-height: calc(100vh - 320px);
+        }
+
+        .chat-welcome {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #64748B;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .chat-welcome-icon {
+            width: 4rem;
+            height: 4rem;
+            background: #F1F5F9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: #A8A4C1;
+        }
+
+        .chat-welcome h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2B3D51;
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-welcome p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            max-width: 320px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .suggestion-chip {
+            background: white;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            color: #2B3D51;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .suggestion-chip:hover {
+            border-color: #A8A4C1;
+            background: #F8F7FF;
+            transform: translateY(-1px);
+        }
+
+        .message {
+            display: flex;
+            gap: 0.75rem;
+            animation: fadeUp 0.25s ease;
+        }
+
+        .message.user { flex-direction: row-reverse; }
+
+        .message-bubble {
+            padding: 0.85rem 1.1rem;
+            border-radius: 1.25rem;
+            font-size: 0.97rem;
+            line-height: 1.65;
+            max-width: 80%;
+            word-break: break-word;
+        }
+
+        .message.user .message-bubble {
+            background: #A8A4C1;
+            color: white;
+            border-bottom-right-radius: 0.3rem;
+        }
+
+        .message.assistant .message-bubble {
+            background: #F8FAFC;
+            color: #2B3D51;
+            border: 1px solid #E2E8F0;
+            border-bottom-left-radius: 0.3rem;
+        }
+
+        .message-avatar {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.72rem;
+            font-weight: 700;
+            align-self: flex-end;
+        }
+
+        .message.user .message-avatar { background: #2B3D51; color: white; }
+        .message.assistant .message-avatar { background: #A8A4C1; color: white; }
+
+        .typing-indicator {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-end;
+            animation: fadeUp 0.25s ease;
+        }
+
+        .typing-bubble {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 1.25rem;
+            border-bottom-left-radius: 0.3rem;
+            padding: 0.85rem 1.1rem;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .typing-dot {
+            width: 7px;
+            height: 7px;
+            background: #A8A4C1;
+            border-radius: 50%;
+            animation: typingBounce 1.2s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        .chat-input-area {
+            padding: 1rem 1.5rem 1.5rem;
+            background: white;
+            border-top: 1px solid #F1F5F9;
+            position: sticky;
+            bottom: 0;
+        }
+
+        .chat-input-row {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-end;
+        }
+
+        .chat-textarea {
+            flex: 1;
+            resize: none;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 1.25rem;
+            padding: 0.85rem 1.1rem;
+            font-size: 0.97rem;
+            font-family: inherit;
+            color: #2B3D51;
+            background: #F8FAFC;
+            outline: none;
+            transition: border-color 0.2s;
+            min-height: 48px;
+            max-height: 140px;
+            line-height: 1.5;
+        }
+
+        .chat-textarea:focus {
+            border-color: #A8A4C1;
+            background: white;
+        }
+
+        .chat-textarea::placeholder { color: #94A3B8; }
+
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            background: #A8A4C1;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(168,164,193,0.4);
+        }
+
+        .send-btn:hover:not(:disabled) {
+            background: #9792B2;
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            background: #CBD5E1;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+
+        /* ===== Bottom Navigation ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #F8F8F8;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            text-align: center;
+            font-size: 14px;
+            color: #8E8E93;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .nav-item i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .nav-item p {
+            margin: 0;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #2E1E46;
+            font-weight: bold;
+        }
+
+        .nav-item.active i {
+            color: #2E1E46;
+        }
+
+        /* Push chat input above the bottom nav */
+        .chat-input-area {
+            padding-bottom: calc(1.5rem + 70px) !important;
+        }
+
+        @media (max-width: 480px) {
+            .chat-messages { padding: 1rem; }
+            .chat-input-area { padding: 0.75rem 1rem calc(1rem + 70px) !important; }
+            .message-bubble { max-width: 90%; }
+        }
     </style>
 </head>
-
 <body>
 <th:block th:insert="~{fragments/tagManager}"></th:block>
+
 <!-- Spinner Start -->
-<div id="spinner"
-     class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+<div class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
+     id="spinner">
+    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
         <span class="sr-only">Loading...</span>
     </div>
 </div>
 <!-- Spinner End -->
 
-
-<!-- Navbar & Hero Start -->
+<!-- Life AI Navbar -->
 <div class="container-fluid p-0">
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent px-4 px-lg-5 py-5 py-lg-0">
-        <a href="/home" class="back-icon" id="backButton" style="margin-top: 10px;">
-            <!-- Back Icon SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left"
-                 viewBox="0 0 16 16">
+        <a th:href="@{/}" class="back-icon" id="backButton" style="margin-top: 10px;" title="Назад">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                 class="bi bi-arrow-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                       d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
             </svg>
         </a>
-        <a href="/home" class="navbar-brand p-0">
-            <!-- Centered Logo -->
-            <img src="/img/logo.png" alt="Life AI Logo" style="margin-top: 50px;">
+        <a th:href="@{/home}" class="navbar-brand p-0">
+            <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="Life AI Logo" style="margin-top: 50px;">
         </a>
     </nav>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Check if the current URL path includes "info"
-    if (window.location.pathname.includes('info')) {
-        // Hide the back button if "info" is part of the URL path
-        document.getElementById('backButton').style.display = 'none';
-    }
-</script>
-<!-- Navbar & Hero End -->
-<style>
-    .navbar {
-        justify-content: center; /* Center the navbar content */
-        position: relative; /* Allows absolute positioning for the back icon */
-    }
-    .navbar-brand {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    .back-icon {
-        position: absolute;
-        left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-    }
-    .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: #F8F8F8;
-        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-        display: flex;
-        justify-content: space-around;
-        padding: 10px 0;
-    }
-
-    .nav-item {
-        text-align: center;
-        font-size: 14px;
-        color: #8E8E93; /* Default gray */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        transition: color 0.3s ease-in-out;
-    }
-
-    .nav-item i {
-        font-size: 24px; /* Adjust icon size */
-        margin-bottom: 5px;
-    }
-
-    .nav-item p {
-        margin: 0;
-        font-size: 12px;
-    }
-
-    /* Active Item */
-    .nav-item.active {
-        color: #2E1E46; /* Dark purple */
-        font-weight: bold;
-    }
-
-    .nav-item.active i {
-        color: #2E1E46;
-    }
-
-</style>
-
-<!-- Header Start -->
+<!-- Breadcrumb Header -->
 <div class="container-fluid bg-breadcrumb">
     <ul class="breadcrumb-animation">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li>
     </ul>
     <div class="container text-center py-5" style="max-width: 900px;">
-        <h1 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Life</h1>
+        <h1 class="display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Чат с LifeAI</h1>
+        <p data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInDown;">Само от научно-базирани източници</p>
     </div>
 </div>
-<!-- Header End -->
 
+<!-- Chat Wrapper -->
+<div class="chat-wrapper">
 
-<!-- Contact Start -->
-
-<div class="container py-6" style="max-width: 650px;">
-    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
-        <center>
-            <h1 class="display-6 mb-4">Резултат от търсенето</h1>
-        </center>
-        <div class="container mt-4">
-            <div class="mt-4">
-                <h3 class="text-primary" th:text="${message}"></h3>
-                <p th:utext="${response}">Отговорът на вашето търсене ще се появи тук...</p>
+    <!-- Messages -->
+    <div class="chat-messages" id="chatMessages">
+        <div class="chat-welcome" id="welcomeScreen">
+            <div class="chat-welcome-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4"/><path d="M12 8h.01"/>
+                </svg>
             </div>
-            <br>
-            <center>
-                <a href="/home" class="btn btn-danger rounded-pill py-3 px-5">Към началната страница</a>
-            </center>
-        </div>
-        <br> <br> <br>
-    </div>
-    <th:block th:insert="~{fragments/feedback}"></th:block>
-    <br> <br>
-</div>
-<!-- Contact End -->
-<th:block th:insert="~{fragments/footer}"></th:block>
-</body>
+            <h2>Как мога да помогна?</h2>
+            <p>Здравейте! Аз съм LifeAI – вашият персонален асистент, базиран на научно обосновани източници, готов да предостави информация за рака на гърдата.
 
+                Споделете ваш въпрос или опишете симптоми/странични ефекти.</p>
+        </div>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-area">
+        <div class="chat-input-row">
+            <textarea id="chatInput" class="chat-textarea" placeholder="Напишете въпрос..." rows="1"
+                      onkeydown="handleKeyDown(event)" oninput="autoResize(this); toggleSendBtn()"></textarea>
+            <button id="sendBtn" class="send-btn" onclick="sendMessage()" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<th:block th:insert="~{fragments/footer}"></th:block>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script>
+    if (window.location.pathname.includes('info')) {
+        document.getElementById('backButton').style.display = 'none';
+    }
+
+    const conversationHistory = [];
+    let isWaiting = false;
+
+    const chatMessages  = document.getElementById('chatMessages');
+    const chatInput     = document.getElementById('chatInput');
+    const sendBtn       = document.getElementById('sendBtn');
+    const welcomeScreen = document.getElementById('welcomeScreen');
+
+    function toggleSendBtn() {
+        sendBtn.disabled = chatInput.value.trim() === '' || isWaiting;
+    }
+
+    function autoResize(el) {
+        el.style.height = 'auto';
+        el.style.height = Math.min(el.scrollHeight, 140) + 'px';
+    }
+
+    function handleKeyDown(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if (!sendBtn.disabled) sendMessage();
+        }
+    }
+
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function escHtml(t) {
+        return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function renderMarkdown(text) {
+        let h = escHtml(text);
+        h = h.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        const lines = h.split('\n');
+        const out = [];
+        let inList = false;
+        for (const line of lines) {
+            const m = line.match(/^[-*•]\s+(.+)/);
+            if (m) {
+                if (!inList) { out.push('<ul style="margin:.4rem 0 .4rem 1.1rem;padding:0">'); inList = true; }
+                out.push(`<li>${m[1]}</li>`);
+            } else {
+                if (inList) { out.push('</ul>'); inList = false; }
+                out.push(line || '<br>');
+            }
+        }
+        if (inList) out.push('</ul>');
+        return out.join('\n').replace(/\n(?!<)/g, '<br>').replace(/<br><br>/g, '<br>');
+    }
+
+    function appendMessage(role, content) {
+        if (welcomeScreen) welcomeScreen.style.display = 'none';
+        const div = document.createElement('div');
+        div.classList.add('message', role);
+        const label = role === 'user' ? 'Вие' : 'Life';
+        const bubble = role === 'assistant' ? renderMarkdown(content) : escHtml(content);
+        div.innerHTML = `<div class="message-avatar">${label}</div><div class="message-bubble">${bubble}</div>`;
+        chatMessages.appendChild(div);
+        scrollToBottom();
+    }
+
+    function showTyping() {
+        const div = document.createElement('div');
+        div.classList.add('typing-indicator');
+        div.id = 'typingIndicator';
+        div.innerHTML = `
+            <div class="message-avatar" style="background:#A8A4C1;color:white">Life</div>
+            <div class="typing-bubble">
+                <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+            </div>`;
+        chatMessages.appendChild(div);
+        scrollToBottom();
+    }
+
+    function hideTyping() {
+        const el = document.getElementById('typingIndicator');
+        if (el) el.remove();
+    }
+
+    async function sendMessage() {
+        const text = chatInput.value.trim();
+        if (!text || isWaiting) return;
+
+        chatInput.value = '';
+        chatInput.style.height = 'auto';
+        toggleSendBtn();
+
+        appendMessage('user', text);
+        conversationHistory.push({ role: 'user', content: text });
+
+        isWaiting = true;
+        sendBtn.disabled = true;
+        showTyping();
+
+        try {
+            const res = await fetch('/chat/message', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: text,
+                    history: conversationHistory.slice(0, -1)
+                })
+            });
+            const data = await res.json();
+            hideTyping();
+
+            const reply = data.success && data.reply
+                ? data.reply
+                : (data.error || 'Съжалявам, възникна грешка. Моля, опитайте отново.');
+
+            appendMessage('assistant', reply);
+            conversationHistory.push({ role: 'assistant', content: reply });
+
+        } catch {
+            hideTyping();
+            appendMessage('assistant', 'Съжалявам, не успях да се свържа. Моля, опитайте отново.');
+        }
+
+        isWaiting = false;
+        toggleSendBtn();
+        chatInput.focus();
+    }
+
+    function sendSuggestion(text) {
+        chatInput.value = text;
+        autoResize(chatInput);
+        toggleSendBtn();
+        sendMessage();
+    }
+
+    // Auto-send message if arriving from another page via ?message=...
+    window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const incoming = params.get('message');
+        if (incoming && incoming.trim()) {
+            sendSuggestion(incoming.trim());
+            // Clean the URL without reloading
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+    });
+</script>
+
+</body>
 </html>

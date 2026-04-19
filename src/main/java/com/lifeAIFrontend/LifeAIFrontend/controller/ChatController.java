@@ -1,158 +1,59 @@
 package com.lifeAIFrontend.LifeAIFrontend.controller;
 
-import com.lifeAIFrontend.LifeAIFrontend.client.ChatClient;
-import jakarta.servlet.http.HttpSession;
-import lombok.AllArgsConstructor;
+import com.lifeAIFrontend.LifeAIFrontend.model.ChatMessage;
+import com.lifeAIFrontend.LifeAIFrontend.model.ChatRequest;
+import com.lifeAIFrontend.LifeAIFrontend.model.ChatResponse;
+import com.lifeAIFrontend.LifeAIFrontend.service.ChatService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.List;
 
 @Controller
-@AllArgsConstructor
+@RequestMapping("/chat")
 public class ChatController {
 
-    private final ChatClient chatClient;
+    private final ChatService chatService;
 
-    @GetMapping("/chat")
-    public String showChatForm() {
+    public ChatController(ChatService chatService) {
+        this.chatService = chatService;
+    }
+
+    /** Render the chat page */
+    @GetMapping
+    public String chatPage() {
         return "chat";
     }
 
-    @GetMapping("/researchSideEffects")
-    public String researchSideEffects(HttpSession session, Model model) {
-        if (session.getAttribute("ACCESS_TOKEN") == null) {
-            return "redirect:/login";
-        }
-
-        model.addAttribute("response", "Моля, опишете какви странични ефекти изпитвате.");
-        return "recommendedStudies/researchSideEffects";
-    }
-
-    @PostMapping("/chat")
-    public String sendChatMessage(@RequestParam("message") String message, Model model,
-                                  @RequestParam(value = "file", required = false) MultipartFile file) {
-
-        ResponseEntity<String> response = chatClient.chat(message, file);
-        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
-        model.addAttribute("response", formattedResponse);
-        model.addAttribute("message", message);
-
-        return "chat";
-    }
-
-    @PostMapping("/researchSideEffects")
-    public ResponseEntity<Map<String, String>> researchSideEffects(@RequestBody Map<String, String> payload) {
-        String message = payload.get("message");
-        // Call the service or chatClient to get the response
-        ResponseEntity<String> response = chatClient.researchSideEffects(message);
-        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
-
-        // Create response map to send back to the frontend
-        Map<String, String> responseMap = new HashMap<>();
-        responseMap.put("response", formattedResponse);
-
-        // Return the response as JSON
-        return ResponseEntity.ok(responseMap);
-    }
-
-    @PostMapping("/understandingDiagnosis")
-    public String understandingDiagnosis(@RequestParam String message, Model model,
-                                         @RequestParam(value = "file", required = false) MultipartFile file) {
-        if (message.isEmpty()) {
-            message = "Моля да обясниш значението на медицинските термини, които срещнати във файла.";
-        }
-
-        ResponseEntity<String> response = chatClient.chat(message, file);
-        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
-        model.addAttribute("response", formattedResponse);
-        model.addAttribute("message", message);
-
-        return "menu/understandingDiagnosis";
-    }
-
-    @PostMapping("/explainTerms")
+    /**
+     * REST endpoint — accepts JSON with the user message + full history,
+     * returns the assistant reply as JSON.
+     *
+     * Example request body:
+     * {
+     *   "message": "Какво е HER2?",
+     *   "history": [
+     *     { "role": "user",      "content": "Здравейте!" },
+     *     { "role": "assistant", "content": "Здравейте! Как мога да помогна?" }
+     *   ]
+     * }
+     */
+    @PostMapping("/message")
     @ResponseBody
-    public Map<String, String> explainTerms(
-            @RequestBody Map<String, String> payload) {
-
-        String message = payload.get("message");
-        String conversationContext = payload.get("conversationContext");
-
-        if (message == null || message.isEmpty()) {
-            message = "Каква е целта ти?";
+    public ResponseEntity<ChatResponse> sendMessage(@RequestBody ChatRequest chatRequest) {
+        if (chatRequest.getMessage() == null || chatRequest.getMessage().isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(new ChatResponse(false, "Съобщението не може да бъде празно."));
         }
 
-        if (conversationContext == null) {
-            conversationContext = "";
+        try {
+            List<ChatMessage> history = chatRequest.getHistory();
+            String reply = chatService.chat(chatRequest.getMessage(), history);
+            return ResponseEntity.ok(new ChatResponse(reply));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(new ChatResponse(false, "Грешка: " + e.getMessage()));
         }
-
-        // Append message to conversation context
-        String updatedContext = conversationContext + "\nUser: " + message;
-
-        // Send request to AI chatbot
-        ResponseEntity<String> response = chatClient.chat(updatedContext, null);
-        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
-
-        updatedContext += "\nAssistant: " + formattedResponse;
-
-        // Prepare JSON response
-        Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("response", formattedResponse);
-        responseBody.put("conversationContext", updatedContext);
-
-        return responseBody;
-    }
-
-
-    @PostMapping("/explainTermsChat")
-    @ResponseBody
-    public Map<String, String> explainTermsChat(@RequestBody Map<String, String> payload) {
-
-        String message = payload.get("message");
-        String conversationContext = payload.get("conversationContext");
-
-        // Ensure conversationContext is initialized
-        if (conversationContext == null) {
-            conversationContext = "";
-        }
-
-        // Append user message
-        String updatedContext = conversationContext + "\nUser: " + message;
-        System.out.println(conversationContext);
-
-        // Call AI service
-        ResponseEntity<String> response = chatClient.chat(updatedContext, null);
-        String formattedResponse = formatResponse(Objects.requireNonNull(response.getBody()));
-
-        // Append AI response to context
-        updatedContext += "\nAssistant: " + formattedResponse;
-
-        // Prepare JSON response
-        Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("response", formattedResponse);
-        responseBody.put("conversationContext", updatedContext);
-
-        return responseBody;
-    }
-
-
-    private String formatResponse(String response) {
-        // Replace newline characters with <br> for HTML line breaks
-        String formatted = response.replace("\n", "<br>");
-
-        // Make text between ** and ** bold by replacing **text** with <b>text</b>
-        formatted = formatted.replaceAll("\\*\\*(.*?)\\*\\*", "<b>$1</b>");
-
-        // Add a new line before numbered items like 1., 2., etc.
-        formatted = formatted.replaceAll("(?<=<br>|^)(\\d+\\.)", "<br>$1");
-
-        return formatted;
     }
 }
-

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Разчитане на резултатите</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<style>
+    /* ===== Reset & Base ===== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #ffffff;
+    color: #2B3D51;
+    min-height: 100vh;
+}
+
+/* ===== Layout ===== */
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+}
+
+.container {
+    width: 100%;
+    max-width: 560px;
+}
+
+/* ===== Hero ===== */
+.hero {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.title {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #2B3D51;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    font-size: 1.05rem;
+    color: #64748B;
+    line-height: 1.65;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+/* ===== Buttons ===== */
+.upload-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hidden-input {
+    display: none;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 2.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-outline {
+    border: 2px solid #7C7796;
+    background: transparent;
+    color: #2B3D51;
+}
+
+.btn-outline:hover {
+    background: #F8FAFC;
+    transform: translateY(-1px);
+}
+
+.btn-icon {
+    background: #1A1A1A;
+    color: white;
+    padding: 0.35rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.btn-outline:hover .btn-icon {
+    transform: scale(1.1);
+}
+
+.btn-primary {
+    background: #A8A4C1;
+    color: white;
+    border: none;
+    font-size: 1.15rem;
+    padding: 1.25rem 2rem;
+    max-width: 480px;
+    margin: 0 auto;
+    box-shadow: 0 8px 24px rgba(178, 172, 194, 0.4);
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #9792B2;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 28px rgba(178, 172, 194, 0.5);
+}
+
+.btn-primary:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+    background: #B2ACC2;
+    cursor: not-allowed;
+    opacity: 0.75;
+    box-shadow: none;
+}
+
+/* ===== Preview ===== */
+.preview-container {
+    position: relative;
+    max-width: 320px;
+    margin: 0 auto 1.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.preview-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 1rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    border: 2px solid #B2ACC2;
+}
+
+.preview-label {
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: center;
+}
+
+.remove-btn {
+    position: absolute;
+    top: -0.75rem;
+    right: -0.75rem;
+    background: #ef4444;
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(239,68,68,0.4);
+    transition: background 0.2s;
+}
+
+.remove-btn:hover {
+    background: #dc2626;
+}
+
+/* ===== Loading spinner ===== */
+.spinner {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== Alert ===== */
+.alert {
+    padding: 1rem 1.25rem;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.alert-error {
+    background: #FEF2F2;
+    color: #B91C1C;
+    border: 1px solid #FECACA;
+}
+
+/* ===== Results ===== */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #64748B;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #2B3D51;
+}
+
+.results-card {
+<!--    background: white;-->
+<!--    border-radius: 2rem;-->
+<!--    padding: 2.5rem;-->
+<!--    box-shadow: 0 8px 48px rgba(0,0,0,0.1);-->
+<!--    border: 1px solid #F1F5F9;-->
+<!--    animation: fadeUp 0.4s ease;-->
+}
+
+.results-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.results-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #2B3D51;
+}
+
+.terms-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    background: #F1F5F9;
+    border-radius: 2rem;
+    color: #64748B;
+    letter-spacing: 0.05em;
+}
+
+.result-preview-container {
+    margin-bottom: 2rem;
+}
+
+.result-preview-image {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 1rem;
+    border: 1px solid #E2E8F0;
+}
+
+.terms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.term-item {
+    animation: fadeUp 0.4s ease both;
+}
+
+.term-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2B3D51;
+    margin-bottom: 0.4rem;
+}
+
+.term-explanation {
+    font-size: 1rem;
+    color: #64748B;
+    line-height: 1.7;
+}
+
+.unexplained-notice {
+    padding: 1.25rem 1.5rem;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 1rem;
+    color: #64748B;
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.6;
+}
+
+/* ===== Unreadable state ===== */
+.unreadable-state {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.unreadable-icon {
+    width: 5rem;
+    height: 5rem;
+    background: #FEF2F2;
+    color: #ef4444;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.unreadable-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.unreadable-text {
+    color: #64748B;
+    font-size: 1.05rem;
+    max-width: 280px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ===== Utilities ===== */
+.hidden {
+    display: none !important;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+    .results-card {
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+    }
+    .results-title {
+        font-size: 1.3rem;
+    }
+}
+
+</style>
+<body>
+
+<div class="page-wrapper">
+    <div class="container">
+
+        <!-- Back button -->
+        <a th:href="@{/}" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Назад към качване
+        </a>
+
+        <!-- Not readable -->
+        <div th:if="${!result.readable}" class="results-card">
+            <div class="unreadable-state">
+                <div class="unreadable-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                </div>
+                <h2 class="unreadable-title">Документът е нечетлив</h2>
+                <p class="unreadable-text">
+                    Моля, направете по-ясна снимка на вашия документ и опитайте отново.
+                </p>
+            </div>
+        </div>
+
+        <!-- Readable results -->
+        <div th:if="${result.readable}" class="results-card">
+            <div class="results-header">
+                <h2 class="results-title">Разчитане на резултатите</h2>
+                <span class="terms-badge" th:text="${result.terms.size()} + ' ТЕРМИНА'"></span>
+            </div>
+
+            <!-- Uploaded image preview -->
+            <div th:if="${imagePreview}" class="result-preview-container">
+                <img th:src="${imagePreview}" alt="Качен документ" class="result-preview-image"/>
+            </div>
+
+            <!-- Terms list -->
+            <div class="terms-list">
+                <div class="term-item" th:each="item, iterStat : ${result.terms}"
+                     th:style="'animation-delay:' + ${iterStat.index * 80} + 'ms'">
+                    <h4 class="term-name" th:text="${item.term}"></h4>
+                    <p class="term-explanation" th:text="${item.explanation}"></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script th:src="@{/js/app.js}"></script>
+<script>
+    // Handle image preview when a file is selected from either input
+function previewImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    // Sync both inputs: only one image is used at a time
+    const galleryInput = document.getElementById('galleryInput');
+    const cameraInput = document.getElementById('cameraInput');
+
+    // Transfer the file to the "image" named input that the form will submit
+    // Both already have name="image" so whichever was last used wins
+    if (galleryInput && input !== galleryInput) {
+        galleryInput.value = '';
+    }
+    if (cameraInput && input !== cameraInput) {
+        cameraInput.value = '';
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const previewImg = document.getElementById('previewImg');
+        const previewContainer = document.getElementById('previewContainer');
+        const submitBtn = document.getElementById('submitBtn');
+
+        if (previewImg) previewImg.src = e.target.result;
+        if (previewContainer) previewContainer.classList.remove('hidden');
+        if (submitBtn) submitBtn.disabled = false;
+    };
+    reader.readAsDataURL(file);
+}
+
+// Remove selected image and reset form
+function removeImage() {
+    const galleryInput = document.getElementById('galleryInput');
+    const cameraInput = document.getElementById('cameraInput');
+    const previewContainer = document.getElementById('previewContainer');
+    const previewImg = document.getElementById('previewImg');
+    const submitBtn = document.getElementById('submitBtn');
+
+    if (galleryInput) galleryInput.value = '';
+    if (cameraInput) cameraInput.value = '';
+    if (previewImg) previewImg.src = '#';
+    if (previewContainer) previewContainer.classList.add('hidden');
+    if (submitBtn) submitBtn.disabled = true;
+}
+
+// Show loading state on form submit
+const uploadForm = document.getElementById('uploadForm');
+if (uploadForm) {
+    uploadForm.addEventListener('submit', function () {
+        const btnText = document.getElementById('btnText');
+        const btnLoading = document.getElementById('btnLoading');
+        const submitBtn = document.getElementById('submitBtn');
+
+        if (btnText) btnText.classList.add('hidden');
+        if (btnLoading) btnLoading.classList.remove('hidden');
+        if (submitBtn) submitBtn.disabled = true;
+    });
+}
+
+</script>
+</body>
+</html>
