@@ -65,6 +65,7 @@ public class GeminiService {
                 БАЗА ДАННИ (КОНТЕКСТ):
                 """ + MedicalKnowledgeBase.KNOWLEDGE_BASE + """
 
+
                 ФОРМАТ НА ОТГОВОРА (само валиден JSON, без markdown, без допълнителен текст):
                 {
                   "isReadable": boolean,
