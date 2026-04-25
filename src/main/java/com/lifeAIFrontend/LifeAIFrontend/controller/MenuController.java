@@ -1,6 +1,7 @@
 package com.lifeAIFrontend.LifeAIFrontend.controller;
 
 import com.lifeAIFrontend.LifeAIFrontend.client.ChatClient;
+import com.lifeAIFrontend.LifeAIFrontend.service.DailyReminderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,16 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MenuController {
 
     private final ChatClient chatClient;
+    private final DailyReminderService dailyReminderService;
 
     @GetMapping
     public String redirectHome(Model model) {
-        model.addAttribute("dailyReminder", chatClient.receiveDailyReminder());
+        model.addAttribute("dailyReminder", dailyReminderService.getDailyReminder()); // ПРОМЕНИ
         return "menu/home";
     }
 
     @GetMapping("/home")
     public String home(Model model) {
-        model.addAttribute("dailyReminder", chatClient.receiveDailyReminder());
+        model.addAttribute("dailyReminder", dailyReminderService.getDailyReminder()); // ПРОМЕНИ
         return "menu/home";
     }
 
