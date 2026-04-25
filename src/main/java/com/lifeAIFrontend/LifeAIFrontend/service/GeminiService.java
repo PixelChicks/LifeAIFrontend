@@ -27,6 +27,9 @@ public class GeminiService {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
+    // ← no constructor needed, no self-injection
+    public GeminiService() {}
+
     public AnalysisResult analyzeImage(MultipartFile imageFile) throws Exception {
         String base64Image = Base64.getEncoder().encodeToString(imageFile.getBytes());
         String mimeType = imageFile.getContentType() != null ? imageFile.getContentType() : "image/jpeg";
@@ -40,10 +43,12 @@ public class GeminiService {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = httpClient.send(request,
+                HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() != 200) {
-            throw new RuntimeException("Gemini API грешка: " + response.statusCode() + " - " + response.body());
+            throw new RuntimeException("Gemini API грешка: " + response.statusCode()
+                    + " - " + response.body());
         }
 
         return parseResponse(response.body());
@@ -65,7 +70,6 @@ public class GeminiService {
                 БАЗА ДАННИ (КОНТЕКСТ):
                 """ + MedicalKnowledgeBase.KNOWLEDGE_BASE + """
 
-
                 ФОРМАТ НА ОТГОВОРА (само валиден JSON, без markdown, без допълнителен текст):
                 {
                   "isReadable": boolean,
@@ -77,7 +81,8 @@ public class GeminiService {
                 """;
     }
 
-    private String buildRequestBody(String base64Image, String mimeType, String prompt) throws Exception {
+    private String buildRequestBody(String base64Image, String mimeType,
+                                    String prompt) throws Exception {
         var requestMap = new java.util.LinkedHashMap<String, Object>();
 
         var part1 = new java.util.LinkedHashMap<String, Object>();
@@ -112,7 +117,6 @@ public class GeminiService {
                 .path("text")
                 .asText();
 
-        // Strip markdown code fences if present
         text = text.replaceAll("```json", "").replaceAll("```", "").trim();
 
         JsonNode data = objectMapper.readTree(text);
