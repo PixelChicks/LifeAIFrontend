@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AI временно недостъпен — LifeAI</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <th:block th:insert="~{fragments/links}"></th:block>
+    <style>
+        .unavail-wrapper {
+            max-width: 540px;
+            margin: 3rem auto;
+            padding: 0 1.5rem 5rem;
+        }
+        .icon-circle {
+            width: 72px;
+            height: 72px;
+            background: #FFF3CD;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #F8F9FA;
+            border: 1px solid #DEE2E6;
+            border-radius: 8px;
+            padding: .75rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #dc3545;
+            flex-shrink: 0;
+            transition: background .3s;
+        }
+        .status-dot.online   { background: #198754; }
+        .status-dot.checking { background: #fd7e14; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+        .countdown { margin-left: auto; font-size: 12px; color: #6C757D; }
+        .queue-form {
+            background: white;
+            border: 1px solid #DEE2E6;
+            border-radius: 12px;
+            padding: 1.75rem;
+        }
+        .queue-form label {
+            display: block;
+            font-size: 13px;
+            color: #6C757D;
+            margin-bottom: .35rem;
+        }
+        .form-control {
+            width: 100%;
+            border: 1px solid #CED4DA;
+            border-radius: 6px;
+            padding: .5rem .875rem;
+            font-size: 14px;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            color: #2B3D51;
+            background: white;
+        }
+        textarea.form-control { min-height: 100px; resize: vertical; }
+        .form-control:focus { outline: none; border-color: #A8A4C1; box-shadow: 0 0 0 3px rgba(168,164,193,.15); }
+
+        /* Upload area */
+        .upload-area {
+            border: 2px dashed #CED4DA;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .upload-area:hover { border-color: #A8A4C1; background: #F8F7FF; }
+        .upload-area.has-file { border-color: #A8A4C1; background: #F8F7FF; border-style: solid; }
+        .upload-area input[type=file] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+        .upload-icon { margin-bottom: .5rem; color: #A8A4C1; }
+        .upload-text { font-size: 13px; color: #6C757D; }
+        .upload-text strong { color: #2B3D51; }
+        .upload-hint { font-size: 11px; color: #ADB5BD; margin-top: .25rem; }
+
+        /* Image preview */
+        .preview-wrap {
+            display: none;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        .preview-wrap img {
+            width: 100%;
+            max-height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #DEE2E6;
+        }
+        .preview-label {
+            font-size: 11px;
+            color: #6C757D;
+            text-align: center;
+            margin-top: .35rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+        .remove-img {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Tabs */
+        .type-tabs {
+            display: flex;
+            gap: .5rem;
+            margin-bottom: 1.25rem;
+        }
+        .type-tab {
+            flex: 1;
+            padding: .5rem;
+            border: 1px solid #DEE2E6;
+            border-radius: 6px;
+            background: white;
+            font-size: 13px;
+            font-weight: 500;
+            color: #6C757D;
+            cursor: pointer;
+            transition: all .2s;
+            text-align: center;
+        }
+        .type-tab.active {
+            background: #A8A4C1;
+            color: white;
+            border-color: #A8A4C1;
+        }
+
+        .btn-queue {
+            width: 100%;
+            padding: .75rem;
+            background: #A8A4C1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .btn-queue:hover:not(:disabled) { background: #9792B2; }
+        .btn-queue:disabled { background: #CCC; cursor: not-allowed; }
+
+        #success-notice {
+            display: none;
+            background: #D1E7DD;
+            border: 1px solid #A3CFBB;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            color: #0A3622;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .online-notice {
+            display: none;
+            background: #D1E7DD;
+            border: 1px solid #A3CFBB;
+            border-radius: 8px;
+            padding: .75rem 1rem;
+            margin-bottom: 1.5rem;
+            color: #0A3622;
+            font-size: 14px;
+        }
+        .section { display: none; }
+        .section.visible { display: block; }
+    </style>
+</head>
+<body>
+<th:block th:insert="~{fragments/tagManager}"></th:block>
+<th:block th:insert="~{fragments/header}"></th:block>
+
+<div class="unavail-wrapper">
+
+    <div class="icon-circle">
+        <svg width="32" height="32" fill="none" stroke="#856404" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0
+                     2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898
+                     0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+        </svg>
+    </div>
+
+    <h2 class="text-center mb-2">AI асистентът е временно недостъпен</h2>
+    <p class="text-center text-muted mb-4" style="font-size:15px;line-height:1.6;">
+        В момента изпитваме технически затруднения. Оставете въпроса си и имейл —
+        ще ви изпратим отговора веднага след като услугата се възстанови.
+    </p>
+
+    <div class="online-notice" id="online-notice">
+        <strong>Услугата е отново онлайн!</strong> Пренасочваме ви към чата…
+    </div>
+
+    <div class="status-bar">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="status-text" style="font-size:13px;">Услугата е офлайн</span>
+        <span class="countdown" id="countdown">следваща проверка след 30s</span>
+    </div>
+
+    <div class="queue-form">
+        <h5 class="mb-1">Изпратете въпроса си</h5>
+        <p style="font-size:13px;color:#6C757D;margin-bottom:1.25rem;">
+            Ще го обработим и ще изпратим отговора на посочения имейл.
+        </p>
+
+        <!-- Type selector -->
+        <div class="type-tabs">
+            <button class="type-tab active" onclick="switchTab('text', this)">
+                💬 Въпрос с текст
+            </button>
+            <button class="type-tab" onclick="switchTab('image', this)">
+                🔬 Хистология (снимка)
+            </button>
+        </div>
+
+        <!-- Text question section -->
+        <div class="section visible" id="section-text">
+            <label for="question">Вашият въпрос</label>
+            <textarea id="question" class="form-control"
+                      placeholder="Напишете въпроса си за рак на гърдата, лечение, хистология…"></textarea>
+        </div>
+
+        <!-- Image section -->
+        <div class="section" id="section-image">
+            <label>Снимка на хистологичен документ</label>
+
+            <div class="upload-area" id="upload-area">
+                <input type="file" id="image-input" accept="image/*"
+                       onchange="handleImageSelect(this)"/>
+                <div class="upload-icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor"
+                         stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0
+                                 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
+                    </svg>
+                </div>
+                <p class="upload-text"><strong>Качете снимка</strong> или направете нова</p>
+                <p class="upload-hint">PNG, JPG, JPEG — до 10MB</p>
+            </div>
+
+            <div class="preview-wrap" id="preview-wrap">
+                <img id="preview-img" src="#" alt="Преглед"/>
+                <button class="remove-img" onclick="removeImage()" title="Премахни">×</button>
+                <p class="preview-label">Избран документ</p>
+            </div>
+
+            <label for="image-note" style="margin-top:.25rem;">
+                Допълнителен въпрос / бележка (незадължително)
+            </label>
+            <textarea id="image-note" class="form-control" rows="2"
+                      placeholder="Напр. Моля обяснете термините в тази хистология…"></textarea>
+        </div>
+
+        <!-- Email — always shown -->
+        <label for="email">Имейл адрес</label>
+        <input id="email" type="email" class="form-control"
+               placeholder="вашият@имейл.com"/>
+
+        <button class="btn-queue" id="submit-btn" onclick="submitToQueue()">
+            Запиши въпроса ми в опашката
+        </button>
+
+        <div id="success-notice">
+            <strong>Въпросът е записан!</strong><br>
+            Ще получите отговор на <strong id="notice-email"></strong>
+            веднага щом AI асистентът се върне онлайн.
+        </div>
+    </div>
+
+</div>
+
+<th:block th:insert="~{fragments/footer}"></th:block>
+
+<script>
+    let currentTab = 'text';
+    let selectedImageBase64 = null;
+    let selectedImageType = null;
+    let secondsLeft = 30;
+
+    // ── Tab switching ──────────────────────────────────────────────────────────
+    function switchTab(tab, btn) {
+        currentTab = tab;
+        document.querySelectorAll('.type-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('section-text').classList.toggle('visible', tab === 'text');
+        document.getElementById('section-image').classList.toggle('visible', tab === 'image');
+    }
+
+    // ── Image handling ─────────────────────────────────────────────────────────
+    function handleImageSelect(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        selectedImageType = file.type;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            selectedImageBase64 = e.target.result.split(',')[1]; // strip data:...;base64,
+            document.getElementById('preview-img').src = e.target.result;
+            document.getElementById('preview-wrap').style.display = 'block';
+            document.getElementById('upload-area').classList.add('has-file');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function removeImage() {
+        selectedImageBase64 = null;
+        selectedImageType = null;
+        document.getElementById('image-input').value = '';
+        document.getElementById('preview-img').src = '#';
+        document.getElementById('preview-wrap').style.display = 'none';
+        document.getElementById('upload-area').classList.remove('has-file');
+    }
+
+    // ── Health check ───────────────────────────────────────────────────────────
+    async function checkHealth() {
+        try {
+            const res  = await fetch('/api/ai/health');
+            const data = await res.json();
+            const dot  = document.getElementById('status-dot');
+            const txt  = document.getElementById('status-text');
+
+            if (data.available) {
+                dot.className = 'status-dot online';
+                txt.textContent = 'Услугата е онлайн';
+                document.getElementById('online-notice').style.display = 'block';
+                setTimeout(() => window.location.href = '/chat', 3000);
+            } else {
+                dot.className = 'status-dot';
+                txt.textContent = 'Услугата е офлайн';
+            }
+        } catch (e) {
+            document.getElementById('status-dot').className = 'status-dot';
+            document.getElementById('status-text').textContent = 'Услугата е офлайн';
+        }
+        secondsLeft = 30;
+    }
+
+    setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft <= 0) {
+            document.getElementById('countdown').textContent = 'проверяваме…';
+            document.getElementById('status-dot').className = 'status-dot checking';
+            checkHealth();
+        } else {
+            document.getElementById('countdown').textContent =
+                `следваща проверка след ${secondsLeft}s`;
+        }
+    }, 1000);
+
+    // ── Submit ─────────────────────────────────────────────────────────────────
+    async function submitToQueue() {
+        const email = document.getElementById('email').value.trim();
+        if (!email) { alert('Моля, въведете имейл адрес.'); return; }
+
+        let question = '';
+        let imageBase64 = null;
+        let imageType = null;
+
+        if (currentTab === 'text') {
+            question = document.getElementById('question').value.trim();
+            if (!question) { alert('Моля, въведете въпрос.'); return; }
+        } else {
+            if (!selectedImageBase64) { alert('Моля, качете снимка.'); return; }
+            const note = document.getElementById('image-note').value.trim();
+            question = note || 'Моля, анализирайте приложената хистология и обяснете термините.';
+            imageBase64 = selectedImageBase64;
+            imageType   = selectedImageType;
+        }
+
+        // Send as JSON so we can include the base64 image
+        const payload = { question, email, imageBase64, imageType };
+
+        try {
+            const res = await fetch('/api/ai/queue-json', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+                document.getElementById('notice-email').textContent = email;
+                document.getElementById('success-notice').style.display = 'block';
+                const btn = document.getElementById('submit-btn');
+                btn.disabled = true;
+                btn.textContent = 'Записано ✓';
+            } else {
+                const text = await res.text();
+                alert('Грешка: ' + res.status + ' — ' + text);
+            }
+        } catch (e) {
+            alert('Не може да се свърже: ' + e.message);
+        }
+    }
+</script>
+</body>
+</html>

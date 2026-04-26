@@ -527,6 +527,12 @@
             const data = await res.json();
             hideTyping();
 
+            // If AI is unavailable redirect to the queue page
+            if (res.status === 503 || data.error === 'AI_UNAVAILABLE') {
+                window.location.href = '/ai-unavailable';
+                return;
+            }
+
             const reply = data.success && data.reply
                 ? data.reply
                 : (data.error || 'Съжалявам, възникна грешка. Моля, опитайте отново.');

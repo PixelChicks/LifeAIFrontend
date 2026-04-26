@@ -2,6 +2,7 @@ package com.lifeAIFrontend.LifeAIFrontend.controller;
 
 import com.lifeAIFrontend.LifeAIFrontend.model.AnalysisResult;
 import com.lifeAIFrontend.LifeAIFrontend.service.GeminiService;
+import com.lifeAIFrontend.LifeAIFrontend.service.PendingAiRequestService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,40 +16,44 @@ import java.util.Base64;
 public class HistologyController {
 
     private final GeminiService geminiService;
+    private final PendingAiRequestService pendingAiRequestService; // ← add
 
-    public HistologyController(GeminiService geminiService) {
+    public HistologyController(GeminiService geminiService,
+                               PendingAiRequestService pendingAiRequestService) {
         this.geminiService = geminiService;
+        this.pendingAiRequestService = pendingAiRequestService;
     }
 
     @GetMapping("/diagnosisUploadFile")
     public String index() {
+        if (!pendingAiRequestService.isAiAvailable()) {
+            return "redirect:/ai-unavailable";
+        }
         return "diagnosisUploadFile";
     }
 
     @PostMapping("/analyze")
-    public String analyze(
-            @RequestParam("image") MultipartFile imageFile,
-            Model model) {
+    public String analyze(@RequestParam("image") MultipartFile imageFile, Model model) {
+        if (!pendingAiRequestService.isAiAvailable()) {
+            return "redirect:/ai-unavailable";
+        }
 
         if (imageFile.isEmpty()) {
             model.addAttribute("error", "Моля, изберете изображение.");
-            return "index";
+            return "diagnosisUploadFile";
         }
 
         try {
-            // Pass image preview back so user can see what they uploaded
             String base64Preview = "data:" + imageFile.getContentType() + ";base64,"
                     + Base64.getEncoder().encodeToString(imageFile.getBytes());
             model.addAttribute("imagePreview", base64Preview);
 
             AnalysisResult result = geminiService.analyzeImage(imageFile);
             model.addAttribute("result", result);
-
             return "results";
-
         } catch (Exception e) {
             model.addAttribute("error", "Възникна грешка при анализа: " + e.getMessage());
-            return "index";
+            return "diagnosisUploadFile";
         }
     }
 }
