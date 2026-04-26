@@ -222,7 +222,7 @@ public class PendingAiRequestService {
                         %s
                     </div>
                     
-                    <div style="background:#f1f8e9; padding:15px; border-left:4px solid #f9a0b0; margin:15px 0;">
+                    <div style="background:#f5f5f5; padding:15px; border-left:4px solid #f9a0b0; margin:15px 0;">
                         <b>Отговор:</b>
                         %s
                     </div>
