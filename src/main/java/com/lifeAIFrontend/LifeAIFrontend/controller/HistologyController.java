@@ -52,8 +52,7 @@ public class HistologyController {
             model.addAttribute("result", result);
             return "results";
         } catch (Exception e) {
-            model.addAttribute("error", "Възникна грешка при анализа: " + e.getMessage());
-            return "diagnosisUploadFile";
+            return "redirect:/ai-unavailable";
         }
     }
 }

@@ -20,7 +20,9 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-    /** Render the chat page */
+    /**
+     * Render the chat page
+     */
     @GetMapping
     public String chatPage() {
         return "chat";
@@ -29,14 +31,14 @@ public class ChatController {
     /**
      * REST endpoint — accepts JSON with the user message + full history,
      * returns the assistant reply as JSON.
-     *
+     * <p>
      * Example request body:
      * {
-     *   "message": "Какво е HER2?",
-     *   "history": [
-     *     { "role": "user",      "content": "Здравейте!" },
-     *     { "role": "assistant", "content": "Здравейте! Как мога да помогна?" }
-     *   ]
+     * "message": "Какво е HER2?",
+     * "history": [
+     * { "role": "user",      "content": "Здравейте!" },
+     * { "role": "assistant", "content": "Здравейте! Как мога да помогна?" }
+     * ]
      * }
      */
     @PostMapping("/message")
@@ -52,8 +54,8 @@ public class ChatController {
             String reply = chatService.chat(chatRequest.getMessage(), history);
             return ResponseEntity.ok(new ChatResponse(reply));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(new ChatResponse(false, "Грешка: " + e.getMessage()));
+            ChatResponse unavailable = new ChatResponse(false, "AI_UNAVAILABLE");
+            return ResponseEntity.status(503).body(unavailable);
         }
     }
 }
