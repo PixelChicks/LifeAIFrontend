@@ -277,7 +277,6 @@
             box-shadow: none;
         }
 
-
         /* ===== Bottom Navigation ===== */
         .bottom-nav {
             position: fixed;
@@ -399,7 +398,8 @@
         <div class="chat-input-row">
             <textarea id="chatInput" class="chat-textarea" placeholder="Напишете въпрос..." rows="1"
                       onkeydown="handleKeyDown(event)" oninput="autoResize(this); toggleSendBtn()"></textarea>
-            <button id="sendBtn" class="send-btn" onclick="sendMessage()" disabled>
+            <!-- FIX 1: removed onclick="sendMessage()" to prevent double-firing with Enter key -->
+            <button id="sendBtn" class="send-btn" disabled>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                      fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="22" y1="2" x2="11" y2="13"/>
@@ -426,6 +426,9 @@
     const chatInput     = document.getElementById('chatInput');
     const sendBtn       = document.getElementById('sendBtn');
     const welcomeScreen = document.getElementById('welcomeScreen');
+
+    // FIX 2: wire up the button via addEventListener instead of inline onclick
+    sendBtn.addEventListener('click', sendMessage);
 
     function toggleSendBtn() {
         sendBtn.disabled = chatInput.value.trim() === '' || isWaiting;
@@ -501,18 +504,20 @@
     }
 
     async function sendMessage() {
+        // FIX 3: guard at the very top so rapid clicks/keypresses never double-fire
+        if (isWaiting) return;
+
         const text = chatInput.value.trim();
-        if (!text || isWaiting) return;
+        if (!text) return;
 
         chatInput.value = '';
         chatInput.style.height = 'auto';
+        isWaiting = true;
         toggleSendBtn();
 
         appendMessage('user', text);
         conversationHistory.push({ role: 'user', content: text });
 
-        isWaiting = true;
-        sendBtn.disabled = true;
         showTyping();
 
         try {
@@ -524,21 +529,25 @@
                     history: conversationHistory.slice(0, -1)
                 })
             });
+
             const data = await res.json();
             hideTyping();
 
-            // If AI is unavailable redirect to the queue page
+            // FIX 4: redirect on 503 or any AI unavailability signal
             if (res.status === 503 || !data.success || data.error === 'AI_UNAVAILABLE') {
                 window.location.href = '/ai-unavailable';
                 return;
             }
 
             appendMessage('assistant', data.reply);
-            conversationHistory.push({ role: 'assistant', content: reply });
+            // FIX 5: was `reply` (undefined variable) — must be `data.reply`
+            conversationHistory.push({ role: 'assistant', content: data.reply });
 
         } catch {
             hideTyping();
-            appendMessage('assistant', 'Съжалявам, не успях да се свържа. Моля, опитайте отново.');
+            // FIX 6: catch block now redirects instead of showing inline error
+            window.location.href = '/ai-unavailable';
+            return;
         }
 
         isWaiting = false;
