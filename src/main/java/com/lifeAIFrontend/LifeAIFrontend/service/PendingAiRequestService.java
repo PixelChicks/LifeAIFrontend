@@ -4,11 +4,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lifeAIFrontend.LifeAIFrontend.model.AnalysisResult;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -194,17 +197,104 @@ public class PendingAiRequestService {
         return sb.toString();
     }
 
-    private void sendResultEmail(PendingRequest req, String aiResponse) {
-        SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(req.email);
-        mail.setSubject("Вашият въпрос е отговорен от LifeAI");
-        mail.setText(
-            "Здравейте,\n\n" +
-            "Получихте отговор на Вашия въпрос:\n\n" +
-            "Въпрос: " + req.question + "\n\n" +
-            "Отговор:\n" + aiResponse + "\n\n" +
-            "С уважение,\nЕкипът на LifeAI"
-        );
-        mailSender.send(mail);
+    public void sendResultEmail(PendingRequest req, String aiResponse) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        helper.setTo(req.email);
+        helper.setSubject("Вашият въпрос е отговорен от LifeAI");
+
+        String safeQuestion = escapeHtml(req.question);
+        String formattedResponse = formatResponse(aiResponse);
+
+        String htmlContent = """
+            <div style="font-family: Arial, sans-serif; background-color:#f4f4f4; padding:20px;">
+                <div style="max-width:600px; margin:auto; background:white; border-radius:10px; padding:20px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                    
+                    <h2 style="color:#EE617A; text-align:center;">LifeAI</h2>
+                    
+                    <p>Здравейте,</p>
+                    
+                    <p>Получихте отговор на Вашия въпрос от приложението <b>LifeAI</b>:</p>
+                    
+                    <div style="background:#f9f9f9; padding:15px; border-left:4px solid #EE617A; margin:15px 0;">
+                        <b>Въпрос:</b><br/>
+                        %s
+                    </div>
+                    
+                    <div style="background:#f1f8e9; padding:15px; border-left:4px solid #f9a0b0; margin:15px 0;">
+                        <b>Отговор:</b>
+                        %s
+                    </div>
+                    
+                    <div style="text-align:center; margin-top:30px;">
+                        <a href="https://lifeai.up.railway.app/" 
+                           style="background:#EE617A; color:white; padding:12px 20px; text-decoration:none; border-radius:5px; display:inline-block;">
+                            Прочетете повече
+                        </a>
+                    </div>
+                    
+                    <p style="margin-top:30px;">С уважение,<br/>Екипът на LifeAI</p>
+                    
+                </div>
+            </div>
+            """.formatted(safeQuestion, formattedResponse);
+
+        helper.setText(htmlContent, true);
+        mailSender.send(message);
+    }
+
+    private String escapeHtml(String text) {
+        if (text == null) return "";
+        return text
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;");
+    }
+
+    private String formatResponse(String aiResponse) {
+        if (aiResponse == null || aiResponse.isEmpty()) return "";
+
+        StringBuilder html = new StringBuilder();
+        String[] lines = aiResponse.split("\n");
+        boolean inList = false;
+
+        for (String line : lines) {
+            String trimmed = line.trim();
+            if (trimmed.isEmpty()) continue;
+
+            boolean isBullet = trimmed.matches("^[*\\-•]\\s+.*");
+
+            if (isBullet) {
+                if (!inList) {
+                    html.append("<ul style='padding-left:20px; margin:8px 0;'>");
+                    inList = true;
+                }
+                String content = trimmed.replaceFirst("^[*\\-•]\\s+", "");
+                html.append("<li style='margin-bottom:8px; line-height:1.6;'>")
+                        .append(applyInlineMarkdown(content))
+                        .append("</li>");
+            } else {
+                if (inList) {
+                    html.append("</ul>");
+                    inList = false;
+                }
+                html.append("<p style='margin:6px 0; line-height:1.6;'>")
+                        .append(applyInlineMarkdown(trimmed))
+                        .append("</p>");
+            }
+        }
+
+        if (inList) html.append("</ul>");
+        return html.toString();
+    }
+
+    private String applyInlineMarkdown(String text) {
+        String escaped = escapeHtml(text);
+        // **bold**
+        escaped = escaped.replaceAll("\\*\\*(.+?)\\*\\*", "<strong>$1</strong>");
+        // *italic*
+        escaped = escaped.replaceAll("(?<!\\*)\\*(?!\\*)(.+?)(?<!\\*)\\*(?!\\*)", "<em>$1</em>");
+        return escaped;
     }
 }
